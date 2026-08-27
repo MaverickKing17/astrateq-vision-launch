@@ -2,6 +2,7 @@ import "./lib/error-capture";
 
 import { consumeLastCapturedError } from "./lib/error-capture";
 import { renderErrorPage } from "./lib/error-page";
+import { processWaitlistSubmission } from "./lib/resend-service";
 
 type ServerEntry = {
   fetch: (request: Request, env: unknown, ctx: unknown) => Promise<Response> | Response;
@@ -47,6 +48,38 @@ function isH3SwallowedErrorBody(body: string): boolean {
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
     try {
+      const url = new URL(request.url);
+
+      // Handle Waitlist API endpoint
+      if (url.pathname === "/api/waitlist") {
+        if (request.method === "POST") {
+          try {
+            const body = (await request.json()) as { email?: string; source?: string };
+            const result = await processWaitlistSubmission(
+              body?.email ?? "",
+              body?.source ?? "web",
+            );
+            return new Response(JSON.stringify(result), {
+              status: result.success ? 200 : 400,
+              headers: { "content-type": "application/json" },
+            });
+          } catch {
+            return new Response(
+              JSON.stringify({ success: false, message: "Invalid request payload format." }),
+              {
+                status: 400,
+                headers: { "content-type": "application/json" },
+              },
+            );
+          }
+        } else {
+          return new Response(JSON.stringify({ error: "Method not allowed" }), {
+            status: 405,
+            headers: { "content-type": "application/json" },
+          });
+        }
+      }
+
       const handler = await getServerEntry();
       const response = await handler.fetch(request, env, ctx);
       return await normalizeCatastrophicSsrResponse(response);
