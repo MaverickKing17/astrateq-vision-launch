@@ -60,7 +60,14 @@ export function WaitlistForm({
         />
         <button
           type="submit"
-          className="shrink-0 rounded-xl bg-primary px-5 py-3.5 font-display text-sm font-bold text-[#0F172A] transition-all duration-300 hover:brightness-110 hover:glow-cyan focus-visible:ring-2 focus-visible:ring-[#00F0FF]/50"
+          className="shrink-0 rounded-xl bg-[#00F0FF] px-5 py-3.5 font-display text-sm font-bold text-[#0A0A0B] shadow-[0_0_12px_rgba(0,240,255,0.25)] transition-all duration-300 hover:brightness-110 hover:shadow-[0_0_18px_rgba(0,240,255,0.45)] focus-visible:ring-2 focus-visible:ring-[#00F0FF]/50"
+          style={{
+            backgroundColor: "#00F0FF",
+            color: "#0A0A0B",
+            fontFamily:
+              "'Segoe UI Bold', 'Segoe UI Semibold', 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif",
+            fontWeight: 700,
+          }}
         >
           {cta}
         </button>

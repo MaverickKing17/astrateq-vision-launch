@@ -130,9 +130,23 @@ function Index() {
 
               <div className="mt-8 max-w-xl">
                 <WaitlistForm id="hero-email" />
-                <p className="mt-3 text-xs font-medium text-[#E2E8F0]">
-                  🔒 100% On-Device NPU Computer Vision • Purpose-Built for Canadian Winters
-                </p>
+                <div className="mt-4 flex">
+                  <div
+                    className="inline-flex items-center gap-2 rounded-full border border-[rgba(255,255,255,0.15)] bg-[rgba(255,255,255,0.05)] px-3.5 py-1.5 text-xs font-medium text-[#E2E8F0] backdrop-blur-sm"
+                    style={{
+                      backgroundColor: "rgba(255, 255, 255, 0.05)",
+                      border: "1px solid rgba(255, 255, 255, 0.15)",
+                      padding: "6px 14px",
+                      borderRadius: "9999px",
+                      color: "#E2E8F0",
+                    }}
+                  >
+                    <span>🔒</span>
+                    <span>
+                      100% On-Device NPU Computer Vision • Purpose-Built for Canadian Winters
+                    </span>
+                  </div>
+                </div>
               </div>
             </div>
 

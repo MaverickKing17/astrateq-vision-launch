@@ -182,6 +182,26 @@
   }
 }
 
+@keyframes pulse-reticle {
+  0%, 100% {
+    opacity: 0.95;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.55;
+    transform: scale(1.025);
+  }
+}
+
+@utility animate-reticle {
+  animation: pulse-reticle 2.4s ease-in-out infinite;
+  transform-origin: center;
+}
+
+@utility text-glow-cyan {
+  text-shadow: 0 0 8px #00F0FF;
+}
+
 @utility animate-scan {
   animation: scan-sweep 3.6s ease-in-out infinite;
 }

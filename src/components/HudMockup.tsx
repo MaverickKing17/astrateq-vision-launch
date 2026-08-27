@@ -24,11 +24,11 @@ export function HudMockup() {
       <div className="flex items-center justify-between gap-3 px-1 pb-3">
         <div className="flex min-w-0 items-center gap-2">
           <span className="animate-dot size-1.5 shrink-0 rounded-full bg-primary" />
-          <span className="label-mono truncate text-[#E2E8F0]">
+          <span className="label-mono truncate text-[#00F0FF] text-glow-cyan">
             Live edge inference · on-device
           </span>
         </div>
-        <span className="label-mono shrink-0 font-bold text-[#00F0FF]">28 ms</span>
+        <span className="label-mono shrink-0 font-bold text-[#00F0FF] text-glow-cyan">28 ms</span>
       </div>
 
       <div className="tech-grid relative aspect-[16/10] overflow-hidden rounded-xl border border-border bg-[#1E293B]/60">
@@ -48,7 +48,12 @@ export function HudMockup() {
               <path d="M160 168 L160 200" />
             </g>
           </g>
-          <g className="text-primary" stroke="currentColor" fill="none" strokeWidth="1.25">
+          <g
+            className="animate-reticle text-primary"
+            stroke="currentColor"
+            fill="none"
+            strokeWidth="1.25"
+          >
             <rect x="118" y="82" width="46" height="34" rx="2" strokeOpacity="0.9" />
             <rect x="196" y="88" width="58" height="40" rx="2" strokeOpacity="0.55" />
             <line x1="141" y1="99" x2="141" y2="99" />
@@ -79,7 +84,7 @@ export function HudMockup() {
       </div>
 
       <div className="mt-3 flex items-center justify-between gap-3 px-1">
-        <span className="truncate text-xs font-medium text-[#E2E8F0]">{gaze.note}</span>
+        <span className="truncate text-xs font-semibold text-[#F8FAFC]">{gaze.note}</span>
         <span className="label-mono shrink-0 font-bold text-primary">0 KB uploaded</span>
       </div>
     </div>
@@ -99,7 +104,7 @@ function Metric({
 }) {
   return (
     <div
-      className={`rounded-lg border border-border bg-[#0F172A]/85 px-2.5 py-2 backdrop-blur-sm ${className}`}
+      className={`rounded-lg border border-[rgba(0,240,255,0.25)] bg-[#1E293B] px-2.5 py-2 backdrop-blur-sm shadow-[0_0_12px_rgba(0,240,255,0.08)] ${className}`}
     >
       <p className="label-mono truncate text-[#E2E8F0]">{label}</p>
       <p className="mt-0.5 font-display text-lg font-bold leading-none text-primary transition-all duration-500">
