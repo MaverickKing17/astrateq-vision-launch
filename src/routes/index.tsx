@@ -214,8 +214,9 @@ function Index() {
         </section>
       </main>
 
-      <footer className="mx-auto max-w-6xl px-5 py-10">
-        <div className="grid gap-6 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-end">
+      <footer className="mx-auto max-w-6xl px-5 py-12 lg:py-16">
+        <div className="grid gap-10 border-b border-border pb-12 md:grid-cols-3 lg:gap-12">
+          {/* Column 1: Brand & Mission */}
           <div className="min-w-0">
             <div className="flex min-w-0 items-center gap-3">
               <span
@@ -243,25 +244,89 @@ function Index() {
                 ASTRATEQ GADGETS
               </span>
             </div>
-            <p className="mt-3 max-w-md text-xs leading-relaxed text-[#E2E8F0]">
-              Data sovereignty guarantee: driver-facing video is processed on-device. Astrateq never
-              streams raw camera feeds to central servers.
+            <p className="mt-4 text-sm leading-relaxed text-[#F8FAFC]">
+              Privacy-first edge AI driver awareness, purpose-built for Canadian winter commuters.
             </p>
-            <p className="mt-3 text-xs text-[#E2E8F0]">
-              © {new Date().getFullYear()} Astrateq Gadgets. Made in Canada.
+            <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-primary/30 bg-[#1E293B] px-3 py-1 text-xs font-semibold text-[#00F0FF]">
+              <span>🇨🇦</span>
+              <span>Engineered in Canada • Beta Cohort Phase</span>
+            </div>
+          </div>
+
+          {/* Column 2: Data Sovereignty Pledge */}
+          <div className="min-w-0">
+            <h3 className="font-display text-sm font-bold tracking-wide text-[#FFFFFF]">
+              Data Sovereignty Pledge
+            </h3>
+            <p className="mt-4 text-sm leading-relaxed text-[#E2E8F0]">
+              Driver-facing camera video is processed exclusively on-device via local NPU. No raw
+              feeds ever leave your phone or stream to central cloud servers.
             </p>
           </div>
-          <div className="flex flex-wrap gap-x-5 gap-y-2 text-xs font-semibold text-[#E2E8F0]">
+
+          {/* Column 3: Validation & Roadmap */}
+          <div className="min-w-0">
+            <h3 className="font-display text-sm font-bold tracking-wide text-[#FFFFFF]">
+              Validation & Roadmap
+            </h3>
+            <ul className="mt-4 space-y-2.5 text-sm">
+              <li>
+                <a
+                  href="#beta"
+                  className="flex items-center gap-2 font-medium text-[#E2E8F0] transition-colors hover:text-[#00F0FF]"
+                >
+                  <span className="size-1.5 rounded-full bg-primary" />
+                  <span>TestFlight Beta Status (500 Spots)</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#privacy"
+                  className="flex items-center gap-2 font-medium text-[#E2E8F0] transition-colors hover:text-[#00F0FF]"
+                >
+                  <span className="size-1.5 rounded-full bg-primary" />
+                  <span>Edge-AI Architecture Whitepaper</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#privacy"
+                  className="flex items-center gap-2 font-medium text-[#E2E8F0] transition-colors hover:text-[#00F0FF]"
+                >
+                  <span className="size-1.5 rounded-full bg-primary" />
+                  <span>Hardware Roadmap</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        {/* Bottom Bar & Legal */}
+        <div className="mt-8 flex flex-col gap-4 text-xs sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-[#F8FAFC]">
+            © 2026 Astrateq Gadgets. All rights reserved. Built for Canadian roads.
+          </p>
+          <div className="flex flex-wrap gap-x-5 gap-y-2 font-semibold text-[#E2E8F0]">
             <a href="#privacy" className="transition-colors hover:text-[#00F0FF]">
               Privacy Policy
             </a>
-            <a href="#privacy" className="transition-colors hover:text-[#00F0FF]">
-              Whitepaper
-            </a>
             <a href="#beta" className="transition-colors hover:text-[#00F0FF]">
+              Beta Terms
+            </a>
+            <a
+              href="https://linkedin.com"
+              target="_blank"
+              rel="noreferrer"
+              className="transition-colors hover:text-[#00F0FF]"
+            >
               LinkedIn
             </a>
-            <a href="#beta" className="transition-colors hover:text-[#00F0FF]">
+            <a
+              href="https://x.com"
+              target="_blank"
+              rel="noreferrer"
+              className="transition-colors hover:text-[#00F0FF]"
+            >
               X / Twitter
             </a>
           </div>
