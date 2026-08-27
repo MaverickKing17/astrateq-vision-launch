@@ -24,16 +24,15 @@ export function WaitlistForm({
   if (done) {
     return (
       <div
-        className="animate-rise glow-cyan flex items-start gap-3 rounded-xl border border-primary/30 bg-surface-strong px-4 py-4"
+        className="animate-rise flex items-center gap-3.5 rounded-xl border border-primary/40 bg-card px-4 py-4 text-left shadow-[0_0_24px_rgba(0,240,255,0.18)]"
         role="status"
       >
-        <span className="mt-1.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">
+        <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-primary font-bold text-primary-foreground">
           ✓
         </span>
         <div className="min-w-0">
-          <p className="font-display text-sm font-semibold text-primary">You're on the waitlist!</p>
-          <p className="mt-1 text-sm text-muted-foreground">
-            We'll send your TestFlight invite shortly.
+          <p className="font-display text-sm font-semibold text-primary">
+            ✓ You're on the waitlist! We'll send your TestFlight invite shortly.
           </p>
         </div>
       </div>
@@ -52,16 +51,21 @@ export function WaitlistForm({
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="you@commute.ca"
-          className="w-full min-w-0 rounded-xl border border-input bg-surface px-4 py-3.5 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground focus:border-primary/60 focus:ring-2 focus:ring-ring/30"
+          className="w-full min-w-0 rounded-xl border border-[#334155] bg-[#1E293B] px-4 py-3.5 text-sm text-[#FFFFFF] outline-none transition-colors placeholder:text-[#94A3B8] focus:border-[#00F0FF] focus:ring-2 focus:ring-[#00F0FF]/30"
+          style={{
+            backgroundColor: "#1E293B",
+            color: "#FFFFFF",
+            border: "1px solid #334155",
+          }}
         />
         <button
           type="submit"
-          className="shrink-0 rounded-xl bg-primary px-5 py-3.5 font-display text-sm font-semibold text-primary-foreground transition-all duration-300 hover:brightness-110 hover:glow-cyan focus-visible:ring-2 focus-visible:ring-ring/50"
+          className="shrink-0 rounded-xl bg-primary px-5 py-3.5 font-display text-sm font-bold text-[#0F172A] transition-all duration-300 hover:brightness-110 hover:glow-cyan focus-visible:ring-2 focus-visible:ring-[#00F0FF]/50"
         >
           {cta}
         </button>
       </div>
-      {error ? <p className="mt-2 text-xs text-destructive">{error}</p> : null}
+      {error ? <p className="mt-2 text-xs font-semibold text-destructive">{error}</p> : null}
     </form>
   );
 }

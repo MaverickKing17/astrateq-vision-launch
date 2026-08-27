@@ -64,33 +64,46 @@ function Index() {
   return (
     <div className="min-h-screen bg-background">
       <header
-        className="sticky top-0 z-40 border-b border-border"
-        style={{ background: "rgba(15, 23, 42, 0.8)", backdropFilter: "blur(12px)" }}
+        className="sticky top-0 z-40 border-b border-border bg-[#0F172A]/85 backdrop-blur-md"
+        style={{ backdropFilter: "blur(12px)" }}
       >
-        <nav className="mx-auto grid max-w-6xl grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-5 py-4">
+        <nav className="mx-auto grid max-w-6xl grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-5 py-3.5">
           <a href="#top" className="flex min-w-0 items-center gap-3">
-            <span className="flex h-[42px] items-center justify-center rounded-xl border border-[rgba(0,240,255,0.2)] bg-[rgba(255,255,255,0.08)] px-2">
+            <span
+              className="flex shrink-0 items-center justify-center rounded-[8px] border border-[#00F0FF] px-2 py-1 shadow-[0_0_12px_rgba(0,240,255,0.3)] transition-transform duration-200 hover:scale-105"
+              style={{
+                backgroundColor: "rgba(255, 255, 255, 0.95)",
+                border: "1px solid #00F0FF",
+                padding: "4px 8px",
+                borderRadius: "8px",
+                boxShadow: "0 0 12px rgba(0, 240, 255, 0.3)",
+              }}
+            >
               <img
                 src="https://i.ibb.co/KzK2ph7f/Chat-GPT-Image-Jun-9-2026-07-07-30-PM.png"
-                alt="Astrateq Gadgets logo"
-                className="h-9 w-auto mix-blend-multiply"
-                style={{ height: "36px" }}
+                alt="Astrateq Gadgets emblem"
+                className="h-[36px] w-auto object-contain"
+                style={{
+                  height: "36px",
+                  filter: "drop-shadow(0px 0px 6px #00F0FF) brightness(1.2)",
+                }}
+                referrerPolicy="no-referrer"
               />
             </span>
-            <span className="truncate font-display text-sm font-semibold tracking-[0.18em] text-foreground">
+            <span className="truncate font-display text-sm font-bold tracking-[0.18em] text-[#FFFFFF]">
               ASTRATEQ GADGETS
             </span>
           </a>
           <div className="flex shrink-0 items-center gap-2 sm:gap-5">
             <a
               href="#privacy"
-              className="hidden text-sm text-muted-foreground transition-colors hover:text-foreground sm:block"
+              className="hidden font-display text-sm font-semibold text-[#E2E8F0] transition-colors hover:text-[#00F0FF] sm:block"
             >
               Privacy Whitepaper
             </a>
             <a
               href="#beta"
-              className="rounded-lg border border-primary/40 bg-surface px-3.5 py-2 font-display text-xs font-semibold tracking-wide text-primary transition-all duration-300 hover:bg-primary hover:text-primary-foreground hover:glow-cyan sm:text-sm"
+              className="rounded-lg border border-primary/50 bg-[#1E293B] px-3.5 py-2 font-display text-xs font-bold tracking-wide text-primary transition-all duration-300 hover:bg-primary hover:text-[#0F172A] hover:glow-cyan sm:text-sm"
             >
               Join Beta Cohort
             </a>
@@ -103,19 +116,21 @@ function Index() {
         <section className="hero-glow relative overflow-hidden border-b border-border">
           <div className="mx-auto grid max-w-6xl gap-12 px-5 py-16 lg:grid-cols-[1.05fr_1fr] lg:items-center lg:gap-10 lg:py-24">
             <div>
-              <p className="label-mono">Phase 01 · Driver safety hub · Canada</p>
-              <h1 className="mt-5 text-4xl font-bold leading-[1.05] text-foreground sm:text-5xl lg:text-6xl">
+              <p className="label-mono font-semibold text-[#00F0FF]">
+                Phase 01 · Driver safety hub · Canada
+              </p>
+              <h1 className="mt-5 text-4xl font-bold leading-[1.08] text-[#FFFFFF] sm:text-5xl lg:text-6xl">
                 Smart Driver Awareness.
                 <span className="block text-primary">Zero Privacy Compromise.</span>
               </h1>
-              <p className="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+              <p className="mt-5 max-w-xl text-base leading-relaxed text-[#F8FAFC] sm:text-lg">
                 Experience privacy-first driver assistance powered by local Edge AI. Purpose-built
                 for Canadian winter commuters—no cloud streaming, zero surveillance.
               </p>
 
               <div className="mt-8 max-w-xl">
                 <WaitlistForm id="hero-email" />
-                <p className="mt-3 text-xs text-muted-foreground">
+                <p className="mt-3 text-xs font-medium text-[#E2E8F0]">
                   🔒 100% On-Device NPU Computer Vision • Purpose-Built for Canadian Winters
                 </p>
               </div>
@@ -131,23 +146,26 @@ function Index() {
         <section id="privacy" className="border-b border-border">
           <div className="mx-auto max-w-6xl px-5 py-16 lg:py-24">
             <div className="max-w-2xl">
-              <p className="label-mono">How it works</p>
-              <h2 className="mt-4 text-3xl font-bold text-foreground sm:text-4xl">
+              <p className="label-mono font-semibold text-[#00F0FF]">How it works</p>
+              <h2 className="mt-4 text-3xl font-bold text-[#FFFFFF] sm:text-4xl">
                 Built local-first, for the roads we actually drive.
               </h2>
             </div>
 
             <div className="mt-10 grid gap-4 md:grid-cols-3">
               {features.map((f) => (
-                <article key={f.title} className="glass-card group rounded-2xl p-6">
-                  <p className="label-mono">{f.tag}</p>
-                  <h3 className="mt-3 font-display text-xl font-semibold text-foreground transition-colors group-hover:text-primary">
+                <article
+                  key={f.title}
+                  className="glass-card group rounded-2xl border border-[#334155] bg-[#1E293B] p-6"
+                >
+                  <p className="label-mono font-semibold text-[#00F0FF]">{f.tag}</p>
+                  <h3 className="mt-3 font-display text-xl font-bold text-[#FFFFFF] transition-colors group-hover:text-primary">
                     {f.title}
                   </h3>
-                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{f.body}</p>
+                  <p className="mt-3 text-sm leading-relaxed text-[#F8FAFC]">{f.body}</p>
                   <ul className="mt-5 space-y-2 border-t border-border pt-4">
                     {f.points.map((p) => (
-                      <li key={p} className="flex items-start gap-2 text-sm text-foreground/85">
+                      <li key={p} className="flex items-start gap-2 text-sm text-[#E2E8F0]">
                         <span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-primary" />
                         <span className="min-w-0">{p}</span>
                       </li>
@@ -162,30 +180,33 @@ function Index() {
         {/* Beta waitlist */}
         <section id="beta" className="hero-glow relative border-b border-border">
           <div className="mx-auto max-w-4xl px-5 py-16 text-center lg:py-24">
-            <p className="label-mono">Limited cohort</p>
-            <h2 className="mt-4 text-3xl font-bold text-foreground sm:text-4xl">
+            <p className="label-mono font-semibold text-[#00F0FF]">Limited cohort</p>
+            <h2 className="mt-4 text-3xl font-bold text-[#FFFFFF] sm:text-4xl">
               Join the Canadian Beta Cohort
             </h2>
-            <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
+            <p className="mx-auto mt-4 max-w-2xl text-base text-[#F8FAFC]">
               500 TestFlight spots reserved for daily commuters logging real winter kilometres —
               highway, city, and cold-start conditions.
             </p>
 
             <div className="mt-10 grid gap-4 text-left sm:grid-cols-3">
               {benefits.map((b, i) => (
-                <div key={b.title} className="glass-card rounded-2xl p-5">
-                  <p className="label-mono text-primary">0{i + 1}</p>
-                  <h3 className="mt-2 font-display text-base font-semibold text-foreground">
+                <div
+                  key={b.title}
+                  className="glass-card rounded-2xl border border-[#334155] bg-[#1E293B] p-5"
+                >
+                  <p className="label-mono font-bold text-primary">0{i + 1}</p>
+                  <h3 className="mt-2 font-display text-base font-bold text-[#FFFFFF]">
                     {b.title}
                   </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{b.body}</p>
+                  <p className="mt-2 text-sm leading-relaxed text-[#F8FAFC]">{b.body}</p>
                 </div>
               ))}
             </div>
 
             <div className="mx-auto mt-10 max-w-xl text-left">
               <WaitlistForm id="beta-email" cta="Claim My Beta Spot" />
-              <p className="mt-3 text-center text-xs text-muted-foreground">
+              <p className="mt-3 text-center text-xs text-[#E2E8F0]">
                 No spam, no data resale. One email when your cohort opens.
               </p>
             </div>
@@ -196,31 +217,51 @@ function Index() {
       <footer className="mx-auto max-w-6xl px-5 py-10">
         <div className="grid gap-6 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-end">
           <div className="min-w-0">
-            <div className="flex min-w-0 items-center gap-2">
-              <span className="size-2 shrink-0 rounded-full bg-primary" />
-              <span className="truncate font-display text-sm font-semibold tracking-[0.18em]">
+            <div className="flex min-w-0 items-center gap-3">
+              <span
+                className="flex shrink-0 items-center justify-center rounded-[8px] border border-[#00F0FF] px-2 py-1 shadow-[0_0_12px_rgba(0,240,255,0.3)] transition-transform duration-200 hover:scale-105"
+                style={{
+                  backgroundColor: "rgba(255, 255, 255, 0.95)",
+                  border: "1px solid #00F0FF",
+                  padding: "4px 8px",
+                  borderRadius: "8px",
+                  boxShadow: "0 0 12px rgba(0, 240, 255, 0.3)",
+                }}
+              >
+                <img
+                  src="https://i.ibb.co/KzK2ph7f/Chat-GPT-Image-Jun-9-2026-07-07-30-PM.png"
+                  alt="Astrateq Gadgets emblem"
+                  className="h-6 w-auto object-contain"
+                  style={{
+                    height: "24px",
+                    filter: "drop-shadow(0px 0px 6px #00F0FF) brightness(1.2)",
+                  }}
+                  referrerPolicy="no-referrer"
+                />
+              </span>
+              <span className="truncate font-display text-sm font-bold tracking-[0.18em] text-[#FFFFFF]">
                 ASTRATEQ GADGETS
               </span>
             </div>
-            <p className="mt-3 max-w-md text-xs leading-relaxed text-muted-foreground">
+            <p className="mt-3 max-w-md text-xs leading-relaxed text-[#E2E8F0]">
               Data sovereignty guarantee: driver-facing video is processed on-device. Astrateq never
               streams raw camera feeds to central servers.
             </p>
-            <p className="mt-3 text-xs text-muted-foreground">
+            <p className="mt-3 text-xs text-[#E2E8F0]">
               © {new Date().getFullYear()} Astrateq Gadgets. Made in Canada.
             </p>
           </div>
-          <div className="flex flex-wrap gap-x-5 gap-y-2 text-xs text-muted-foreground">
-            <a href="#privacy" className="transition-colors hover:text-primary">
+          <div className="flex flex-wrap gap-x-5 gap-y-2 text-xs font-semibold text-[#E2E8F0]">
+            <a href="#privacy" className="transition-colors hover:text-[#00F0FF]">
               Privacy Policy
             </a>
-            <a href="#privacy" className="transition-colors hover:text-primary">
+            <a href="#privacy" className="transition-colors hover:text-[#00F0FF]">
               Whitepaper
             </a>
-            <a href="#beta" className="transition-colors hover:text-primary">
+            <a href="#beta" className="transition-colors hover:text-[#00F0FF]">
               LinkedIn
             </a>
-            <a href="#beta" className="transition-colors hover:text-primary">
+            <a href="#beta" className="transition-colors hover:text-[#00F0FF]">
               X / Twitter
             </a>
           </div>

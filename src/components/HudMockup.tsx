@@ -24,12 +24,14 @@ export function HudMockup() {
       <div className="flex items-center justify-between gap-3 px-1 pb-3">
         <div className="flex min-w-0 items-center gap-2">
           <span className="animate-dot size-1.5 shrink-0 rounded-full bg-primary" />
-          <span className="label-mono truncate">Live edge inference · on-device</span>
+          <span className="label-mono truncate text-[#E2E8F0]">
+            Live edge inference · on-device
+          </span>
         </div>
-        <span className="label-mono shrink-0">28 ms</span>
+        <span className="label-mono shrink-0 font-bold text-[#00F0FF]">28 ms</span>
       </div>
 
-      <div className="tech-grid relative aspect-[16/10] overflow-hidden rounded-xl border border-border bg-secondary/40">
+      <div className="tech-grid relative aspect-[16/10] overflow-hidden rounded-xl border border-border bg-[#1E293B]/60">
         <svg viewBox="0 0 320 200" className="absolute inset-0 h-full w-full">
           <defs>
             <linearGradient id="road" x1="0" y1="0" x2="0" y2="1">
@@ -60,8 +62,8 @@ export function HudMockup() {
 
         <div className="animate-scan pointer-events-none absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-transparent via-primary/15 to-transparent" />
 
-        <div className="absolute left-3 top-3 rounded-md border border-primary/30 bg-background/70 px-2 py-1">
-          <span className="label-mono text-primary">Vehicle · 32 m</span>
+        <div className="absolute left-3 top-3 rounded-md border border-primary/40 bg-[#0F172A]/85 px-2 py-1">
+          <span className="label-mono font-bold text-primary">Vehicle · 32 m</span>
         </div>
 
         <div className="absolute inset-x-3 bottom-3 grid grid-cols-2 gap-2 sm:grid-cols-3">
@@ -77,8 +79,8 @@ export function HudMockup() {
       </div>
 
       <div className="mt-3 flex items-center justify-between gap-3 px-1">
-        <span className="truncate text-xs text-muted-foreground">{gaze.note}</span>
-        <span className="label-mono shrink-0 text-primary">0 KB uploaded</span>
+        <span className="truncate text-xs font-medium text-[#E2E8F0]">{gaze.note}</span>
+        <span className="label-mono shrink-0 font-bold text-primary">0 KB uploaded</span>
       </div>
     </div>
   );
@@ -97,13 +99,13 @@ function Metric({
 }) {
   return (
     <div
-      className={`rounded-lg border border-border bg-background/70 px-2.5 py-2 backdrop-blur-sm ${className}`}
+      className={`rounded-lg border border-border bg-[#0F172A]/85 px-2.5 py-2 backdrop-blur-sm ${className}`}
     >
-      <p className="label-mono truncate">{label}</p>
-      <p className="mt-0.5 font-display text-lg leading-none text-primary transition-all duration-500">
+      <p className="label-mono truncate text-[#E2E8F0]">{label}</p>
+      <p className="mt-0.5 font-display text-lg font-bold leading-none text-primary transition-all duration-500">
         {value}
       </p>
-      <p className="mt-1 truncate text-[10px] text-muted-foreground">{note}</p>
+      <p className="mt-1 truncate text-[10px] font-medium text-[#F8FAFC]">{note}</p>
     </div>
   );
 }
