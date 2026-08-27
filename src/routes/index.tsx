@@ -1,6 +1,8 @@
+import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { HudMockup } from "@/components/HudMockup";
 import { WaitlistForm } from "@/components/WaitlistForm";
+import { LegalModal, type LegalModalType } from "@/components/LegalModals";
 
 const title = "Astrateq Gadgets — Privacy-First Driver Awareness AI";
 const description =
@@ -22,15 +24,15 @@ export const Route = createFileRoute("/")({
 
 const features = [
   {
-    tag: "Privacy & data sovereignty",
-    title: "Edge-AI Execution",
-    body: "Camera frames are processed locally on your phone's neural engine. No raw video leaves the device, latency stays in the tens of milliseconds, and your driving footage stays yours by architecture — not by policy.",
+    tag: "01 / PRIVACY & DATA SOVEREIGNTY",
+    title: "Smart Dashcam App on Your Phone",
+    body: "Astrateq turns your smartphone into a privacy-first AI dashcam. Camera video is processed locally on your phone's chip—no driving footage or face data ever leaves your device or uploads to the cloud.",
     points: ["On-device NPU inference", "Zero raw video upload", "Sub-50 ms alert path"],
   },
   {
-    tag: "Canadian climate intelligence",
-    title: "Snow-Glare & Cold-Weather Vision",
-    body: "Our vision pipeline is being calibrated for the conditions standard dashcams struggle with: low winter sun off fresh snow, early-dark commutes, and the fatigue patterns that build across long cold-weather drives.",
+    tag: "02 / CANADIAN CLIMATE INTELLIGENCE",
+    title: "Built for Winter & Harsh Glare",
+    body: "Calibrated specifically for Canadian winter driving: detects winter fatigue, alerts you to road hazards, and compensates for blinding snow-glare that blinds standard cameras.",
     points: [
       "Snow-glare exposure compensation",
       "Winter fatigue & gaze tracking",
@@ -38,9 +40,9 @@ const features = [
     ],
   },
   {
-    tag: "Future-proof ecosystem",
-    title: "Software to Silicon",
-    body: "Phase one is the iOS and Android driver safety hub. From there the same local-first stack extends into dedicated hardware, so early app users step straight into the connected ecosystem.",
+    tag: "03 / HARDWARE ROADMAP",
+    title: "From Smartphone App to Smart Hardware",
+    body: "Phase 1 launches as an iOS and Android driver safety app. Phase 2 connects seamlessly to our upcoming dedicated NPU dashcams, OBD-II vehicle scanners, and tire sensors.",
     points: ["NPU dashcam hub", "Predictive OBD-II scanner", "Cold-weather TPMS sensors"],
   },
 ];
@@ -61,6 +63,8 @@ const benefits = [
 ];
 
 function Index() {
+  const [modalType, setModalType] = useState<LegalModalType>(null);
+
   return (
     <div className="min-h-screen bg-background">
       <header
@@ -95,12 +99,18 @@ function Index() {
             </span>
           </a>
           <div className="flex shrink-0 items-center gap-2 sm:gap-5">
-            <a
-              href="#privacy"
-              className="hidden font-display text-sm font-semibold text-[#E2E8F0] transition-colors hover:text-[#00F0FF] sm:block"
+            <button
+              onClick={() => setModalType("privacy")}
+              className="hidden font-display text-sm font-semibold text-[#E2E8F0] transition-colors hover:text-[#00F0FF] sm:block cursor-pointer"
             >
               Privacy Whitepaper
-            </a>
+            </button>
+            <button
+              onClick={() => setModalType("disclaimer")}
+              className="hidden font-display text-sm font-semibold text-[#E2E8F0] transition-colors hover:text-[#00F0FF] md:block cursor-pointer"
+            >
+              Safety Disclaimer
+            </button>
             <a
               href="#beta"
               className="rounded-lg border border-primary/50 bg-[#1E293B] px-3.5 py-2 font-display text-xs font-bold tracking-wide text-primary transition-all duration-300 hover:bg-primary hover:text-[#0F172A] hover:glow-cyan sm:text-sm"
@@ -276,6 +286,13 @@ function Index() {
               Driver-facing camera video is processed exclusively on-device via local NPU. No raw
               feeds ever leave your phone or stream to central cloud servers.
             </p>
+            <button
+              onClick={() => setModalType("privacy")}
+              className="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-[#00F0FF] hover:underline cursor-pointer"
+            >
+              <span>Read On-Device Guarantee</span>
+              <span>→</span>
+            </button>
           </div>
 
           {/* Column 3: Validation & Roadmap */}
@@ -285,31 +302,31 @@ function Index() {
             </h3>
             <ul className="mt-4 space-y-2.5 text-sm">
               <li>
-                <a
-                  href="#beta"
-                  className="flex items-center gap-2 font-medium text-[#E2E8F0] transition-colors hover:text-[#00F0FF]"
+                <button
+                  onClick={() => setModalType("terms")}
+                  className="flex items-center gap-2 font-medium text-[#E2E8F0] transition-colors hover:text-[#00F0FF] cursor-pointer"
                 >
                   <span className="size-1.5 rounded-full bg-primary" />
                   <span>TestFlight Beta Status (500 Spots)</span>
-                </a>
+                </button>
               </li>
               <li>
-                <a
-                  href="#privacy"
-                  className="flex items-center gap-2 font-medium text-[#E2E8F0] transition-colors hover:text-[#00F0FF]"
+                <button
+                  onClick={() => setModalType("privacy")}
+                  className="flex items-center gap-2 font-medium text-[#E2E8F0] transition-colors hover:text-[#00F0FF] cursor-pointer"
                 >
                   <span className="size-1.5 rounded-full bg-primary" />
                   <span>Edge-AI Architecture Whitepaper</span>
-                </a>
+                </button>
               </li>
               <li>
-                <a
-                  href="#privacy"
-                  className="flex items-center gap-2 font-medium text-[#E2E8F0] transition-colors hover:text-[#00F0FF]"
+                <button
+                  onClick={() => setModalType("support")}
+                  className="flex items-center gap-2 font-medium text-[#E2E8F0] transition-colors hover:text-[#00F0FF] cursor-pointer"
                 >
                   <span className="size-1.5 rounded-full bg-primary" />
-                  <span>Hardware Roadmap</span>
-                </a>
+                  <span>Hardware & Support Roadmap</span>
+                </button>
               </li>
             </ul>
           </div>
@@ -321,12 +338,36 @@ function Index() {
             © 2026 Astrateq Gadgets. All rights reserved. Built for Canadian roads.
           </p>
           <div className="flex flex-wrap gap-x-5 gap-y-2 font-semibold text-[#E2E8F0]">
-            <a href="#privacy" className="transition-colors hover:text-[#00F0FF]">
+            <button
+              onClick={() => setModalType("disclaimer")}
+              className="transition-colors hover:text-[#00F0FF] cursor-pointer"
+            >
+              Safety Disclaimer
+            </button>
+            <button
+              onClick={() => setModalType("privacy")}
+              className="transition-colors hover:text-[#00F0FF] cursor-pointer"
+            >
               Privacy Policy
-            </a>
-            <a href="#beta" className="transition-colors hover:text-[#00F0FF]">
+            </button>
+            <button
+              onClick={() => setModalType("terms")}
+              className="transition-colors hover:text-[#00F0FF] cursor-pointer"
+            >
               Beta Terms
-            </a>
+            </button>
+            <button
+              onClick={() => setModalType("dmca")}
+              className="transition-colors hover:text-[#00F0FF] cursor-pointer"
+            >
+              DMCA & IP
+            </button>
+            <button
+              onClick={() => setModalType("support")}
+              className="transition-colors hover:text-[#00F0FF] cursor-pointer"
+            >
+              Support
+            </button>
             <a
               href="https://linkedin.com"
               target="_blank"
@@ -346,6 +387,9 @@ function Index() {
           </div>
         </div>
       </footer>
+
+      {/* Global Legal Modal Dialog */}
+      <LegalModal type={modalType} onClose={() => setModalType(null)} />
     </div>
   );
 }
