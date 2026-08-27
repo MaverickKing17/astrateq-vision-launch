@@ -22,7 +22,7 @@ export function HudMockup() {
   const temp = -14 + ((tick * 3) % 7);
 
   return (
-    <div className="glass-card relative overflow-hidden rounded-2xl border border-[#1E293B] bg-[#0F172A]/80 p-3.5 shadow-[0_0_40px_rgba(0,240,255,0.12)] backdrop-blur-md sm:p-4.5">
+    <div className="glass-card relative overflow-hidden rounded-2xl border border-[#223046] bg-[#0E1420]/90 p-3.5 shadow-[0_0_40px_rgba(0,240,255,0.12)] backdrop-blur-md sm:p-4.5">
       {/* Top Header Bar */}
       <div className="flex items-center justify-between gap-3 px-1 pb-3">
         <div className="flex min-w-0 items-center gap-2">
@@ -35,7 +35,7 @@ export function HudMockup() {
       </div>
 
       {/* Cinematic Photorealistic Hero Viewport Container */}
-      <div className="relative aspect-[16/10] overflow-hidden rounded-xl border border-[#1E293B] bg-[#0A0E17] shadow-[inset_0_0_24px_rgba(0,0,0,0.6)]">
+      <div className="relative aspect-[16/10] overflow-hidden rounded-xl border border-[#223046] bg-[#080B11] shadow-[inset_0_0_24px_rgba(0,0,0,0.6)]">
         <img
           src={heroImg}
           alt="Astrateq on-device smart dashcam driver perspective in winter"
@@ -44,19 +44,19 @@ export function HudMockup() {
         />
 
         {/* Ambient Dark Gradient & Vignette for Visual Cohesion */}
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0F172A]/90 via-transparent to-black/35" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#080B11]/90 via-transparent to-black/35" />
 
         {/* Subtle Tech Grid / Scan Beam Overlay */}
         <div className="animate-scan pointer-events-none absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-transparent via-[#00F0FF]/15 to-transparent" />
 
         {/* Top-Left Live Tracking Tag */}
-        <div className="pointer-events-none absolute left-3 top-3 flex items-center gap-1.5 rounded-lg border border-[#00F0FF]/50 bg-[#0F172A]/85 px-2.5 py-1 backdrop-blur-md shadow-[0_0_12px_rgba(0,240,255,0.25)]">
+        <div className="pointer-events-none absolute left-3 top-3 flex items-center gap-1.5 rounded-lg border border-[#00F0FF]/50 bg-[#080B11]/85 px-2.5 py-1 backdrop-blur-md shadow-[0_0_12px_rgba(0,240,255,0.25)]">
           <span className="size-1.5 rounded-full bg-[#00F0FF] animate-pulse" />
           <span className="label-mono font-bold text-[#00F0FF]">Forward Roadway · Active</span>
         </div>
 
         {/* Top-Right Air-Gapped Seal */}
-        <div className="pointer-events-none absolute right-3 top-3 hidden items-center gap-1 rounded-lg border border-[#334155] bg-[#0F172A]/80 px-2 py-1 backdrop-blur-sm sm:flex">
+        <div className="pointer-events-none absolute right-3 top-3 hidden items-center gap-1 rounded-lg border border-[#223046] bg-[#080B11]/80 px-2 py-1 backdrop-blur-sm sm:flex">
           <ShieldCheck className="size-3.5 text-[#00F0FF]" />
           <span className="text-[10px] font-mono font-semibold text-[#E2E8F0]">NPU Enclave</span>
         </div>
@@ -112,16 +112,16 @@ function Metric({
 }) {
   return (
     <div
-      className={`rounded-xl border border-[rgba(0,240,255,0.25)] bg-[#1E293B]/90 p-2.5 backdrop-blur-md shadow-[0_0_14px_rgba(0,240,255,0.08)] transition-all duration-300 ${className}`}
+      className={`rounded-xl border border-[rgba(0,240,255,0.3)] bg-[#131B29]/95 p-2.5 backdrop-blur-md shadow-[0_0_14px_rgba(0,240,255,0.08)] transition-all duration-300 ${className}`}
     >
       <div className="flex items-center justify-between gap-1">
-        <p className="label-mono truncate text-[11px] text-[#E2E8F0]">{label}</p>
+        <p className="label-mono truncate text-[11px] text-[#94A3B8]">{label}</p>
         {icon}
       </div>
       <p className="mt-1 font-display text-lg font-bold leading-none text-[#00F0FF] transition-all duration-500">
         {value}
       </p>
-      <p className="mt-1 truncate text-[10px] font-medium text-[#F8FAFC]">{note}</p>
+      <p className="mt-1 truncate text-[10px] font-medium text-[#E2E8F0]">{note}</p>
     </div>
   );
 }

@@ -51,22 +51,23 @@ export function WaitlistForm({
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="you@commute.ca"
-          className="w-full min-w-0 rounded-xl border border-[#334155] bg-[#1E293B] px-4 py-3.5 text-sm text-[#FFFFFF] outline-none transition-colors placeholder:text-[#94A3B8] focus:border-[#00F0FF] focus:ring-2 focus:ring-[#00F0FF]/30"
+          className="w-full min-w-0 rounded-xl border border-[#223046] bg-[#131B29] px-4 py-3.5 text-sm text-[#FFFFFF] outline-none transition-colors placeholder:text-[#94A3B8] focus:border-[#00F0FF] focus:ring-2 focus:ring-[#00F0FF]/30"
           style={{
-            backgroundColor: "#1E293B",
+            backgroundColor: "#131B29",
             color: "#FFFFFF",
-            border: "1px solid #334155",
+            border: "1px solid #223046",
           }}
         />
         <button
           type="submit"
-          className="shrink-0 rounded-xl bg-[#00F0FF] px-5 py-3.5 font-display text-sm font-bold text-[#0A0A0B] shadow-[0_0_12px_rgba(0,240,255,0.25)] transition-all duration-300 hover:brightness-110 hover:shadow-[0_0_18px_rgba(0,240,255,0.45)] focus-visible:ring-2 focus-visible:ring-[#00F0FF]/50"
+          className="shrink-0 rounded-xl bg-[#00F0FF] px-5 py-3.5 font-display text-sm font-bold text-[#080B11] shadow-[0_0_20px_rgba(0,240,255,0.4)] transition-all duration-300 hover:brightness-110 hover:shadow-[0_0_26px_rgba(0,240,255,0.6)] focus-visible:ring-2 focus-visible:ring-[#00F0FF]/50 cursor-pointer"
           style={{
             backgroundColor: "#00F0FF",
-            color: "#0A0A0B",
+            color: "#080B11",
             fontFamily:
               "'Segoe UI Bold', 'Segoe UI Semibold', 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif",
             fontWeight: 700,
+            boxShadow: "0 0 20px rgba(0, 240, 255, 0.4)",
           }}
         >
           {cta}

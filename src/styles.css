@@ -53,34 +53,34 @@
 
 :root {
   --radius: 0.75rem;
-  --background: #0F172A;
+  --background: #080B11;
   --foreground: #FFFFFF;
-  --card: #1E293B;
+  --card: #131B29;
   --card-foreground: #FFFFFF;
-  --popover: #1E293B;
+  --popover: #131B29;
   --popover-foreground: #FFFFFF;
   --primary: #00F0FF;
-  --primary-foreground: #0F172A;
-  --secondary: #1E293B;
+  --primary-foreground: #080B11;
+  --secondary: #131B29;
   --secondary-foreground: #FFFFFF;
-  --muted: #334155;
-  --muted-foreground: #E2E8F0;
-  --accent: #334155;
+  --muted: #223046;
+  --muted-foreground: #94A3B8;
+  --accent: #223046;
   --accent-foreground: #00F0FF;
   --destructive: oklch(0.62 0.21 25);
   --destructive-foreground: #FFFFFF;
-  --border: #334155;
-  --input: #334155;
+  --border: #223046;
+  --input: #1E293B;
   --ring: #00F0FF;
-  --surface: #1E293B;
+  --surface: #131B29;
   --surface-strong: #1E293B;
-  --glow-primary: 0 0 0 1px rgba(0, 240, 255, 0.45), 0 0 28px rgba(0, 240, 255, 0.35);
+  --glow-primary: 0 0 0 1px rgba(0, 240, 255, 0.45), 0 0 20px rgba(0, 240, 255, 0.4);
   --gradient-hero: radial-gradient(
-    ellipse 90% 60% at 50% -10%,
-    rgba(0, 240, 255, 0.16),
-    transparent 70%
+    ellipse 85% 60% at 50% 20%,
+    rgba(0, 240, 255, 0.08),
+    transparent 72%
   );
-  --grid-line: rgba(248, 250, 252, 0.05);
+  --grid-line: rgba(248, 250, 252, 0.04);
 }
 
 @layer base {
@@ -121,19 +121,54 @@
 }
 
 @utility glass-card {
-  background-color: var(--color-card);
-  border: 1px solid var(--color-border);
-  backdrop-filter: blur(14px);
+  position: relative;
+  background:
+    radial-gradient(100% 70% at 50% 0%, rgba(0, 242, 254, 0.1) 0%, rgba(15, 23, 42, 0) 75%) padding-box,
+    linear-gradient(rgba(15, 23, 42, 0.65), rgba(15, 23, 42, 0.65)) padding-box,
+    linear-gradient(160deg, rgba(0, 242, 254, 0.5) 0%, rgba(0, 242, 254, 0.15) 35%, rgba(30, 41, 59, 0.4) 75%, rgba(15, 23, 42, 0.1) 100%) border-box;
+  border: 1px solid transparent;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4), 0 0 1px rgba(0, 242, 254, 0.3);
   transition:
-    transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
-    border-color 0.3s ease,
-    background-color 0.3s ease,
-    box-shadow 0.3s ease;
+    transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.35s ease,
+    background 0.35s ease,
+    box-shadow 0.35s ease;
 
   &:hover {
-    transform: translateY(-4px);
-    border-color: rgba(0, 240, 255, 0.7);
-    box-shadow: 0 0 0 1px rgba(0, 240, 255, 0.3), 0 16px 36px -12px rgba(0, 240, 255, 0.25);
+    transform: translateY(-5px);
+    background:
+      radial-gradient(100% 80% at 50% 0%, rgba(0, 242, 254, 0.18) 0%, rgba(15, 23, 42, 0) 80%) padding-box,
+      linear-gradient(rgba(15, 23, 42, 0.75), rgba(15, 23, 42, 0.75)) padding-box,
+      linear-gradient(160deg, rgba(0, 242, 254, 0.95) 0%, rgba(0, 242, 254, 0.45) 40%, rgba(0, 242, 254, 0.15) 80%, rgba(30, 41, 59, 0.4) 100%) border-box;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5), 0 0 24px rgba(0, 242, 254, 0.35), 0 0 1px rgba(0, 242, 254, 0.6);
+  }
+}
+
+@utility feature-card-premium {
+  position: relative;
+  background:
+    radial-gradient(100% 70% at 50% 0%, rgba(0, 242, 254, 0.12) 0%, rgba(15, 23, 42, 0) 75%) padding-box,
+    linear-gradient(rgba(15, 23, 42, 0.65), rgba(15, 23, 42, 0.65)) padding-box,
+    linear-gradient(160deg, rgba(0, 242, 254, 0.6) 0%, rgba(0, 242, 254, 0.18) 40%, rgba(34, 48, 70, 0.4) 80%, rgba(15, 23, 42, 0.1) 100%) border-box;
+  border: 1px solid transparent;
+  border-radius: 1rem;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4), 0 0 1px rgba(0, 242, 254, 0.3);
+  transition:
+    transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    background 0.35s ease,
+    box-shadow 0.35s ease;
+
+  &:hover {
+    transform: translateY(-5px);
+    background:
+      radial-gradient(100% 80% at 50% 0%, rgba(0, 242, 254, 0.22) 0%, rgba(15, 23, 42, 0) 80%) padding-box,
+      linear-gradient(rgba(15, 23, 42, 0.75), rgba(15, 23, 42, 0.75)) padding-box,
+      linear-gradient(160deg, rgba(0, 242, 254, 0.95) 0%, rgba(0, 242, 254, 0.5) 45%, rgba(0, 242, 254, 0.2) 85%, rgba(34, 48, 70, 0.4) 100%) border-box;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5), 0 0 24px rgba(0, 242, 254, 0.35), 0 0 1px rgba(0, 242, 254, 0.6);
   }
 }
 

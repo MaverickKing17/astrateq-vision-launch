@@ -37,21 +37,21 @@ export function LegalModal({ type, onClose }: LegalModalProps) {
     >
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-[#0F172A]/85 backdrop-blur-md transition-opacity"
+        className="fixed inset-0 bg-[#080B11]/85 backdrop-blur-md transition-opacity"
         onClick={onClose}
       />
 
       {/* Modal Container */}
       <div
-        className="relative z-10 flex max-h-[88vh] w-full max-w-2xl flex-col rounded-2xl border border-[#334155] bg-[#1E293B] shadow-[0_0_40px_rgba(0,240,255,0.15)]"
+        className="relative z-10 flex max-h-[88vh] w-full max-w-2xl flex-col rounded-2xl border border-[#223046] bg-[#0E1420] shadow-[0_0_50px_rgba(0,240,255,0.12)]"
         style={{
           fontFamily: "'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif",
         }}
       >
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-[#334155] px-6 py-5">
+        <div className="flex items-center justify-between border-b border-[#223046] px-6 py-5 bg-[#080B11]/60">
           <div className="flex items-center gap-3">
-            <span className="flex size-9 shrink-0 items-center justify-center rounded-lg border border-primary/40 bg-primary/10 text-primary">
+            <span className="flex size-9 shrink-0 items-center justify-center rounded-lg border border-[#00F0FF]/40 bg-[#00F0FF]/10 text-[#00F0FF]">
               {type === "disclaimer" && <ShieldAlert className="size-5 text-[#00F0FF]" />}
               {type === "privacy" && <Lock className="size-5 text-[#00F0FF]" />}
               {type === "terms" && <FileText className="size-5 text-[#00F0FF]" />}
@@ -73,7 +73,7 @@ export function LegalModal({ type, onClose }: LegalModalProps) {
           </div>
           <button
             onClick={onClose}
-            className="flex size-8 items-center justify-center rounded-lg border border-[#334155] bg-[#0F172A]/70 text-[#E2E8F0] transition-all hover:border-[#00F0FF] hover:bg-[#00F0FF] hover:text-[#0F172A] hover:shadow-[0_0_12px_rgba(0,240,255,0.4)]"
+            className="flex size-8 items-center justify-center rounded-lg border border-[#223046] bg-[#131B29] text-[#E2E8F0] transition-all hover:border-[#00F0FF] hover:bg-[#00F0FF] hover:text-[#080B11] hover:shadow-[0_0_12px_rgba(0,240,255,0.4)] cursor-pointer"
             aria-label="Close dialog"
           >
             <X className="size-4" />
@@ -81,7 +81,7 @@ export function LegalModal({ type, onClose }: LegalModalProps) {
         </div>
 
         {/* Scrollable Body */}
-        <div className="overflow-y-auto px-6 py-6 text-sm leading-relaxed text-[#F8FAFC] space-y-5">
+        <div className="overflow-y-auto px-6 py-6 text-sm leading-relaxed text-[#94A3B8] space-y-5">
           {type === "disclaimer" && (
             <>
               <div className="rounded-xl border border-amber-500/30 bg-amber-500/10 p-4">
@@ -301,17 +301,17 @@ export function LegalModal({ type, onClose }: LegalModalProps) {
               </div>
 
               <div className="grid gap-3 sm:grid-cols-2">
-                <div className="rounded-xl border border-[#334155] bg-[#1E293B] p-3.5">
+                <div className="rounded-xl border border-[#223046] bg-[#131B29] p-3.5">
                   <p className="text-xs font-bold text-[#00F0FF]">TESTFLIGHT & APP SUPPORT</p>
                   <p className="mt-1 font-mono text-xs text-[#FFFFFF]">beta@astrateq.com</p>
-                  <p className="mt-1 text-[11px] text-[#E2E8F0]">
+                  <p className="mt-1 text-[11px] text-[#94A3B8]">
                     Invite redemption, build crashes, and iOS/Android compatibility.
                   </p>
                 </div>
-                <div className="rounded-xl border border-[#334155] bg-[#1E293B] p-3.5">
+                <div className="rounded-xl border border-[#223046] bg-[#131B29] p-3.5">
                   <p className="text-xs font-bold text-[#00F0FF]">PARTNERSHIPS & FLEET</p>
                   <p className="mt-1 font-mono text-xs text-[#FFFFFF]">fleets@astrateq.com</p>
-                  <p className="mt-1 text-[11px] text-[#E2E8F0]">
+                  <p className="mt-1 text-[11px] text-[#94A3B8]">
                     Inquiries for commercial transport, dashcam hardware, and OBD-II pilot programs.
                   </p>
                 </div>
@@ -339,11 +339,11 @@ export function LegalModal({ type, onClose }: LegalModalProps) {
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-between border-t border-[#334155] bg-[#0F172A]/50 px-6 py-4">
-          <p className="text-xs text-[#E2E8F0]">Astrateq Gadgets • Legal & Compliance Division</p>
+        <div className="flex items-center justify-between border-t border-[#223046] bg-[#080B11]/80 px-6 py-4">
+          <p className="text-xs text-[#94A3B8]">Astrateq Gadgets • Legal & Compliance Division</p>
           <button
             onClick={onClose}
-            className="rounded-lg bg-[#00F0FF] px-4 py-2 text-xs font-bold text-[#0F172A] transition-all hover:brightness-110 hover:shadow-[0_0_14px_rgba(0,240,255,0.4)]"
+            className="rounded-lg bg-[#00F0FF] px-4 py-2 text-xs font-bold text-[#080B11] transition-all hover:brightness-110 hover:shadow-[0_0_14px_rgba(0,240,255,0.4)] cursor-pointer"
           >
             I Understand & Close
           </button>

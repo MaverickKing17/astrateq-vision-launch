@@ -8,20 +8,20 @@ import { Eye, Lock } from "lucide-react";
  */
 export function PrivacyNeuralSchematic() {
   return (
-    <div className="relative my-4 overflow-hidden rounded-2xl border border-[#334155] bg-[#0F172A]/95 p-3.5 shadow-[inset_0_0_20px_rgba(0,240,255,0.06)]">
+    <div className="relative my-4 overflow-hidden rounded-2xl border border-[#223046] bg-[#080B11]/95 p-3.5 shadow-[inset_0_0_20px_rgba(0,240,255,0.06)]">
       {/* Top Status Bar */}
       <div className="relative mb-2.5 flex items-center justify-between px-1 text-[10px] font-mono text-[#E2E8F0]">
         <div className="flex items-center gap-1.5">
           <span className="size-1.5 rounded-full bg-[#00F0FF] shadow-[0_0_8px_#00F0FF] animate-pulse" />
           <span className="font-bold tracking-wide text-[#00F0FF]">AIR-GAPPED NPU</span>
         </div>
-        <span className="rounded-md border border-[#00F0FF]/40 bg-[#1E293B]/90 px-2 py-0.5 font-bold text-[#38BDF8] shadow-[0_0_8px_rgba(0,240,255,0.15)]">
+        <span className="rounded-md border border-[#00F0FF]/40 bg-[#131B29]/90 px-2 py-0.5 font-bold text-[#38BDF8] shadow-[0_0_8px_rgba(0,240,255,0.15)]">
           0 B/s EXTERNAL
         </span>
       </div>
 
       {/* Image Container with HUD Overlays */}
-      <div className="relative h-48 w-full overflow-hidden rounded-xl border border-[#334155] bg-[#0F172A]">
+      <div className="relative h-48 w-full overflow-hidden rounded-xl border border-[#223046] bg-[#080B11]">
         <img
           src={privacyImg}
           alt="On-device AI privacy dashcam smartphone"
@@ -30,11 +30,11 @@ export function PrivacyNeuralSchematic() {
         />
 
         {/* Subtle Vignette & Tech HUD Overlay */}
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0F172A]/80 via-transparent to-black/30" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#080B11]/80 via-transparent to-black/30" />
 
         {/* Central Privacy Lock Watermark on Phone */}
         <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-          <div className="flex flex-col items-center rounded-xl border border-[#00F0FF]/60 bg-[#0F172A]/85 px-3 py-1.5 backdrop-blur-md shadow-[0_0_20px_rgba(0,240,255,0.35)]">
+          <div className="flex flex-col items-center rounded-xl border border-[#00F0FF]/60 bg-[#080B11]/85 px-3 py-1.5 backdrop-blur-md shadow-[0_0_20px_rgba(0,240,255,0.35)]">
             <Lock className="size-4 text-[#00F0FF] animate-pulse" />
             <span className="mt-0.5 text-[9px] font-mono font-bold tracking-wider text-[#FFFFFF]">
               Privacy Lock
@@ -50,7 +50,7 @@ export function PrivacyNeuralSchematic() {
       </div>
 
       {/* Bottom Guarantee Bar */}
-      <div className="relative mt-3 flex items-center justify-between border-t border-[#334155] px-1 pt-2 text-[11px]">
+      <div className="relative mt-3 flex items-center justify-between border-t border-[#223046] px-1 pt-2 text-[11px]">
         <span className="font-medium text-[#E2E8F0]">Memory Isolation:</span>
         <span className="font-mono font-bold text-[#00F0FF]">100% Enclave Secured</span>
       </div>
@@ -63,20 +63,20 @@ export function PrivacyNeuralSchematic() {
  */
 export function WinterVisionSchematic() {
   return (
-    <div className="relative my-4 overflow-hidden rounded-2xl border border-[#334155] bg-[#0F172A]/95 p-3.5 shadow-[inset_0_0_20px_rgba(0,240,255,0.06)]">
+    <div className="relative my-4 overflow-hidden rounded-2xl border border-[#223046] bg-[#080B11]/95 p-3.5 shadow-[inset_0_0_20px_rgba(0,240,255,0.06)]">
       {/* Top Status Bar */}
       <div className="relative mb-2.5 flex items-center justify-between px-1 text-[10px] font-mono text-[#E2E8F0]">
         <div className="flex items-center gap-1.5">
           <span className="size-1.5 rounded-full bg-amber-400 shadow-[0_0_8px_#F59E0B] animate-pulse" />
           <span className="font-bold tracking-wide text-[#F8FAFC]">GLARE COMPENSATOR</span>
         </div>
-        <span className="rounded-md border border-amber-500/40 bg-[#1E293B]/90 px-2 py-0.5 font-bold text-amber-300 shadow-[0_0_8px_rgba(245,158,11,0.15)]">
+        <span className="rounded-md border border-amber-500/40 bg-[#131B29]/90 px-2 py-0.5 font-bold text-amber-300 shadow-[0_0_8px_rgba(245,158,11,0.15)]">
           -78% SNOW BLOOM
         </span>
       </div>
 
       {/* Image Container with HUD Overlays */}
-      <div className="relative h-48 w-full overflow-hidden rounded-xl border border-[#334155] bg-[#0F172A]">
+      <div className="relative h-48 w-full overflow-hidden rounded-xl border border-[#223046] bg-[#080B11]">
         <img
           src={winterImg}
           alt="Snow glare road vision with computer vision HUD"
@@ -85,10 +85,10 @@ export function WinterVisionSchematic() {
         />
 
         {/* Ambient Dark Gradient for Legibility */}
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0F172A]/80 via-transparent to-black/30" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#080B11]/80 via-transparent to-black/30" />
 
         {/* HUD Inset 1: Driver Gaze & Fatigue Tracker (Top-Left) */}
-        <div className="pointer-events-none absolute top-2 left-2 rounded-lg border border-[#00F0FF]/50 bg-[#0F172A]/85 p-1.5 backdrop-blur-md shadow-[0_0_12px_rgba(0,240,255,0.2)]">
+        <div className="pointer-events-none absolute top-2 left-2 rounded-lg border border-[#00F0FF]/50 bg-[#080B11]/85 p-1.5 backdrop-blur-md shadow-[0_0_12px_rgba(0,240,255,0.2)]">
           <div className="flex items-center gap-1">
             <Eye className="size-3 text-[#00F0FF]" />
             <span className="text-[8px] font-mono font-bold text-[#FFFFFF]">
@@ -102,20 +102,20 @@ export function WinterVisionSchematic() {
 
         {/* HUD Inset 2: Lead Vehicle Tracking Box (Center Horizon) */}
         <div className="pointer-events-none absolute top-12 left-1/2 -translate-x-1/2 flex flex-col items-center">
-          <span className="rounded border border-amber-400/60 bg-[#0F172A]/85 px-1.5 py-0.2 text-[8px] font-mono font-semibold text-amber-300 backdrop-blur-sm">
+          <span className="rounded border border-amber-400/60 bg-[#080B11]/85 px-1.5 py-0.2 text-[8px] font-mono font-semibold text-amber-300 backdrop-blur-sm">
             LEAD VEHICLE · 38m
           </span>
           <div className="mt-1 h-12 w-16 rounded border-2 border-[#00F0FF] shadow-[0_0_12px_#00F0FF] animate-reticle" />
         </div>
 
         {/* HUD Inset 3: Latency Metric (Bottom-Right) */}
-        <div className="pointer-events-none absolute bottom-2 right-2 rounded border border-[#00F0FF]/50 bg-[#0F172A]/85 px-2 py-0.5 text-[8px] font-mono font-bold text-[#00F0FF] backdrop-blur-md">
+        <div className="pointer-events-none absolute bottom-2 right-2 rounded border border-[#00F0FF]/50 bg-[#080B11]/85 px-2 py-0.5 text-[8px] font-mono font-bold text-[#00F0FF] backdrop-blur-md">
           Latency: 24 ms
         </div>
       </div>
 
       {/* Bottom Guarantee Bar */}
-      <div className="relative mt-3 flex items-center justify-between border-t border-[#334155] px-1 pt-2 text-[11px]">
+      <div className="relative mt-3 flex items-center justify-between border-t border-[#223046] px-1 pt-2 text-[11px]">
         <span className="font-medium text-[#E2E8F0]">Sub-Zero Optic Profile:</span>
         <span className="font-mono font-bold text-[#00F0FF]">Calibrated to -40°C</span>
       </div>
@@ -128,20 +128,20 @@ export function WinterVisionSchematic() {
  */
 export function EcosystemMeshSchematic() {
   return (
-    <div className="relative my-4 overflow-hidden rounded-2xl border border-[#334155] bg-[#0F172A]/95 p-3.5 shadow-[inset_0_0_20px_rgba(0,240,255,0.06)]">
+    <div className="relative my-4 overflow-hidden rounded-2xl border border-[#223046] bg-[#080B11]/95 p-3.5 shadow-[inset_0_0_20px_rgba(0,240,255,0.06)]">
       {/* Top Status Bar */}
       <div className="relative mb-2.5 flex items-center justify-between px-1 text-[10px] font-mono text-[#E2E8F0]">
         <div className="flex items-center gap-1.5">
           <span className="size-1.5 rounded-full bg-[#00F0FF] shadow-[0_0_8px_#00F0FF] animate-pulse" />
           <span className="font-bold tracking-wide text-[#00F0FF]">MESH PROTOCOL</span>
         </div>
-        <span className="rounded-md border border-[#00F0FF]/40 bg-[#1E293B]/90 px-2 py-0.5 font-bold text-[#38BDF8] shadow-[0_0_8px_rgba(0,240,255,0.15)]">
+        <span className="rounded-md border border-[#00F0FF]/40 bg-[#131B29]/90 px-2 py-0.5 font-bold text-[#38BDF8] shadow-[0_0_8px_rgba(0,240,255,0.15)]">
           PHASE 1 ➔ PHASE 2
         </span>
       </div>
 
       {/* Image Container with Mesh Network Overlay */}
-      <div className="relative h-48 w-full overflow-hidden rounded-xl border border-[#334155] bg-[#0F172A]">
+      <div className="relative h-48 w-full overflow-hidden rounded-xl border border-[#223046] bg-[#080B11]">
         <img
           src={hardwareImg}
           alt="Connected hardware ecosystem NPU dashcam and sensors"
@@ -150,7 +150,7 @@ export function EcosystemMeshSchematic() {
         />
 
         {/* Gradient Overlay for Depth */}
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0F172A]/80 via-transparent to-black/30" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#080B11]/80 via-transparent to-black/30" />
 
         {/* Dynamic Glowing Mesh Lines SVG Overlay */}
         <svg viewBox="0 0 240 160" className="pointer-events-none absolute inset-0 h-full w-full">
@@ -224,7 +224,7 @@ export function EcosystemMeshSchematic() {
       </div>
 
       {/* Bottom Guarantee Bar */}
-      <div className="relative mt-3 flex items-center justify-between border-t border-[#334155] px-1 pt-2 text-[11px]">
+      <div className="relative mt-3 flex items-center justify-between border-t border-[#223046] px-1 pt-2 text-[11px]">
         <span className="font-medium text-[#E2E8F0]">Interoperability:</span>
         <span className="font-mono font-bold text-[#00F0FF]">Seamless BLE Mesh</span>
       </div>
