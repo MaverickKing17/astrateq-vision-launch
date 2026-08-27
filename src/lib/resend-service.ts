@@ -39,7 +39,7 @@ export async function processWaitlistSubmission(
 
   if (!resend) {
     console.info(
-      `[Astrateq Waitlist] RESEND_API_KEY not configured in environment. Successfully simulated capture for: ${cleanEmail} (Source: ${source})`,
+      `[Astrateq Waitlist] RESEND_API_KEY not configured. Simulated capture for: ${cleanEmail} (Source: ${source})`,
     );
     return {
       success: true,
@@ -49,71 +49,61 @@ export async function processWaitlistSubmission(
   }
 
   try {
-    const audienceId = process.env.RESEND_AUDIENCE_ID;
-    const notificationEmail = process.env.NOTIFICATION_EMAIL;
-    const fromAddress = process.env.RESEND_FROM_EMAIL || "Astrateq Gadgets <onboarding@resend.dev>";
+    const recipientEmail =
+      process.env.NOTIFICATION_EMAIL || process.env.ADMIN_EMAIL || "kingnarmer702@gmail.com";
+    const senderEmail = process.env.NOTIFICATION_FROM_EMAIL || "onboarding@resend.dev";
+    const timestamp = new Date().toISOString();
 
-    // 1. Add contact to Resend Audience if configured
-    if (audienceId) {
-      try {
-        await resend.contacts.create({
-          email: cleanEmail,
-          unsubscribed: false,
-          audienceId,
-        });
-      } catch (contactErr) {
-        console.warn("[Astrateq Resend] Note on audience contact creation:", contactErr);
-      }
-    }
-
-    // 2. Send automated welcome/confirmation email to the subscriber
+    // 1. Send Admin/Lead Notification Email
     try {
-      await resend.emails.send({
-        from: fromAddress,
-        to: [cleanEmail],
-        subject: "✓ You're in the Astrateq TestFlight Beta Cohort",
-        html: `
-          <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #080B11; color: #FFFFFF; padding: 40px 20px;">
-            <div style="max-width: 560px; margin: 0 auto; background: #0E1420; border: 1px solid #223046; border-radius: 16px; padding: 32px; box-shadow: 0 12px 32px rgba(0,0,0,0.5);">
-              <div style="display: inline-block; padding: 4px 12px; background: rgba(0, 242, 254, 0.1); border: 1px solid rgba(0, 242, 254, 0.4); border-radius: 6px; font-family: monospace; font-size: 12px; color: #00F0FF; margin-bottom: 16px; font-weight: bold;">
-                TESTFLIGHT BETA ACCESS · 500 COHORT
-              </div>
-              <h1 style="color: #FFFFFF; font-size: 24px; font-weight: 700; margin: 0 0 16px 0; letter-spacing: -0.02em;">
-                Welcome to Astrateq Gadgets
-              </h1>
-              <p style="color: #94A3B8; font-size: 15px; line-height: 1.6; margin: 0 0 20px 0;">
-                Your spot has been reserved for the Canadian Winter Commuter Beta Cohort. You will receive priority TestFlight builds featuring zero-cloud, 100% on-device NPU road intelligence.
-              </p>
-              <div style="background: #131B29; border: 1px solid #223046; border-radius: 12px; padding: 16px; margin-bottom: 24px;">
-                <p style="color: #00F0FF; font-size: 12px; font-weight: bold; margin: 0 0 6px 0; font-family: monospace; letter-spacing: 0.05em;">
-                  NEXT ROLLOUT WAVE
-                </p>
-                <p style="color: #E2E8F0; font-size: 14px; margin: 0; line-height: 1.5;">
-                  We are releasing TestFlight access in batches of 100. Watch for an invite directly from Apple TestFlight or our team.
-                </p>
-              </div>
-              <p style="color: #64748B; font-size: 12px; margin: 0; border-top: 1px solid #1E293B; padding-top: 16px;">
-                © 2026 Astrateq Gadgets • On-Device AI • Engineered for Canadian Roads
-              </p>
-            </div>
-          </div>
-        `,
+      const emailResult = await resend.emails.send({
+        from: senderEmail,
+        to: recipientEmail,
+        subject: `🚀 New Beta Signup: ${cleanEmail}`,
+        text: `A new user just submitted their email on the waitlist:\n\nEmail: ${cleanEmail}\nDate: ${timestamp}\nSource: ${source}`,
       });
-    } catch (emailErr) {
-      console.warn("[Astrateq Resend] Confirmation email note:", emailErr);
+
+      if (emailResult.error) {
+        console.warn("[Astrateq Resend] Notification email warning:", emailResult.error);
+      } else {
+        console.info(
+          `[Astrateq Resend] Lead notification sent for ${cleanEmail} (ID: ${emailResult.data?.id})`,
+        );
+      }
+    } catch (notifyErr) {
+      console.warn("[Astrateq Resend] Notification email send error:", notifyErr);
     }
 
-    // 3. Optional: Forward lead notification to admin/founder
-    if (notificationEmail) {
+    // 2. Add Contact to Resend (if supported by active plan/configuration)
+    try {
+      const contactResult = await resend.contacts.create({
+        email: cleanEmail,
+        unsubscribed: false,
+      });
+      if (contactResult.error) {
+        console.warn("[Astrateq Resend] Contact creation note:", contactResult.error);
+      }
+    } catch (contactErr) {
+      console.warn("[Astrateq Resend] Contact creation exception:", contactErr);
+    }
+
+    // 3. User Auto-responder (Only attempted if using custom domain or sending to verified owner)
+    const isCustomDomain = !senderEmail.includes("resend.dev");
+    const isOwnerEmail = cleanEmail === recipientEmail.toLowerCase();
+
+    if (isCustomDomain || isOwnerEmail) {
       try {
-        await resend.emails.send({
-          from: fromAddress,
-          to: [notificationEmail],
-          subject: `⚡ New Astrateq Beta Lead: ${cleanEmail}`,
-          text: `A new driver has registered for the Astrateq Canadian Beta Cohort!\n\nEmail: ${cleanEmail}\nSource: ${source}\nTimestamp: ${new Date().toISOString()}`,
+        const autoResult = await resend.emails.send({
+          from: senderEmail,
+          to: cleanEmail,
+          subject: "✓ You're in the Astrateq TestFlight Beta Cohort",
+          text: `Thanks for joining the Astrateq Canadian Beta Cohort! We will be in touch with your TestFlight beta invite shortly.`,
         });
-      } catch (notifyErr) {
-        console.warn("[Astrateq Resend] Admin notification note:", notifyErr);
+        if (autoResult.error) {
+          console.warn("[Astrateq Resend] Auto-responder note:", autoResult.error);
+        }
+      } catch (autoErr) {
+        console.warn("[Astrateq Resend] Auto-responder exception:", autoErr);
       }
     }
 
