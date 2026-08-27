@@ -1,8 +1,14 @@
 import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
+import { Shield, BrainCircuit, Snowflake, ScanEye, Network, ArrowUpRight } from "lucide-react";
 import { HudMockup } from "@/components/HudMockup";
 import { WaitlistForm } from "@/components/WaitlistForm";
 import { LegalModal, type LegalModalType } from "@/components/LegalModals";
+import {
+  PrivacyNeuralSchematic,
+  WinterVisionSchematic,
+  EcosystemMeshSchematic,
+} from "@/components/FeatureSchematics";
 
 const title = "Astrateq Gadgets — Privacy-First Driver Awareness AI";
 const description =
@@ -24,14 +30,30 @@ export const Route = createFileRoute("/")({
 
 const features = [
   {
+    id: "privacy",
     tag: "01 / PRIVACY & DATA SOVEREIGNTY",
+    icon: (
+      <div className="flex items-center gap-1.5 rounded-lg border border-[#00F0FF]/40 bg-[#0F172A] p-2 shadow-[0_0_12px_rgba(0,240,255,0.25)]">
+        <Shield className="size-4 text-[#FFFFFF] drop-shadow-[0_0_6px_#00F0FF]" />
+        <BrainCircuit className="size-4 text-[#00F0FF]" />
+      </div>
+    ),
     title: "Smart Dashcam App on Your Phone",
+    schematic: <PrivacyNeuralSchematic />,
     body: "Astrateq turns your smartphone into a privacy-first AI dashcam. Camera video is processed locally on your phone's chip—no driving footage or face data ever leaves your device or uploads to the cloud.",
     points: ["On-device NPU inference", "Zero raw video upload", "Sub-50 ms alert path"],
   },
   {
+    id: "winter",
     tag: "02 / CANADIAN CLIMATE INTELLIGENCE",
+    icon: (
+      <div className="flex items-center gap-1.5 rounded-lg border border-[#00F0FF]/40 bg-[#0F172A] p-2 shadow-[0_0_12px_rgba(0,240,255,0.25)]">
+        <Snowflake className="size-4 text-[#FFFFFF] drop-shadow-[0_0_6px_#00F0FF]" />
+        <ScanEye className="size-4 text-[#00F0FF]" />
+      </div>
+    ),
     title: "Built for Winter & Harsh Glare",
+    schematic: <WinterVisionSchematic />,
     body: "Calibrated specifically for Canadian winter driving: detects winter fatigue, alerts you to road hazards, and compensates for blinding snow-glare that blinds standard cameras.",
     points: [
       "Snow-glare exposure compensation",
@@ -40,8 +62,16 @@ const features = [
     ],
   },
   {
+    id: "roadmap",
     tag: "03 / HARDWARE ROADMAP",
+    icon: (
+      <div className="flex items-center gap-1.5 rounded-lg border border-[#00F0FF]/40 bg-[#0F172A] p-2 shadow-[0_0_12px_rgba(0,240,255,0.25)]">
+        <Network className="size-4 text-[#FFFFFF] drop-shadow-[0_0_6px_#00F0FF]" />
+        <ArrowUpRight className="size-4 text-[#00F0FF]" />
+      </div>
+    ),
     title: "From Smartphone App to Smart Hardware",
+    schematic: <EcosystemMeshSchematic />,
     body: "Phase 1 launches as an iOS and Android driver safety app. Phase 2 connects seamlessly to our upcoming dedicated NPU dashcams, OBD-II vehicle scanners, and tire sensors.",
     points: ["NPU dashcam hub", "Predictive OBD-II scanner", "Cold-weather TPMS sensors"],
   },
@@ -176,21 +206,27 @@ function Index() {
               </h2>
             </div>
 
-            <div className="mt-10 grid gap-4 md:grid-cols-3">
+            <div className="mt-14 grid gap-6 md:grid-cols-3 lg:mt-16">
               {features.map((f) => (
                 <article
                   key={f.title}
-                  className="glass-card group rounded-2xl border border-[#334155] bg-[#1E293B] p-6"
+                  className="glass-card group flex flex-col justify-between rounded-2xl border border-[#334155] bg-[#1E293B] p-6 transition-all duration-300 hover:border-[#00F0FF]/60 hover:shadow-[0_0_24px_rgba(0,240,255,0.15)]"
                 >
-                  <p className="label-mono font-semibold text-[#00F0FF]">{f.tag}</p>
-                  <h3 className="mt-3 font-display text-xl font-bold text-[#FFFFFF] transition-colors group-hover:text-primary">
-                    {f.title}
-                  </h3>
-                  <p className="mt-3 text-sm leading-relaxed text-[#F8FAFC]">{f.body}</p>
-                  <ul className="mt-5 space-y-2 border-t border-border pt-4">
+                  <div>
+                    <div className="flex items-center justify-between gap-3">
+                      <p className="label-mono font-semibold text-[#00F0FF]">{f.tag}</p>
+                      {f.icon}
+                    </div>
+                    <h3 className="mt-4 font-display text-xl font-bold text-[#FFFFFF] transition-colors group-hover:text-primary">
+                      {f.title}
+                    </h3>
+                    {f.schematic}
+                    <p className="mt-4 text-sm leading-relaxed text-[#F8FAFC]">{f.body}</p>
+                  </div>
+                  <ul className="mt-6 space-y-2 border-t border-[#334155] pt-4">
                     {f.points.map((p) => (
                       <li key={p} className="flex items-start gap-2 text-sm text-[#E2E8F0]">
-                        <span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-primary" />
+                        <span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-primary shadow-[0_0_6px_#00F0FF]" />
                         <span className="min-w-0">{p}</span>
                       </li>
                     ))}
