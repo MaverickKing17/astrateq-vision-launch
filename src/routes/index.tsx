@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { createFileRoute } from '@tanstack/react-router';
-import { ShieldCheck, Eye, Cpu, ArrowRight } from 'lucide-react';
+import { ShieldCheck, Eye, Cpu, ArrowRight, Loader2 } from 'lucide-react';
 
 export const Route = createFileRoute('/')({
   component: Index,
@@ -9,11 +9,34 @@ export const Route = createFileRoute('/')({
 export default function Index() {
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (email) {
+    if (!email) return;
+
+    setIsSubmitting(true);
+    setErrorMessage(null);
+
+    try {
+      const response = await fetch('/api/waitlist', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to submit. Please try again.');
+      }
+
       setSubmitted(true);
+    } catch (err: any) {
+      setErrorMessage(err.message || 'Something went wrong. Please try again.');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -53,21 +76,34 @@ export default function Index() {
               You&apos;re on the VIP iOS TestFlight waitlist. We&apos;ll notify you shortly.
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="flex gap-2">
-              <input
-                type="email"
-                required
-                placeholder="Enter your email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="flex-1 bg-neutral-950 border border-neutral-800 text-white text-sm rounded-xl px-4 py-3 focus:outline-none focus:border-neutral-600 transition"
-              />
-              <button
-                type="submit"
-                className="bg-white text-black text-sm font-semibold px-6 py-3 rounded-xl hover:bg-neutral-200 transition flex items-center gap-2"
-              >
-                Join Beta <ArrowRight className="w-4 h-4" />
-              </button>
+            <form onSubmit={handleSubmit} className="flex flex-col gap-2">
+              <div className="flex gap-2">
+                <input
+                  type="email"
+                  required
+                  disabled={isSubmitting}
+                  placeholder="Enter your email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="flex-1 bg-neutral-950 border border-neutral-800 text-white text-sm rounded-xl px-4 py-3 focus:outline-none focus:border-neutral-600 transition disabled:opacity-50"
+                />
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="bg-white text-black text-sm font-semibold px-6 py-3 rounded-xl hover:bg-neutral-200 transition flex items-center gap-2 disabled:opacity-50"
+                >
+                  {isSubmitting ? (
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                  ) : (
+                    <>
+                      Join Beta <ArrowRight className="w-4 h-4" />
+                    </>
+                  )}
+                </button>
+              </div>
+              {errorMessage && (
+                <p className="text-xs text-rose-500 text-left px-1 mt-1">{errorMessage}</p>
+              )}
             </form>
           )}
         </div>
