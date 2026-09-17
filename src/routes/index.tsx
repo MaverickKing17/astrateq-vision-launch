@@ -1,5 +1,10 @@
 import React, { useState } from 'react';
-import { ShieldCheck, Eye, Cpu, Bell, Smartphone, ArrowRight } from 'lucide-react';
+import { createFileRoute } from '@tanstack/react-router';
+import { ShieldCheck, Eye, Cpu, ArrowRight } from 'lucide-react';
+
+export const Route = createFileRoute('/')({
+  component: Index,
+});
 
 export default function Index() {
   const [email, setEmail] = useState('');
@@ -7,7 +12,9 @@ export default function Index() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (email) setSubmitted(true);
+    if (email) {
+      setSubmitted(true);
+    }
   };
 
   return (
@@ -36,14 +43,14 @@ export default function Index() {
           <span className="text-neutral-500">Zero Cloud Processing.</span>
         </h1>
         <p className="text-lg md:text-xl text-neutral-400 max-w-2xl mx-auto mb-10 leading-relaxed">
-          Astrateq uses high-frame-rate computer vision directly on your iPhone to track eye closure, gaze deflection, and fatigue—alerting you before microsleep happens.
+          Astrateq uses high-frame-rate computer vision directly on your iPhone to track eye closure, gaze deflection, and fatigue — alerting you before microsleep happens.
         </p>
 
         {/* Waitlist Form */}
         <div id="waitlist" className="max-w-md mx-auto mb-16">
           {submitted ? (
             <div className="p-4 rounded-xl bg-neutral-900 border border-emerald-500/30 text-emerald-400 text-sm">
-              You’re on the VIP iOS TestFlight waitlist. We’ll notify you shortly.
+              You&apos;re on the VIP iOS TestFlight waitlist. We&apos;ll notify you shortly.
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="flex gap-2">
