@@ -60,7 +60,7 @@ export function LegalModal({ type, onClose }: LegalModalProps) {
               <p className="font-mono text-[11px] tracking-wider text-[#9299A5] uppercase">
                 Pre-Launch Notice · Astrateq Gadgets
               </p>
-              <h3
+              <h2
                 id={headingId}
                 className="truncate font-display text-base font-bold text-white sm:text-lg"
               >
@@ -68,7 +68,7 @@ export function LegalModal({ type, onClose }: LegalModalProps) {
                 {type === "privacy" && "Research & Pre-Release Privacy Notice"}
                 {type === "terms" && "Consumer Research & Beta Terms Summary"}
                 {type === "support" && "Support & Research Inquiries"}
-              </h3>
+              </h2>
             </div>
           </div>
           <button
@@ -95,7 +95,7 @@ export function LegalModal({ type, onClose }: LegalModalProps) {
               </div>
 
               <div className="space-y-2">
-                <h4 className="font-display font-semibold text-white">1. Driver Responsibility</h4>
+                <h3 className="font-display font-semibold text-white">1. Driver Responsibility</h3>
                 <p>
                   The vehicle operator retains complete legal and operational responsibility for
                   safe driving at all times. You must maintain attentive visual awareness, safe
@@ -104,9 +104,9 @@ export function LegalModal({ type, onClose }: LegalModalProps) {
               </div>
 
               <div className="space-y-2">
-                <h4 className="font-display font-semibold text-white">
+                <h3 className="font-display font-semibold text-white">
                   2. Canadian Road & Mounting Laws
-                </h4>
+                </h3>
                 <p>
                   Drivers must comply with all federal, provincial, territorial, and state laws
                   governing hands-free mounting, windshield visibility, and distracted driving.
@@ -124,15 +124,16 @@ export function LegalModal({ type, onClose }: LegalModalProps) {
                   Research & Pre-Release Data Handling Summary
                 </p>
                 <p className="mt-1 text-xs leading-relaxed text-[#9299A5]">
-                  This notice explains how information submitted on Astrateq.ai is used during our
-                  consumer research phase, as well as the intended data design of the iOS concept.
+                  This notice explains how information submitted on Astrateq.ai is handled during
+                  our consumer research phase, as well as the intended data design of the iOS
+                  concept. We do not claim third-party privacy or security certifications.
                 </p>
               </div>
 
               <div className="space-y-2">
-                <h4 className="font-display font-semibold text-white">
+                <h3 className="font-display font-semibold text-white">
                   1. Consumer Market Research Survey
-                </h4>
+                </h3>
                 <p>
                   Survey responses are collected anonymously without requiring your name or email
                   address. Responses are stored separately from beta-update registrations and used
@@ -142,26 +143,35 @@ export function LegalModal({ type, onClose }: LegalModalProps) {
               </div>
 
               <div className="space-y-2">
-                <h4 className="font-display font-semibold text-white">
+                <h3 className="font-display font-semibold text-white">
                   2. Optional Beta Update Registrations
-                </h4>
+                </h3>
                 <p>
                   If you choose to register in the separate Beta Updates form, your email address
                   (and optional first name or iPhone model interest) is used only with your explicit
                   consent to send updates about Astrateq Gadgets availability or potential testing.
-                  You may withdraw consent at any time.
+                  You may request deletion or withdraw consent at any time.
                 </p>
               </div>
 
               <div className="space-y-2">
-                <h4 className="font-display font-semibold text-white">
-                  3. Proposed iOS Concept Camera Handling
-                </h4>
+                <h3 className="font-display font-semibold text-white">
+                  3. Proposed iOS Concept Camera & Telemetry Handling
+                </h3>
                 <p>
                   In the proposed iPhone application architecture, driver-facing camera frames are
                   intended to be evaluated locally on-device in transient memory, with no raw video
-                  feeds uploaded to cloud servers. Where optional Supabase sync is offered, only
-                  non-video metadata is synchronized.
+                  feeds uploaded to cloud servers. Any future optional Supabase synchronization or
+                  telemetry would be limited to opt-in, non-video metadata.
+                </p>
+              </div>
+
+              <div className="space-y-2">
+                <h3 className="font-display font-semibold text-white">4. Data Retention</h3>
+                <p>
+                  Anonymous research responses and beta-update contact records are retained only for
+                  the duration of product feasibility evaluation and beta outreach. To request
+                  removal of a beta-update email, contact kingnarmer702@gmail.com.
                 </p>
               </div>
             </>
@@ -178,9 +188,9 @@ export function LegalModal({ type, onClose }: LegalModalProps) {
               </div>
 
               <div className="space-y-2">
-                <h4 className="font-display font-semibold text-white">
+                <h3 className="font-display font-semibold text-white">
                   1. Voluntary Research Participation
-                </h4>
+                </h3>
                 <p>
                   Participating in the Astrateq Gadgets consumer survey is completely voluntary,
                   requires no purchase, and does not create any obligation or guarantee of beta
@@ -189,7 +199,7 @@ export function LegalModal({ type, onClose }: LegalModalProps) {
               </div>
 
               <div className="space-y-2">
-                <h4 className="font-display font-semibold text-white">2. Beta Update Requests</h4>
+                <h3 className="font-display font-semibold text-white">2. Beta Update Requests</h3>
                 <p>
                   Submitting an email address for future beta updates places you on an optional
                   notification list. It does not guarantee acceptance into a testing cohort or

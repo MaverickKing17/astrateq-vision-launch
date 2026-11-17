@@ -86,7 +86,7 @@ export default function Index() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#050505] text-white selection:bg-[#00E5FF]/25 selection:text-white">
+    <div className="min-h-screen overflow-x-clip bg-[#050505] text-white selection:bg-[#00E5FF]/25 selection:text-white">
       {/* Structured Data for Search Engines */}
       <script
         type="application/ld+json"
@@ -103,17 +103,25 @@ export default function Index() {
 
       {/* Top Navigation Bar (Strict 3-Zone Contract) */}
       <header className="sticky top-0 z-40 border-b border-white/10 bg-[#050505]/90 backdrop-blur-md">
-        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-8 px-6">
-          {/* Zone 1: Single Clean Brand Wordmark */}
+        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4 sm:gap-8 sm:px-6">
+          {/* Zone 1: Brand Logo */}
           <a
             href="#top"
-            className="font-display text-lg font-bold tracking-tight text-white whitespace-nowrap shrink-0"
+            aria-label="Astrateq Gadgets home"
+            className="flex size-11 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-white/15 bg-[#0B0F19] transition-colors hover:border-[#00E5FF]/60 sm:size-12"
           >
-            Astrateq <span className="text-[#00E5FF]">Gadgets</span>
+            <img
+              src="https://i.ibb.co/b5xrr612/Chat-GPT-Image-Jun-9-2026-07-07-30-PM.png"
+              alt="Astrateq Gadgets"
+              width={48}
+              height={48}
+              decoding="async"
+              className="size-full object-contain"
+            />
           </a>
 
           {/* Zone 2: Concise Single-Line Navigation Links */}
-          <nav aria-label="Primary" className="hidden items-center gap-7 md:flex">
+          <nav aria-label="Primary" className="hidden items-center gap-6 md:flex lg:gap-7">
             {navLinks.map((link) => (
               <a
                 key={link.href}
@@ -156,7 +164,7 @@ export default function Index() {
           <nav
             id="mobile-navigation"
             aria-label="Mobile"
-            className="border-t border-white/10 bg-[#0B0F19] px-6 py-4 md:hidden"
+            className="border-t border-white/10 bg-[#0B0F19] px-4 py-4 sm:px-6 md:hidden"
           >
             <div className="flex flex-col gap-1">
               {navLinks.map((link) => (
@@ -192,20 +200,20 @@ export default function Index() {
             className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_75%_55%_at_65%_20%,rgba(0,229,255,0.06),transparent_70%)]"
           />
 
-          <div className="relative mx-auto grid max-w-6xl items-center gap-12 px-6 py-16 sm:py-20 lg:grid-cols-[1.12fr_0.88fr] lg:gap-14 lg:py-24">
-            <div className="animate-fade-rise">
+          <div className="relative mx-auto grid max-w-6xl items-center gap-10 px-4 py-14 sm:px-6 sm:py-20 lg:grid-cols-[1.12fr_0.88fr] lg:gap-14 lg:py-24">
+            <div className="animate-fade-rise min-w-0">
               <p className="font-mono text-xs font-medium tracking-wider text-[#00E5FF] uppercase">
                 {copy.hero.eyebrow}
               </p>
 
               <h1
                 className="mt-5 font-display font-bold tracking-tight text-white text-balance"
-                style={{ fontSize: "clamp(2.5rem, 4.4vw, 3.85rem)", lineHeight: 1.06 }}
+                style={{ fontSize: "clamp(2.15rem, 4.4vw, 3.85rem)", lineHeight: 1.08 }}
               >
                 {copy.hero.headline}
               </h1>
 
-              <p className="mt-4 font-display text-xl font-semibold tracking-tight text-white/90 sm:text-2xl text-balance">
+              <p className="mt-4 font-display text-lg font-semibold tracking-tight text-white/90 sm:text-2xl text-balance">
                 {copy.hero.supportingHeadline}
               </p>
 
@@ -218,7 +226,8 @@ export default function Index() {
                 <p className="text-xs leading-relaxed text-[#9299A5]">{copy.hero.researchBanner}</p>
               </div>
 
-              <div className="mt-8 flex flex-wrap items-center gap-4">
+              {/* Consistent 3-Action Funnel */}
+              <div className="mt-8 flex flex-col items-stretch gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
                 <a
                   href="#survey"
                   className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-xl bg-[#00E5FF] px-6 py-3 font-display text-sm font-semibold text-[#050505] transition-opacity hover:opacity-90 whitespace-nowrap"
@@ -228,25 +237,32 @@ export default function Index() {
                 </a>
 
                 <a
-                  href="#technology"
+                  href="#product"
                   className="inline-flex min-h-[48px] items-center justify-center rounded-xl border border-white/15 bg-[#0B0F19] px-6 py-3 font-display text-sm font-semibold text-white transition-colors hover:border-white/30 hover:bg-[#141A24] whitespace-nowrap"
                 >
                   {copy.hero.secondaryCta}
                 </a>
+
+                <a
+                  href="#beta-access"
+                  className="inline-flex min-h-[44px] items-center justify-center px-2 text-sm font-medium text-[#9299A5] underline-offset-4 transition-colors hover:text-[#00E5FF] hover:underline whitespace-nowrap"
+                >
+                  {copy.hero.tertiaryCta}
+                </a>
               </div>
 
-              <p className="mt-7 font-mono text-xs text-[#9299A5]">{copy.hero.contextNote}</p>
+              <p className="mt-6 font-mono text-xs text-[#9299A5]">{copy.hero.contextNote}</p>
             </div>
 
             <div className="flex justify-center lg:justify-end">
-              <IphonePreview mode={heroMode} previewLabel={copy.hero.previewLabel} />
+              <IphonePreview mode={heroMode} previewLabel={copy.hero.previewLabel} priority />
             </div>
           </div>
         </section>
 
         {/* 2. Product Demonstration Section */}
         <section id="product" className="border-b border-white/10 bg-[#0B0F19]">
-          <div className="mx-auto max-w-6xl px-6 py-20 lg:py-24">
+          <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20 lg:py-24">
             <div className="max-w-2xl">
               <p className="font-mono text-xs font-medium tracking-wider text-[#00E5FF] uppercase">
                 {copy.demonstration.eyebrow}
@@ -334,7 +350,30 @@ export default function Index() {
               </div>
             </div>
 
-            <p className="mt-10 border-t border-white/10 pt-6 text-xs leading-relaxed text-[#9299A5]">
+            {/* Development Transparency Breakdown (Implemented vs. Prototype vs. Planned) */}
+            <div className="mt-14 border-t border-white/10 pt-10">
+              <h3 className="font-display text-lg font-bold text-white">
+                {copy.demonstration.stagesHeading}
+              </h3>
+              <div className="mt-5 grid gap-4 md:grid-cols-3">
+                {copy.demonstration.stages.map((item) => (
+                  <div
+                    key={item.stage}
+                    className="rounded-xl border border-white/10 bg-[#050505]/70 p-5"
+                  >
+                    <p className="font-mono text-[11px] font-medium tracking-wider text-[#00E5FF] uppercase">
+                      {item.stage}
+                    </p>
+                    <p className="mt-1.5 font-display text-base font-semibold text-white">
+                      {item.scope}
+                    </p>
+                    <p className="mt-2 text-xs leading-relaxed text-[#9299A5]">{item.details}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <p className="mt-8 text-xs leading-relaxed text-[#9299A5]">
               {copy.demonstration.disclaimer}
             </p>
           </div>
@@ -342,7 +381,7 @@ export default function Index() {
 
         {/* 3. How It Works Section */}
         <section id="how-it-works" className="border-b border-white/10 bg-[#050505]">
-          <div className="mx-auto max-w-6xl px-6 py-20 lg:py-24">
+          <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20 lg:py-24">
             <div className="max-w-2xl">
               <p className="font-mono text-xs font-medium tracking-wider text-[#00E5FF] uppercase">
                 {copy.howItWorks.eyebrow}
@@ -359,7 +398,7 @@ export default function Index() {
               {copy.howItWorks.steps.map((step) => (
                 <article
                   key={step.number}
-                  className="flex flex-col justify-between rounded-2xl border border-white/10 bg-[#0B0F19] p-7"
+                  className="flex flex-col justify-between rounded-2xl border border-white/10 bg-[#0B0F19] p-6 sm:p-7"
                 >
                   <div>
                     <span className="font-mono text-sm font-semibold tabular-nums text-[#00E5FF]">
@@ -378,7 +417,7 @@ export default function Index() {
 
         {/* 4. Privacy & Data Transparency Section */}
         <section id="privacy" className="border-b border-white/10 bg-[#0B0F19]">
-          <div className="mx-auto max-w-6xl px-6 py-20 lg:py-24">
+          <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20 lg:py-24">
             <div className="grid items-start gap-12 lg:grid-cols-[1fr_1.05fr]">
               <div>
                 <p className="font-mono text-xs font-medium tracking-wider text-[#00E5FF] uppercase">
@@ -425,7 +464,7 @@ export default function Index() {
 
         {/* 5. Technology Section */}
         <section id="technology" className="border-b border-white/10 bg-[#050505]">
-          <div className="mx-auto max-w-6xl px-6 py-20 lg:py-24">
+          <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20 lg:py-24">
             <div className="max-w-2xl">
               <p className="font-mono text-xs font-medium tracking-wider text-[#00E5FF] uppercase">
                 {copy.technology.eyebrow}
@@ -439,12 +478,14 @@ export default function Index() {
             </div>
 
             {/* Editorial Canadian Road Context Visual */}
-            <div className="relative mt-10 aspect-[21/9] w-full overflow-hidden rounded-2xl border border-white/10 bg-[#0B0F19]">
+            <div className="relative mt-10 aspect-[16/10] w-full overflow-hidden rounded-2xl border border-white/10 bg-[#0B0F19] sm:aspect-[21/9]">
               {!techImgError ? (
                 <img
                   src={winterHighwayImg}
                   alt="Canadian winter highway dusk perspective from a passenger vehicle windshield"
                   onError={() => setTechImgError(true)}
+                  loading="lazy"
+                  decoding="async"
                   referrerPolicy="no-referrer"
                   className="h-full w-full object-cover object-center"
                 />
@@ -460,14 +501,16 @@ export default function Index() {
               )}
               <div
                 aria-hidden="true"
-                className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#050505]/85 via-[#050505]/20 to-transparent"
+                className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#050505]/95 via-[#050505]/30 to-transparent"
               />
-              <div className="absolute inset-x-6 bottom-5 flex flex-wrap items-center justify-between gap-3">
-                <p className="font-display text-sm font-semibold text-white">
+              <div className="absolute inset-x-4 bottom-4 flex flex-wrap items-center justify-between gap-2 sm:inset-x-6 sm:bottom-5 sm:gap-3">
+                <p className="font-display text-xs font-semibold text-white sm:text-sm">
                   Designed around everyday Canadian commutes across variable light and winter
                   conditions
                 </p>
-                <span className="font-mono text-xs text-[#00E5FF]">iOS · On-Device Concept</span>
+                <span className="font-mono text-[11px] text-[#00E5FF] sm:text-xs">
+                  iOS · On-Device Concept
+                </span>
               </div>
             </div>
 
@@ -488,7 +531,7 @@ export default function Index() {
 
         {/* 6. Consumer Interest Survey Section (Primary Market Research Conversion) */}
         <section id="survey" className="border-b border-white/10 bg-[#0B0F19]">
-          <div className="mx-auto max-w-4xl px-6 py-20 lg:py-24">
+          <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6 sm:py-20 lg:py-24">
             <div className="max-w-2xl">
               <p className="font-mono text-xs font-medium tracking-wider text-[#00E5FF] uppercase">
                 {copy.survey.eyebrow}
@@ -515,8 +558,8 @@ export default function Index() {
 
         {/* 7. Optional Future Beta Updates Registration (Separate & Secondary) */}
         <section id="beta-access" className="border-b border-white/10 bg-[#050505]">
-          <div className="mx-auto max-w-4xl px-6 py-20 lg:py-24">
-            <div className="rounded-3xl border border-white/10 bg-[#0B0F19] p-8 sm:p-12">
+          <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6 sm:py-20 lg:py-24">
+            <div className="rounded-3xl border border-white/10 bg-[#0B0F19] p-6 sm:p-12">
               <div className="max-w-2xl">
                 <p className="font-mono text-xs font-medium tracking-wider text-[#9299A5] uppercase">
                   {copy.beta.eyebrow}
@@ -538,7 +581,7 @@ export default function Index() {
 
         {/* 8. Product FAQ Section */}
         <section id="faq" className="border-b border-white/10 bg-[#0B0F19]">
-          <div className="mx-auto max-w-4xl px-6 py-20 lg:py-24">
+          <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6 sm:py-20 lg:py-24">
             <div className="max-w-2xl">
               <p className="font-mono text-xs font-medium tracking-wider text-[#00E5FF] uppercase">
                 {copy.faq.eyebrow}
@@ -590,7 +633,7 @@ export default function Index() {
 
       {/* 9. Footer */}
       <footer className="bg-[#050505]">
-        <div className="mx-auto max-w-6xl px-6 py-14 lg:py-16">
+        <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6 lg:py-16">
           <div className="grid gap-10 border-b border-white/10 pb-12 md:grid-cols-4">
             <div className="md:col-span-2">
               <a href="#top" className="font-display text-lg font-bold tracking-tight text-white">
@@ -603,15 +646,15 @@ export default function Index() {
             </div>
 
             <div>
-              <h3 className="font-display text-sm font-semibold text-white">
+              <h2 className="font-display text-sm font-semibold text-white">
                 {copy.footer.productHeading}
-              </h3>
+              </h2>
               <ul className="mt-4 space-y-2.5 text-sm">
                 {navLinks.map((link) => (
                   <li key={link.href}>
                     <a
                       href={link.href}
-                      className="text-[#9299A5] transition-colors hover:text-white"
+                      className="inline-flex min-h-[36px] items-center text-[#9299A5] transition-colors hover:text-white"
                     >
                       {link.label}
                     </a>
@@ -621,15 +664,15 @@ export default function Index() {
             </div>
 
             <div>
-              <h3 className="font-display text-sm font-semibold text-white">
+              <h2 className="font-display text-sm font-semibold text-white">
                 {copy.footer.legalHeading}
-              </h3>
+              </h2>
               <ul className="mt-4 space-y-2.5 text-sm">
                 <li>
                   <button
                     type="button"
                     onClick={() => setModalType("privacy")}
-                    className="text-[#9299A5] transition-colors hover:text-white cursor-pointer"
+                    className="inline-flex min-h-[36px] items-center text-[#9299A5] transition-colors hover:text-white cursor-pointer"
                   >
                     {copy.footer.privacyLink}
                   </button>
@@ -638,7 +681,7 @@ export default function Index() {
                   <button
                     type="button"
                     onClick={() => setModalType("terms")}
-                    className="text-[#9299A5] transition-colors hover:text-white cursor-pointer"
+                    className="inline-flex min-h-[36px] items-center text-[#9299A5] transition-colors hover:text-white cursor-pointer"
                   >
                     {copy.footer.termsLink}
                   </button>
@@ -647,7 +690,7 @@ export default function Index() {
                   <button
                     type="button"
                     onClick={() => setModalType("safety")}
-                    className="text-[#9299A5] transition-colors hover:text-white cursor-pointer"
+                    className="inline-flex min-h-[36px] items-center text-[#9299A5] transition-colors hover:text-white cursor-pointer"
                   >
                     {copy.footer.safetyLink}
                   </button>
@@ -656,7 +699,7 @@ export default function Index() {
                   <button
                     type="button"
                     onClick={() => setModalType("support")}
-                    className="text-[#9299A5] transition-colors hover:text-white cursor-pointer"
+                    className="inline-flex min-h-[36px] items-center text-[#9299A5] transition-colors hover:text-white cursor-pointer"
                   >
                     {copy.footer.supportLink}
                   </button>

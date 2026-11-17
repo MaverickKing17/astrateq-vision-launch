@@ -2,6 +2,7 @@ import { Resend } from "resend";
 import { insertBetaRegistrationToSupabase } from "./supabase-research-service";
 
 let resendClient: Resend | null = null;
+const sessionRegisteredEmails = new Set<string>();
 
 function getResendClient(): Resend | null {
   const apiKey = process.env.RESEND_API_KEY;
@@ -27,6 +28,7 @@ export interface WaitlistSubmissionResult {
   success: boolean;
   message: string;
   error?: string;
+  duplicate?: boolean;
   emailDispatched?: boolean;
   storedInDatabase?: boolean;
   missingConfig?: string[];
@@ -62,7 +64,7 @@ export async function processWaitlistSubmission(
     };
   }
 
-  // 1. Attempt Supabase database storage if configured
+  // 1. Attempt Supabase database storage (with explicit duplicate check)
   const dbResult = await insertBetaRegistrationToSupabase({
     email: cleanEmail,
     firstName: cleanFirstName || null,
@@ -71,6 +73,17 @@ export async function processWaitlistSubmission(
     locale,
     source,
   });
+
+  if (dbResult.duplicate || sessionRegisteredEmails.has(cleanEmail)) {
+    return {
+      success: true,
+      duplicate: true,
+      storedInDatabase: dbResult.saved,
+      emailDispatched: false,
+      message:
+        "This email address is already registered on our beta-updates notification list. No duplicate entry was created, and submitting an email does not guarantee beta access.",
+    };
+  }
 
   // 2. Attempt Resend email notification if configured
   const resend = getResendClient();
@@ -141,8 +154,10 @@ export async function processWaitlistSubmission(
 
   // Truthful status reporting: only claim saved/sent when at least one real backend succeeded
   if (dbResult.saved || emailDispatched) {
+    sessionRegisteredEmails.add(cleanEmail);
     return {
       success: true,
+      duplicate: false,
       storedInDatabase: dbResult.saved,
       emailDispatched,
       message:

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Loader2, CheckCircle2, AlertCircle, ArrowRight } from "lucide-react";
+import { Loader2, CheckCircle2, AlertCircle, ArrowRight, Info } from "lucide-react";
 import type { SiteCopy } from "@/lib/i18n";
 
 interface WaitlistFormProps {
@@ -22,6 +22,8 @@ export function WaitlistForm({
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [backendInfo, setBackendInfo] = useState<{
+    duplicate?: boolean;
+    message?: string;
     storedInDatabase?: boolean;
     emailDispatched?: boolean;
     missingConfig?: string[];
@@ -68,6 +70,7 @@ export function WaitlistForm({
 
       const data = (await response.json()) as {
         success?: boolean;
+        duplicate?: boolean;
         message?: string;
         storedInDatabase?: boolean;
         emailDispatched?: boolean;
@@ -82,6 +85,8 @@ export function WaitlistForm({
       }
 
       setBackendInfo({
+        duplicate: data.duplicate,
+        message: data.message,
         storedInDatabase: data.storedInDatabase,
         emailDispatched: data.emailDispatched,
       });
@@ -98,6 +103,7 @@ export function WaitlistForm({
   };
 
   if (submitted) {
+    const isDuplicate = Boolean(backendInfo.duplicate);
     return (
       <div
         className="animate-fade-rise rounded-2xl border border-[#00E5FF]/35 bg-[#0B0F19] p-6 text-left"
@@ -106,17 +112,27 @@ export function WaitlistForm({
       >
         <div className="flex items-start gap-3.5">
           <div className="flex size-9 shrink-0 items-center justify-center rounded-full border border-[#00E5FF]/40 bg-[#00E5FF]/10">
-            <CheckCircle2 className="size-5 text-[#00E5FF]" aria-hidden="true" />
+            {isDuplicate ? (
+              <Info className="size-5 text-[#00E5FF]" aria-hidden="true" />
+            ) : (
+              <CheckCircle2 className="size-5 text-[#00E5FF]" aria-hidden="true" />
+            )}
           </div>
           <div className="min-w-0 flex-1">
-            <h3 className="font-display text-base font-semibold text-white">{copy.successTitle}</h3>
-            <p className="mt-1.5 text-sm leading-relaxed text-[#9299A5]">{copy.successBody}</p>
+            <h3 className="font-display text-base font-semibold text-white">
+              {isDuplicate ? copy.duplicateTitle : copy.successTitle}
+            </h3>
+            <p className="mt-1.5 text-sm leading-relaxed text-[#9299A5]">
+              {isDuplicate ? backendInfo.message : copy.successBody}
+            </p>
             <p className="mt-2 font-mono text-[11px] text-[#9299A5]">
               {backendInfo.storedInDatabase && backendInfo.emailDispatched
-                ? "Recorded in database and notification sent."
+                ? "Recorded in Supabase database and notification sent."
                 : backendInfo.storedInDatabase
-                  ? "Recorded in database."
-                  : "Notification dispatched via email service."}
+                  ? "Recorded in Supabase database."
+                  : isDuplicate
+                    ? "Duplicate request prevented — existing registration preserved."
+                    : "Notification dispatched via email service (Supabase database not configured)."}
             </p>
             <button
               type="button"

@@ -30,6 +30,7 @@ export interface BetaRegistrationDbPayload {
 export interface DatabaseOperationResult {
   configured: boolean;
   saved: boolean;
+  duplicate?: boolean;
   recordId?: string;
   missingEnvVars?: string[];
   errorMessage?: string;
@@ -153,28 +154,61 @@ export async function insertBetaRegistrationToSupabase(
     };
   }
 
-  const endpoint = `${url.replace(/\/+$/, "")}/rest/v1/beta_registrations?on_conflict=email`;
-  const row = {
-    email: payload.email.trim().toLowerCase(),
-    first_name: payload.firstName?.trim() || null,
-    iphone_model: payload.iphoneModel?.trim() || null,
-    consent_marketing: Boolean(payload.consentMarketing),
-    consent_timestamp: new Date().toISOString(),
-    locale: payload.locale || "en-CA",
-    source: payload.source || "beta_section",
-  };
+  const baseUrl = url.replace(/\/+$/, "");
+  const cleanEmail = payload.email.trim().toLowerCase();
 
   try {
-    const response = await fetch(endpoint, {
+    // Check if email already exists so we handle duplicates explicitly and truthfully
+    const checkRes = await fetch(
+      `${baseUrl}/rest/v1/beta_registrations?email=eq.${encodeURIComponent(cleanEmail)}&select=id`,
+      {
+        headers: {
+          apikey: key,
+          Authorization: `Bearer ${key}`,
+        },
+      },
+    );
+
+    if (checkRes.ok) {
+      const existing = (await checkRes.json()) as Array<{ id?: string }>;
+      if (existing.length > 0) {
+        return {
+          configured: true,
+          saved: true,
+          duplicate: true,
+          recordId: existing[0]?.id,
+        };
+      }
+    }
+
+    const row = {
+      email: cleanEmail,
+      first_name: payload.firstName?.trim() || null,
+      iphone_model: payload.iphoneModel?.trim() || null,
+      consent_marketing: Boolean(payload.consentMarketing),
+      consent_timestamp: new Date().toISOString(),
+      locale: payload.locale || "en-CA",
+      source: payload.source || "beta_section",
+    };
+
+    const response = await fetch(`${baseUrl}/rest/v1/beta_registrations`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         apikey: key,
         Authorization: `Bearer ${key}`,
-        Prefer: "return=representation,resolution=merge-duplicates",
+        Prefer: "return=representation",
       },
       body: JSON.stringify(row),
     });
+
+    if (response.status === 409) {
+      return {
+        configured: true,
+        saved: true,
+        duplicate: true,
+      };
+    }
 
     if (!response.ok) {
       const errorText = await response.text();
@@ -190,6 +224,7 @@ export async function insertBetaRegistrationToSupabase(
     return {
       configured: true,
       saved: true,
+      duplicate: false,
       recordId: inserted[0]?.id,
     };
   } catch (err: unknown) {

@@ -8,6 +8,7 @@ interface IphonePreviewProps {
   mode: FeatureMode;
   previewLabel: string;
   compact?: boolean;
+  priority?: boolean;
 }
 
 const MODE_ICON: Record<FeatureModeId, React.ReactNode> = {
@@ -17,18 +18,23 @@ const MODE_ICON: Record<FeatureModeId, React.ReactNode> = {
   gateway: <SlidersHorizontal className="size-4 text-[#00E5FF]" aria-hidden="true" />,
 };
 
-export function IphonePreview({ mode, previewLabel, compact = false }: IphonePreviewProps) {
+export function IphonePreview({
+  mode,
+  previewLabel,
+  compact = false,
+  priority = false,
+}: IphonePreviewProps) {
   const [imgError, setImgError] = useState(false);
 
   const backdropSrc =
     mode.id === "drowsiness" || mode.id === "distraction" ? winterHighwayImg : cockpitTwilightImg;
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex w-full flex-col items-center">
       {/* Hardware Bezel */}
       <div
         className={`relative w-full ${
-          compact ? "max-w-[300px]" : "max-w-[328px]"
+          compact ? "max-w-[296px]" : "max-w-[324px]"
         } rounded-[44px] border border-white/15 bg-[#141A24] p-3 shadow-[0_24px_64px_rgba(0,0,0,0.75)]`}
       >
         {/* Subtle Hardware Side Buttons */}
@@ -51,8 +57,11 @@ export function IphonePreview({ mode, previewLabel, compact = false }: IphonePre
           {!imgError ? (
             <img
               src={backdropSrc}
-              alt={`${mode.tabLabel} pre-release interface backdrop`}
+              alt={`${mode.tabLabel} concept preview backdrop inside a Canadian vehicle cabin`}
               onError={() => setImgError(true)}
+              loading={priority ? "eager" : "lazy"}
+              decoding="async"
+              fetchPriority={priority ? "high" : "auto"}
               referrerPolicy="no-referrer"
               className="absolute inset-0 h-full w-full object-cover object-center opacity-55"
             />
@@ -75,7 +84,7 @@ export function IphonePreview({ mode, previewLabel, compact = false }: IphonePre
               <span className="font-mono tabular-nums">9:41</span>
               <div
                 aria-hidden="true"
-                className="h-[22px] w-[86px] rounded-full bg-black ring-1 ring-white/10"
+                className="h-[22px] w-[84px] rounded-full bg-black ring-1 ring-white/10"
               />
               <div className="flex items-center gap-1.5 font-mono text-[10px] text-white/90">
                 <span>5G</span>
@@ -105,25 +114,25 @@ export function IphonePreview({ mode, previewLabel, compact = false }: IphonePre
           <div className="relative z-10 flex flex-1 flex-col justify-center px-5 py-4">
             {mode.id === "gateway" ? (
               <div className="space-y-2.5 rounded-2xl border border-white/12 bg-[#0B0F19]/90 p-3.5 backdrop-blur-md">
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between gap-2">
                   <span className="text-xs font-medium text-white">Mount Alignment</span>
-                  <span className="font-mono text-[11px] text-[#00E5FF]">Ready</span>
+                  <span className="font-mono text-[11px] text-[#00E5FF]">Pre-Drive Check</span>
                 </div>
                 <div className="h-px bg-white/10" />
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-medium text-white">Audio Chime</span>
-                  <span className="font-mono text-[11px] text-[#9299A5]">Enabled</span>
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-xs font-medium text-white">Audio Prompt</span>
+                  <span className="font-mono text-[11px] text-[#9299A5]">Configurable</span>
                 </div>
                 <div className="h-px bg-white/10" />
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-medium text-white">Optional Cloud Sync</span>
-                  <span className="font-mono text-[11px] text-[#9299A5]">Off by default</span>
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-xs font-medium text-white">Optional Sync</span>
+                  <span className="font-mono text-[11px] text-[#9299A5]">Opt-In Only</span>
                 </div>
               </div>
             ) : (
               <div className="flex flex-col items-center justify-center">
                 {/* Clean Geometric Reticle Frame */}
-                <div className="relative flex h-32 w-44 items-center justify-center rounded-2xl border border-white/15 bg-[#0B0F19]/55 backdrop-blur-sm">
+                <div className="relative flex h-32 w-44 items-center justify-center rounded-2xl border border-white/15 bg-[#0B0F19]/60 backdrop-blur-sm">
                   <div
                     aria-hidden="true"
                     className="absolute top-2.5 left-2.5 size-3 border-t-2 border-l-2 border-[#00E5FF]"
@@ -158,7 +167,7 @@ export function IphonePreview({ mode, previewLabel, compact = false }: IphonePre
               <div className="flex items-center justify-between border-b border-white/10 pb-2">
                 <div className="flex items-center gap-1.5 text-[11px] font-medium text-[#9299A5]">
                   <Shield className="size-3.5 text-[#00E5FF]" aria-hidden="true" />
-                  <span>On-device evaluation</span>
+                  <span>Concept: On-device flow</span>
                 </div>
                 <span className="font-mono text-[10px] text-white/70">iOS</span>
               </div>

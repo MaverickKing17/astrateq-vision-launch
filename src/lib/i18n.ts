@@ -14,6 +14,12 @@ export interface FeatureMode {
   indicators: Array<{ label: string; value: string }>;
 }
 
+export interface DevelopmentStageItem {
+  stage: string;
+  scope: string;
+  details: string;
+}
+
 export interface HowItWorksStep {
   number: string;
   title: string;
@@ -74,6 +80,7 @@ export interface SiteCopy {
     researchBanner: string;
     primaryCta: string;
     secondaryCta: string;
+    tertiaryCta: string;
     contextNote: string;
     previewLabel: string;
   };
@@ -82,6 +89,8 @@ export interface SiteCopy {
     title: string;
     subtitle: string;
     disclaimer: string;
+    stagesHeading: string;
+    stages: DevelopmentStageItem[];
     modes: FeatureMode[];
   };
   howItWorks: {
@@ -141,6 +150,7 @@ export interface SiteCopy {
     consentLabel: string;
     privacyNotice: string;
     successTitle: string;
+    duplicateTitle: string;
     successBody: string;
     submitAnother: string;
   };
@@ -175,30 +185,52 @@ export const EN_CA_COPY: SiteCopy = {
     privacy: "Privacy",
     faq: "FAQ",
     betaAccess: "Beta Updates",
-    primaryAction: "Take Survey",
+    primaryAction: "Share Your Feedback",
     openMenu: "Open navigation menu",
     closeMenu: "Close navigation menu",
   },
   hero: {
     eyebrow: "Early-Stage iOS Concept · Canadian Market Research",
     headline: "Stay Aware. Stay Ahead.",
-    supportingHeadline: "Intelligent Driver Awareness. Designed for iPhone.",
+    supportingHeadline: "Everyday Driver Awareness. Designed for iPhone.",
     description:
-      "Astrateq Gadgets is an emerging iOS application concept exploring how on-device intelligence and computer vision can help everyday drivers become more aware of visual indicators associated with distraction and drowsiness.",
+      "Astrateq Gadgets is an emerging iOS application concept exploring how on-device intelligence and computer vision can help everyday drivers notice visual cues associated with distraction and drowsiness.",
     researchBanner:
       "Astrateq Gadgets is currently in an early development and consumer research phase. We are gathering feedback to understand whether driver-awareness intelligence would be valuable in everyday driving.",
-    primaryCta: "Help Shape the Concept (2-Min Survey)",
-    secondaryCta: "Explore the Technology",
-    contextNote: "Early-stage iOS concept · No commercial launch claims · Canada",
-    previewLabel: "Concept Interface Preview · Early Development",
+    primaryCta: "Share Your Feedback",
+    secondaryCta: "Explore Astrateq Gadgets",
+    tertiaryCta: "Request Beta Updates",
+    contextNote: "2-minute anonymous survey · No commercial launch claims · Canada",
+    previewLabel: "Concept Interface Simulation · Early Development",
   },
   demonstration: {
-    eyebrow: "Product Concept",
+    eyebrow: "Product Concept & Transparency",
     title: "Intelligence That Works Alongside You.",
     subtitle:
       "Explore the proposed capabilities inside the Astrateq Gadgets iOS concept—from active trip awareness cues to pre-drive setup in the Driver Gateway.",
     disclaimer:
-      "Interface views below illustrate an early-stage iOS concept under active exploration. Astrateq Gadgets is not yet a commercially released product, has not completed third-party road-safety validation, and does not guarantee accident prevention.",
+      "Interface views above and below are concept simulations illustrating planned iOS workflows. Astrateq Gadgets is not a commercially launched product, has not completed real-world safety validation, and does not claim detection accuracy guarantees or accident prevention.",
+    stagesHeading: "Development Status & Scope",
+    stages: [
+      {
+        stage: "Implemented Today",
+        scope: "Consumer Research Platform",
+        details:
+          "This website, interactive concept previews, anonymous market-research survey, and optional beta-update registration workflow.",
+      },
+      {
+        stage: "Prototype / Simulation",
+        scope: "iOS Concept Screens & Vision R&D",
+        details:
+          "Interface concepts for Driver Awareness, Drowsiness Monitoring, Distraction Awareness, and Driver Gateway; not yet validated in public road trials.",
+      },
+      {
+        stage: "Planned Future Work",
+        scope: "TestFlight Beta & Optional Sync",
+        details:
+          "iOS TestFlight testing builds, supported device matrix, and optional non-video trip count synchronization if consumer research supports further investment.",
+      },
+    ],
     modes: [
       {
         id: "awareness",
@@ -206,14 +238,14 @@ export const EN_CA_COPY: SiteCopy = {
         eyebrow: "A · Driver Awareness",
         title: "Continuous Attentiveness Cues",
         description:
-          "Explores observing forward-attention indicators during everyday commutes without cluttering your field of view. Subtle status cues let drivers confirm monitoring is active at a glance.",
-        screenHeading: "Active Trip Concept",
+          "Explores observing forward-attention indicators during everyday commutes without cluttering your field of view. Subtle status cues let drivers see intended monitoring state at a glance.",
+        screenHeading: "Concept Trip View",
         screenSubheading: "Driver Awareness",
-        statusLabel: "Monitoring Concept",
+        statusLabel: "Simulation · On-Device Concept",
         indicators: [
-          { label: "Session Mode", value: "On-Device" },
-          { label: "Gaze Alignment", value: "Forward" },
-          { label: "Alert Audio", value: "Enabled" },
+          { label: "Intended Mode", value: "On-Device" },
+          { label: "Gaze Target", value: "Forward" },
+          { label: "Audio Cue", value: "Configurable" },
         ],
       },
       {
@@ -222,13 +254,13 @@ export const EN_CA_COPY: SiteCopy = {
         eyebrow: "B · Drowsiness Monitoring",
         title: "Eye-Closure & Fatigue Indicators",
         description:
-          "Designed to evaluate eyelid closure patterns and blink cadence for visual cues associated with fatigue—strictly as an awareness prompt, not a medical device or safety guarantee.",
-        screenHeading: "Fatigue Indicator Check",
+          "Explores evaluating eyelid closure patterns and blink cadence for visual cues associated with fatigue—strictly as an awareness prompt, not a medical device or safety guarantee.",
+        screenHeading: "Concept Fatigue View",
         screenSubheading: "Drowsiness Monitoring",
-        statusLabel: "Evaluating Blink Cadence",
+        statusLabel: "Simulation · Blink Cadence",
         indicators: [
-          { label: "Signal Source", value: "Eye Landmarks" },
-          { label: "Processing", value: "Local Frame Eval" },
+          { label: "Visual Cue", value: "Eye Landmarks" },
+          { label: "Intended Eval", value: "In-Memory" },
           { label: "Prompt State", value: "Standby" },
         ],
       },
@@ -238,13 +270,13 @@ export const EN_CA_COPY: SiteCopy = {
         eyebrow: "C · Distraction Awareness",
         title: "Gaze & Head-Orientation Checks",
         description:
-          "Evaluates head pose and gaze direction indicators to recognize sustained glances away from the roadway, surfacing an awareness prompt when attention drifts.",
-        screenHeading: "Attention Orientation",
+          "Explores evaluating head pose and gaze direction indicators to recognize sustained glances away from the roadway, surfacing an awareness prompt when attention drifts.",
+        screenHeading: "Concept Attention View",
         screenSubheading: "Distraction Awareness",
-        statusLabel: "Tracking Head Pose",
+        statusLabel: "Simulation · Head Pose",
         indicators: [
           { label: "Orientation", value: "Roadway Axis" },
-          { label: "Frame Retention", value: "None Stored" },
+          { label: "Video Upload", value: "Not Planned" },
           { label: "Feedback", value: "Visual + Chime" },
         ],
       },
@@ -257,11 +289,11 @@ export const EN_CA_COPY: SiteCopy = {
           "The proposed starting hub before shifting into drive. Mount alignment checks, audio prompt settings, and optional trip summary sync controls live in one clear screen.",
         screenHeading: "Driver Gateway",
         screenSubheading: "Pre-Drive Setup",
-        statusLabel: "Ready for Mount Check",
+        statusLabel: "Concept · Mount Check",
         indicators: [
-          { label: "Camera Position", value: "Check Mount" },
-          { label: "Optional Sync", value: "User Controlled" },
-          { label: "Safety Notice", value: "Reviewed" },
+          { label: "Camera View", value: "Check Mount" },
+          { label: "Optional Sync", value: "User Opt-In" },
+          { label: "Safety Notice", value: "Required" },
         ],
       },
     ],
@@ -282,7 +314,7 @@ export const EN_CA_COPY: SiteCopy = {
         number: "02",
         title: "Driver-state monitoring",
         description:
-          "Computer-vision routines evaluate visual indicators such as sustained eye closure, blink cadence changes, and head or gaze orientation away from the road.",
+          "Planned computer-vision routines evaluate visual indicators such as sustained eye closure, blink cadence changes, and head or gaze orientation away from the road.",
       },
       {
         number: "03",
@@ -296,31 +328,31 @@ export const EN_CA_COPY: SiteCopy = {
     eyebrow: "Privacy & Data Transparency",
     title: "Your Privacy Is Part of the Technology.",
     subtitle:
-      "Everyday drivers should know exactly how camera data and optional metrics are handled before considering an in-cabin app. Here is our intended architecture.",
+      "Everyday drivers deserve plain answers about what this website collects today and how camera data is intended to be handled in the iOS concept.",
     pillars: [
       {
-        title: "On-device frame evaluation",
+        title: "Intended on-device camera processing",
         description:
-          "Visual analysis of driver-facing camera frames is designed to run locally on your iPhone rather than streaming continuous video to cloud servers.",
+          "In the proposed iOS app architecture, driver-facing camera frames are intended to be evaluated locally in transient memory on your iPhone—not streamed or stored as cloud video.",
       },
       {
-        title: "No raw video storage or upload",
+        title: "Optional sync & telemetry scope",
         description:
-          "Astrateq Gadgets is designed not to archive or upload continuous camera recordings. Frames are evaluated transiently in memory and discarded after analysis.",
+          "Where optional Supabase synchronization or diagnostics are offered in future builds, they are limited to non-video metadata (such as opt-in summary counts) and can be disabled.",
       },
       {
-        title: "Optional, user-controlled sync",
+        title: "Website survey & beta separation",
         description:
-          "Where optional synchronization with Supabase is enabled in a build, only non-video metadata—such as session counts or user preferences—may sync, and users can disable it.",
+          "This website does not access your camera. Anonymous survey answers do not require an email address and are stored separately from optional beta-update registrations.",
       },
       {
-        title: "Separate research & beta data",
+        title: "Data retention & removal",
         description:
-          "Consumer survey responses on this website are collected without requiring your email address and stored separately from optional beta-update registrations.",
+          "Research responses and optional beta registrations are retained only while evaluating product feasibility and managing requested updates. You can request removal of your beta email anytime.",
       },
     ],
     auditNote:
-      "Transparency Note: Astrateq Gadgets is in early development and consumer research. We describe our architecture plainly and do not claim completed compliance certifications or third-party audits.",
+      "Transparency Note: Astrateq Gadgets is in early development and consumer research. We do not claim third-party privacy certifications, security certifications, or completed compliance audits.",
   },
   technology: {
     eyebrow: "Core Architecture",
@@ -331,23 +363,23 @@ export const EN_CA_COPY: SiteCopy = {
       {
         id: "ane",
         title: "Apple Neural Engine & Core ML",
-        summary: "Hardware-accelerated inference on iPhone",
+        summary: "Target on-device inference path",
         detail:
-          "Structured to execute vision workloads on Apple silicon Neural Engine cores via Core ML, supporting responsive on-device evaluation without continuous server round trips.",
+          "Intended to execute vision workloads on Apple silicon Neural Engine cores via Core ML, supporting responsive on-device evaluation without continuous server round trips.",
       },
       {
         id: "vision",
         title: "iOS Camera & Facial Landmark Pipeline",
         summary: "Structured visual indicator tracking",
         detail:
-          "Evaluates geometric eye-closure ratios and head-pose orientation from the front camera feed while respecting standard iOS camera permission controls.",
+          "Planned to evaluate geometric eye-closure ratios and head-pose orientation from the front camera feed while respecting standard iOS camera permission controls.",
       },
       {
         id: "gateway-sync",
         title: "Driver Gateway & Optional Sync",
         summary: "Clear separation between video and metadata",
         detail:
-          "Keeps real-time camera processing isolated on your iPhone while optionally allowing non-video session summaries to synchronize with Supabase when enabled by the user.",
+          "Designed to keep real-time camera processing isolated on your iPhone while optionally allowing non-video session summaries to synchronize with Supabase when enabled by the user.",
       },
     ],
   },
@@ -473,9 +505,9 @@ export const EN_CA_COPY: SiteCopy = {
   },
   beta: {
     eyebrow: "Optional Future Beta Updates",
-    title: "Follow Product Development & Future Testing.",
+    title: "Request Beta Updates.",
     subtitle:
-      "Separate from the survey above, you can leave your email if you would like to receive updates on Astrateq Gadgets availability and potential testing opportunities.",
+      "Separate from the survey above, you can leave your email if you would like to receive occasional updates on Astrateq Gadgets development and potential future testing opportunities.",
     emailLabel: "Email address (required)",
     emailPlaceholder: "name@example.ca",
     firstNameLabel: "First name (optional)",
@@ -489,13 +521,14 @@ export const EN_CA_COPY: SiteCopy = {
       "iPhone 13 series",
       "Older or other iPhone model",
     ],
-    submitButton: "Register for Beta Updates",
-    submittingButton: "Registering...",
+    submitButton: "Request Beta Updates",
+    submittingButton: "Submitting...",
     consentLabel:
       "I consent to receive occasional email updates from Astrateq Gadgets (Astrateq.ai) regarding product development and future beta testing opportunities. I understand I can withdraw consent at any time.",
     privacyNotice:
       "Registering adds you only to our beta-update list and does not guarantee beta access or require purchasing anything. Survey respondents are never subscribed automatically.",
-    successTitle: "Beta Update Request Recorded",
+    successTitle: "Beta Update Request Received",
+    duplicateTitle: "Already on Update List",
     successBody:
       "Thank you. Your interest in receiving future Astrateq Gadgets updates has been noted. Registering does not guarantee beta access, and we will only contact you if testing opportunities or development updates are shared.",
     submitAnother: "Register another email address",
@@ -528,7 +561,7 @@ export const EN_CA_COPY: SiteCopy = {
         id: "local-processing",
         question: "Does the application process video locally?",
         answer:
-          "Yes—the architecture is designed to evaluate camera frames locally on your iPhone in transient memory rather than streaming continuous video to cloud servers.",
+          "In the proposed iOS concept architecture, camera frames are intended to be evaluated locally on your iPhone in transient memory rather than streaming continuous video to cloud servers. This website itself does not access your camera.",
       },
       {
         id: "cloud-upload",
@@ -540,7 +573,7 @@ export const EN_CA_COPY: SiteCopy = {
         id: "distraction-detected",
         question: "What happens if the application detects signs of distraction?",
         answer:
-          "Where supported, the concept provides a visual or audible awareness prompt designed to remind the driver to refocus on the road or consider taking a rest break.",
+          "Where supported in future builds, the concept provides a visual or audible awareness prompt designed to remind the driver to refocus on the road or consider taking a rest break.",
       },
       {
         id: "responsible-driving",

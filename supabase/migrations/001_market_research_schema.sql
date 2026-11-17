@@ -31,11 +31,11 @@ create table if not exists public.market_research_surveys (
   utm_campaign text null
 );
 
--- 2. Separate Beta Interest Registrations (explicit CASL-aligned consent)
+-- 2. Separate Beta Interest Registrations (explicit CASL-aligned consent, normalized lowercase email)
 create table if not exists public.beta_registrations (
   id uuid primary key default gen_random_uuid(),
   created_at timestamptz not null default now(),
-  email text not null,
+  email text not null unique check (email = lower(trim(email))),
   first_name text null,
   iphone_model text null,
   consent_marketing boolean not null default false,
@@ -43,9 +43,6 @@ create table if not exists public.beta_registrations (
   locale text not null default 'en-CA',
   source text not null default 'beta_section'
 );
-
-create unique index if not exists beta_registrations_email_lower_idx
-  on public.beta_registrations (lower(email));
 
 -- 3. Strict Row Level Security (RLS)
 alter table public.market_research_surveys enable row level security;

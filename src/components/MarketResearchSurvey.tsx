@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   ArrowLeft,
   ArrowRight,
@@ -63,6 +63,8 @@ export function MarketResearchSurvey({ copy, locale }: MarketResearchSurveyProps
   const [outcome, setOutcome] = useState<SubmissionOutcome>({ status: "idle", message: "" });
   const [copiedSummary, setCopiedSummary] = useState(false);
 
+  const stepFocusRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     setStartedAt(new Date().toISOString());
     if (typeof window !== "undefined") {
@@ -78,6 +80,12 @@ export function MarketResearchSurvey({ copy, locale }: MarketResearchSurveyProps
   const isReviewStep = stepIndex === questions.length;
   const currentQuestion: SurveyQuestionCopy | undefined = questions[stepIndex];
   const progressPercent = Math.round(((stepIndex + 1) / totalSteps) * 100);
+
+  const focusStepRegion = () => {
+    requestAnimationFrame(() => {
+      stepFocusRef.current?.focus({ preventScroll: true });
+    });
+  };
 
   const hasAnswerForQuestion = (q: SurveyQuestionCopy): boolean => {
     switch (q.id) {
@@ -157,7 +165,6 @@ export function MarketResearchSurvey({ copy, locale }: MarketResearchSurveyProps
         };
       }
 
-      // Handle mutually exclusive option (e.g., "I have no major concerns.")
       if (q.exclusiveOption && option === q.exclusiveOption) {
         return {
           ...prev,
@@ -185,6 +192,7 @@ export function MarketResearchSurvey({ copy, locale }: MarketResearchSurveyProps
     }
     setStepValidationError("");
     setStepIndex((prev) => Math.min(prev + 1, questions.length));
+    focusStepRegion();
   };
 
   const handleSkip = () => {
@@ -194,11 +202,13 @@ export function MarketResearchSurvey({ copy, locale }: MarketResearchSurveyProps
       prev.includes(currentQuestion.id) ? prev : [...prev, currentQuestion.id],
     );
     setStepIndex((prev) => Math.min(prev + 1, questions.length));
+    focusStepRegion();
   };
 
   const handleBack = () => {
     setStepValidationError("");
     setStepIndex((prev) => Math.max(prev - 1, 0));
+    focusStepRegion();
   };
 
   const handleSubmitSurvey = async () => {
@@ -311,17 +321,17 @@ export function MarketResearchSurvey({ copy, locale }: MarketResearchSurveyProps
     setStepValidationError("");
     setOutcome({ status: "idle", message: "" });
     setStartedAt(new Date().toISOString());
+    focusStepRegion();
   };
 
-  // Outcome view after submission attempt
   if (outcome.status === "saved") {
     return (
       <div
-        className="rounded-3xl border border-[#00E5FF]/35 bg-[#141A24] p-8 sm:p-10"
+        className="rounded-3xl border border-[#00E5FF]/35 bg-[#141A24] p-6 sm:p-10"
         role="status"
         aria-live="polite"
       >
-        <div className="flex items-start gap-4">
+        <div className="flex flex-col items-start gap-4 sm:flex-row">
           <div className="flex size-11 shrink-0 items-center justify-center rounded-full border border-[#00E5FF]/40 bg-[#00E5FF]/10">
             <CheckCircle2 className="size-6 text-[#00E5FF]" aria-hidden="true" />
           </div>
@@ -334,7 +344,7 @@ export function MarketResearchSurvey({ copy, locale }: MarketResearchSurveyProps
             </h3>
             <p className="mt-3 text-sm leading-relaxed text-[#9299A5]">{outcome.message}</p>
             {outcome.submissionId ? (
-              <p className="mt-2 font-mono text-xs text-[#9299A5]">
+              <p className="mt-2 font-mono text-xs break-all text-[#9299A5]">
                 Reference ID: {outcome.submissionId}
               </p>
             ) : null}
@@ -348,7 +358,7 @@ export function MarketResearchSurvey({ copy, locale }: MarketResearchSurveyProps
                 href="#beta-access"
                 className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-xl bg-[#00E5FF] px-5 py-2.5 font-display text-sm font-semibold text-[#050505] transition-opacity hover:opacity-90"
               >
-                <span>Optional: Register for Beta Updates</span>
+                <span>Optional: Request Beta Updates</span>
                 <ArrowRight className="size-4" aria-hidden="true" />
               </a>
               <button
@@ -367,8 +377,8 @@ export function MarketResearchSurvey({ copy, locale }: MarketResearchSurveyProps
 
   if (outcome.status === "unconfigured") {
     return (
-      <div className="rounded-3xl border border-amber-400/35 bg-[#141A24] p-8 sm:p-10" role="alert">
-        <div className="flex items-start gap-4">
+      <div className="rounded-3xl border border-amber-400/35 bg-[#141A24] p-6 sm:p-10" role="alert">
+        <div className="flex flex-col items-start gap-4 sm:flex-row">
           <div className="flex size-11 shrink-0 items-center justify-center rounded-full border border-amber-400/40 bg-amber-400/10">
             <AlertCircle className="size-6 text-amber-300" aria-hidden="true" />
           </div>
@@ -385,7 +395,7 @@ export function MarketResearchSurvey({ copy, locale }: MarketResearchSurveyProps
             </p>
             <div className="mt-4 rounded-xl border border-white/10 bg-[#0B0F19] p-4">
               <p className="font-mono text-xs text-white">Required Configuration:</p>
-              <ul className="mt-2 list-disc space-y-1 pl-5 font-mono text-xs text-[#9299A5]">
+              <ul className="mt-2 list-disc space-y-1 pl-5 font-mono text-xs break-words text-[#9299A5]">
                 {(outcome.missingConfig ?? []).map((item) => (
                   <li key={item}>{item}</li>
                 ))}
@@ -416,10 +426,10 @@ export function MarketResearchSurvey({ copy, locale }: MarketResearchSurveyProps
   }
 
   return (
-    <div className="rounded-3xl border border-white/15 bg-[#0B0F19] p-6 sm:p-10">
+    <div className="rounded-3xl border border-white/15 bg-[#0B0F19] p-5 sm:p-10">
       {/* Progress Header */}
       <div className="border-b border-white/10 pb-6">
-        <div className="flex flex-wrap items-center justify-between gap-3">
+        <div className="flex flex-wrap items-center justify-between gap-2">
           <span className="font-mono text-xs font-medium tracking-wider text-[#00E5FF] uppercase">
             {isReviewStep
               ? `Step ${totalSteps} of ${totalSteps} · Review`
@@ -446,295 +456,300 @@ export function MarketResearchSurvey({ copy, locale }: MarketResearchSurveyProps
       </div>
 
       {/* Question or Review Step */}
-      {!isReviewStep && currentQuestion ? (
-        <div key={currentQuestion.id} className="animate-fade-rise pt-7">
-          <fieldset>
-            <legend className="font-display text-xl font-bold leading-snug text-white sm:text-2xl text-balance">
-              {currentQuestion.prompt}
-            </legend>
-            {currentQuestion.helperText ? (
-              <p className="mt-2 text-sm text-[#9299A5]">{currentQuestion.helperText}</p>
-            ) : null}
+      <div ref={stepFocusRef} tabIndex={-1} className="outline-none">
+        {!isReviewStep && currentQuestion ? (
+          <div key={currentQuestion.id} className="animate-fade-rise pt-7">
+            <fieldset>
+              <legend className="font-display text-xl font-bold leading-snug text-white sm:text-2xl text-balance">
+                {currentQuestion.prompt}
+              </legend>
+              {currentQuestion.helperText ? (
+                <p className="mt-2 text-sm text-[#9299A5]">{currentQuestion.helperText}</p>
+              ) : null}
 
-            {/* Single-select radio options */}
-            {currentQuestion.type === "single" && currentQuestion.options ? (
-              <div className="mt-6 grid gap-3">
-                {currentQuestion.options.map((option, idx) => {
-                  const selectedValue = answers[currentQuestion.id] as string | null;
-                  const isChecked = selectedValue === option;
-                  const inputId = `survey-${currentQuestion.id}-${idx}`;
-                  return (
-                    <label
-                      key={option}
-                      htmlFor={inputId}
-                      className={`flex min-h-[52px] items-center justify-between gap-4 rounded-xl border px-4 py-3.5 text-sm transition-colors cursor-pointer ${
-                        isChecked
-                          ? "border-[#00E5FF] bg-[#141A24] text-white"
-                          : "border-white/10 bg-[#050505]/70 text-[#9299A5] hover:border-white/25 hover:text-white"
-                      }`}
-                    >
-                      <span className="font-medium text-white">{option}</span>
-                      <input
-                        id={inputId}
-                        type="radio"
-                        name={currentQuestion.id}
-                        value={option}
-                        checked={isChecked}
-                        onChange={() => handleSingleSelect(currentQuestion.id, option)}
-                        className="size-4 shrink-0 accent-[#00E5FF]"
-                      />
-                    </label>
-                  );
-                })}
-              </div>
-            ) : null}
-
-            {/* Multi-select checkbox options */}
-            {currentQuestion.type === "multi" && currentQuestion.options ? (
-              <div className="mt-6 grid gap-3 sm:grid-cols-2">
-                {currentQuestion.options.map((option, idx) => {
-                  const list =
-                    currentQuestion.id === "valuableCapabilities"
-                      ? answers.valuableCapabilities
-                      : answers.adoptionConcerns;
-                  const isChecked = list.includes(option);
-                  const inputId = `survey-${currentQuestion.id}-${idx}`;
-                  return (
-                    <label
-                      key={option}
-                      htmlFor={inputId}
-                      className={`flex min-h-[52px] items-center justify-between gap-3 rounded-xl border px-4 py-3.5 text-sm transition-colors cursor-pointer ${
-                        isChecked
-                          ? "border-[#00E5FF] bg-[#141A24] text-white"
-                          : "border-white/10 bg-[#050505]/70 text-[#9299A5] hover:border-white/25 hover:text-white"
-                      }`}
-                    >
-                      <span className="font-medium text-white">{option}</span>
-                      <span
-                        className={`flex size-5 shrink-0 items-center justify-center rounded border transition-colors ${
+              {/* Single-select radio options */}
+              {currentQuestion.type === "single" && currentQuestion.options ? (
+                <div className="mt-6 grid gap-3">
+                  {currentQuestion.options.map((option, idx) => {
+                    const selectedValue = answers[currentQuestion.id] as string | null;
+                    const isChecked = selectedValue === option;
+                    const inputId = `survey-${currentQuestion.id}-${idx}`;
+                    return (
+                      <label
+                        key={option}
+                        htmlFor={inputId}
+                        className={`flex min-h-[52px] items-center justify-between gap-4 rounded-xl border px-4 py-3.5 text-sm transition-colors has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-[#00E5FF] has-[:focus-visible]:outline-offset-2 cursor-pointer ${
                           isChecked
-                            ? "border-[#00E5FF] bg-[#00E5FF] text-[#050505]"
-                            : "border-white/25 bg-transparent"
+                            ? "border-[#00E5FF] bg-[#141A24] text-white"
+                            : "border-white/10 bg-[#050505]/70 text-[#9299A5] hover:border-white/25 hover:text-white"
                         }`}
-                        aria-hidden="true"
                       >
-                        {isChecked ? <Check className="size-3.5 stroke-[3]" /> : null}
-                      </span>
-                      <input
-                        id={inputId}
-                        type="checkbox"
-                        checked={isChecked}
-                        onChange={() => handleMultiToggle(currentQuestion, option)}
-                        className="sr-only"
-                      />
-                    </label>
-                  );
-                })}
-              </div>
-            ) : null}
-
-            {/* Optional "Other" text input when "Other." is checked */}
-            {currentQuestion.type === "multi" &&
-            currentQuestion.otherOption &&
-            (currentQuestion.id === "valuableCapabilities"
-              ? answers.valuableCapabilities.includes(currentQuestion.otherOption)
-              : answers.adoptionConcerns.includes(currentQuestion.otherOption)) ? (
-              <div className="mt-4">
-                <label
-                  htmlFor={`survey-${currentQuestion.id}-other`}
-                  className="block text-xs font-medium text-[#9299A5]"
-                >
-                  Please specify (optional)
-                </label>
-                <input
-                  id={`survey-${currentQuestion.id}-other`}
-                  type="text"
-                  maxLength={240}
-                  value={
-                    currentQuestion.id === "valuableCapabilities"
-                      ? answers.valuableCapabilitiesOther
-                      : answers.adoptionConcernsOther
-                  }
-                  onChange={(e) => {
-                    const val = e.target.value;
-                    setAnswers((prev) => ({
-                      ...prev,
-                      ...(currentQuestion.id === "valuableCapabilities"
-                        ? { valuableCapabilitiesOther: val }
-                        : { adoptionConcernsOther: val }),
-                    }));
-                  }}
-                  placeholder="Optional details..."
-                  className="mt-2 min-h-[44px] w-full rounded-xl border border-white/15 bg-[#050505] px-4 py-2.5 text-sm text-white placeholder:text-[#9299A5]/70 focus:border-[#00E5FF]"
-                />
-              </div>
-            ) : null}
-
-            {/* Optional free-text feedback */}
-            {currentQuestion.type === "text" ? (
-              <div className="mt-6">
-                <label htmlFor="survey-additional-feedback" className="sr-only">
-                  {currentQuestion.prompt}
-                </label>
-                <textarea
-                  id="survey-additional-feedback"
-                  rows={4}
-                  maxLength={1500}
-                  value={answers.additionalFeedback}
-                  onChange={(e) => {
-                    setStepValidationError("");
-                    setAnswers((prev) => ({ ...prev, additionalFeedback: e.target.value }));
-                  }}
-                  placeholder={currentQuestion.placeholder}
-                  className="w-full rounded-xl border border-white/15 bg-[#050505] px-4 py-3 text-sm leading-relaxed text-white placeholder:text-[#9299A5]/70 focus:border-[#00E5FF]"
-                />
-                <p className="mt-2 text-right font-mono text-[11px] tabular-nums text-[#9299A5]">
-                  {answers.additionalFeedback.length} / 1500
-                </p>
-              </div>
-            ) : null}
-          </fieldset>
-
-          {stepValidationError ? (
-            <div
-              role="alert"
-              className="mt-5 flex items-start gap-2 rounded-xl border border-rose-500/40 bg-rose-950/40 px-4 py-3 text-xs font-medium text-rose-200"
-            >
-              <AlertCircle className="mt-0.5 size-4 shrink-0 text-rose-400" aria-hidden="true" />
-              <span>{stepValidationError}</span>
-            </div>
-          ) : null}
-
-          {/* Navigation Footer Controls */}
-          <div className="mt-8 flex flex-wrap items-center justify-between gap-3 border-t border-white/10 pt-6">
-            <div>
-              {stepIndex > 0 ? (
-                <button
-                  type="button"
-                  onClick={handleBack}
-                  className="inline-flex min-h-[44px] items-center gap-2 rounded-xl border border-white/15 bg-[#141A24] px-4 py-2.5 text-sm font-medium text-white transition-colors hover:border-white/30 cursor-pointer"
-                >
-                  <ArrowLeft className="size-4" aria-hidden="true" />
-                  <span>{copy.backButton}</span>
-                </button>
-              ) : (
-                <span className="text-xs text-[#9299A5]">{copy.timeEstimate}</span>
-              )}
-            </div>
-
-            <div className="flex flex-wrap items-center gap-3">
-              <button
-                type="button"
-                onClick={handleSkip}
-                className="inline-flex min-h-[44px] items-center justify-center rounded-xl px-4 py-2.5 text-sm font-medium text-[#9299A5] transition-colors hover:text-white cursor-pointer"
-              >
-                {copy.skipButton}
-              </button>
-              <button
-                type="button"
-                onClick={handleNext}
-                className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-xl bg-[#00E5FF] px-6 py-2.5 font-display text-sm font-semibold text-[#050505] transition-opacity hover:opacity-90 cursor-pointer"
-              >
-                <span>
-                  {stepIndex === questions.length - 1 ? copy.reviewButton : copy.continueButton}
-                </span>
-                <ArrowRight className="size-4" aria-hidden="true" />
-              </button>
-            </div>
-          </div>
-        </div>
-      ) : (
-        /* Review & Submit Step */
-        <div className="animate-fade-rise pt-7">
-          <h3 className="font-display text-xl font-bold text-white sm:text-2xl">
-            {copy.reviewTitle}
-          </h3>
-          <p className="mt-2 text-sm text-[#9299A5]">{copy.reviewSubtitle}</p>
-
-          <div className="mt-6 divide-y divide-white/10 rounded-2xl border border-white/10 bg-[#050505]/70">
-            {questions.map((q, idx) => (
-              <div
-                key={q.id}
-                className="flex flex-col justify-between gap-3 px-5 py-4 sm:flex-row sm:items-start"
-              >
-                <div className="min-w-0 flex-1">
-                  <p className="font-mono text-[11px] text-[#9299A5]">
-                    0{idx + 1} · {q.prompt}
-                  </p>
-                  <p className="mt-1.5 text-sm font-medium text-white">{formatAnswerSummary(q)}</p>
+                        <span className="font-medium text-white">{option}</span>
+                        <input
+                          id={inputId}
+                          type="radio"
+                          name={currentQuestion.id}
+                          value={option}
+                          checked={isChecked}
+                          onChange={() => handleSingleSelect(currentQuestion.id, option)}
+                          className="size-4 shrink-0 accent-[#00E5FF]"
+                        />
+                      </label>
+                    );
+                  })}
                 </div>
+              ) : null}
+
+              {/* Multi-select checkbox options with visible keyboard focus */}
+              {currentQuestion.type === "multi" && currentQuestion.options ? (
+                <div className="mt-6 grid gap-3 sm:grid-cols-2">
+                  {currentQuestion.options.map((option, idx) => {
+                    const list =
+                      currentQuestion.id === "valuableCapabilities"
+                        ? answers.valuableCapabilities
+                        : answers.adoptionConcerns;
+                    const isChecked = list.includes(option);
+                    const inputId = `survey-${currentQuestion.id}-${idx}`;
+                    return (
+                      <label
+                        key={option}
+                        htmlFor={inputId}
+                        className={`flex min-h-[52px] items-center justify-between gap-3 rounded-xl border px-4 py-3.5 text-sm transition-colors has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-[#00E5FF] has-[:focus-visible]:outline-offset-2 cursor-pointer ${
+                          isChecked
+                            ? "border-[#00E5FF] bg-[#141A24] text-white"
+                            : "border-white/10 bg-[#050505]/70 text-[#9299A5] hover:border-white/25 hover:text-white"
+                        }`}
+                      >
+                        <span className="font-medium text-white">{option}</span>
+                        <span
+                          className={`flex size-5 shrink-0 items-center justify-center rounded border transition-colors ${
+                            isChecked
+                              ? "border-[#00E5FF] bg-[#00E5FF] text-[#050505]"
+                              : "border-white/25 bg-transparent"
+                          }`}
+                          aria-hidden="true"
+                        >
+                          {isChecked ? <Check className="size-3.5 stroke-[3]" /> : null}
+                        </span>
+                        <input
+                          id={inputId}
+                          type="checkbox"
+                          checked={isChecked}
+                          onChange={() => handleMultiToggle(currentQuestion, option)}
+                          className="sr-only"
+                        />
+                      </label>
+                    );
+                  })}
+                </div>
+              ) : null}
+
+              {/* Optional "Other" text input when "Other." is checked */}
+              {currentQuestion.type === "multi" &&
+              currentQuestion.otherOption &&
+              (currentQuestion.id === "valuableCapabilities"
+                ? answers.valuableCapabilities.includes(currentQuestion.otherOption)
+                : answers.adoptionConcerns.includes(currentQuestion.otherOption)) ? (
+                <div className="mt-4">
+                  <label
+                    htmlFor={`survey-${currentQuestion.id}-other`}
+                    className="block text-xs font-medium text-[#9299A5]"
+                  >
+                    Please specify (optional)
+                  </label>
+                  <input
+                    id={`survey-${currentQuestion.id}-other`}
+                    type="text"
+                    maxLength={240}
+                    value={
+                      currentQuestion.id === "valuableCapabilities"
+                        ? answers.valuableCapabilitiesOther
+                        : answers.adoptionConcernsOther
+                    }
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      setAnswers((prev) => ({
+                        ...prev,
+                        ...(currentQuestion.id === "valuableCapabilities"
+                          ? { valuableCapabilitiesOther: val }
+                          : { adoptionConcernsOther: val }),
+                      }));
+                    }}
+                    placeholder="Optional details..."
+                    className="mt-2 min-h-[44px] w-full rounded-xl border border-white/15 bg-[#050505] px-4 py-2.5 text-sm text-white placeholder:text-[#9299A5]/70 focus:border-[#00E5FF]"
+                  />
+                </div>
+              ) : null}
+
+              {/* Optional free-text feedback */}
+              {currentQuestion.type === "text" ? (
+                <div className="mt-6">
+                  <label htmlFor="survey-additional-feedback" className="sr-only">
+                    {currentQuestion.prompt}
+                  </label>
+                  <textarea
+                    id="survey-additional-feedback"
+                    rows={4}
+                    maxLength={1500}
+                    value={answers.additionalFeedback}
+                    onChange={(e) => {
+                      setStepValidationError("");
+                      setAnswers((prev) => ({ ...prev, additionalFeedback: e.target.value }));
+                    }}
+                    placeholder={currentQuestion.placeholder}
+                    className="w-full rounded-xl border border-white/15 bg-[#050505] px-4 py-3 text-sm leading-relaxed text-white placeholder:text-[#9299A5]/70 focus:border-[#00E5FF]"
+                  />
+                  <p className="mt-2 text-right font-mono text-[11px] tabular-nums text-[#9299A5]">
+                    {answers.additionalFeedback.length} / 1500
+                  </p>
+                </div>
+              ) : null}
+            </fieldset>
+
+            {stepValidationError ? (
+              <div
+                role="alert"
+                className="mt-5 flex items-start gap-2 rounded-xl border border-rose-500/40 bg-rose-950/40 px-4 py-3 text-xs font-medium text-rose-200"
+              >
+                <AlertCircle className="mt-0.5 size-4 shrink-0 text-rose-400" aria-hidden="true" />
+                <span>{stepValidationError}</span>
+              </div>
+            ) : null}
+
+            {/* Navigation Footer Controls */}
+            <div className="mt-8 flex flex-wrap items-center justify-between gap-3 border-t border-white/10 pt-6">
+              <div>
+                {stepIndex > 0 ? (
+                  <button
+                    type="button"
+                    onClick={handleBack}
+                    className="inline-flex min-h-[44px] items-center gap-2 rounded-xl border border-white/15 bg-[#141A24] px-4 py-2.5 text-sm font-medium text-white transition-colors hover:border-white/30 cursor-pointer"
+                  >
+                    <ArrowLeft className="size-4" aria-hidden="true" />
+                    <span>{copy.backButton}</span>
+                  </button>
+                ) : (
+                  <span className="text-xs text-[#9299A5]">{copy.timeEstimate}</span>
+                )}
+              </div>
+
+              <div className="flex flex-wrap items-center gap-3">
                 <button
                   type="button"
-                  onClick={() => {
-                    setStepValidationError("");
-                    setOutcome({ status: "idle", message: "" });
-                    setStepIndex(idx);
-                  }}
-                  className="inline-flex min-h-[36px] shrink-0 items-center self-start rounded-lg border border-white/15 bg-[#141A24] px-3 py-1.5 text-xs font-medium text-white transition-colors hover:border-[#00E5FF] hover:text-[#00E5FF] cursor-pointer"
+                  onClick={handleSkip}
+                  className="inline-flex min-h-[44px] items-center justify-center rounded-xl px-4 py-2.5 text-sm font-medium text-[#9299A5] transition-colors hover:text-white cursor-pointer"
                 >
-                  {copy.editLabel}
+                  {copy.skipButton}
+                </button>
+                <button
+                  type="button"
+                  onClick={handleNext}
+                  className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-xl bg-[#00E5FF] px-6 py-2.5 font-display text-sm font-semibold text-[#050505] transition-opacity hover:opacity-90 cursor-pointer"
+                >
+                  <span>
+                    {stepIndex === questions.length - 1 ? copy.reviewButton : copy.continueButton}
+                  </span>
+                  <ArrowRight className="size-4" aria-hidden="true" />
                 </button>
               </div>
-            ))}
-          </div>
-
-          <div className="mt-5 flex items-start gap-3 rounded-xl border border-white/10 bg-[#141A24] p-4">
-            <Shield className="mt-0.5 size-4 shrink-0 text-[#00E5FF]" aria-hidden="true" />
-            <p className="text-xs leading-relaxed text-[#9299A5]">{copy.privacySummary}</p>
-          </div>
-
-          {stepValidationError ? (
-            <div
-              role="alert"
-              className="mt-4 flex items-start gap-2 rounded-xl border border-rose-500/40 bg-rose-950/40 px-4 py-3 text-xs font-medium text-rose-200"
-            >
-              <AlertCircle className="mt-0.5 size-4 shrink-0 text-rose-400" aria-hidden="true" />
-              <span>{stepValidationError}</span>
             </div>
-          ) : null}
-
-          {outcome.status === "error" ? (
-            <div
-              role="alert"
-              className="mt-4 flex items-start gap-2 rounded-xl border border-rose-500/40 bg-rose-950/40 px-4 py-3 text-xs font-medium text-rose-200"
-            >
-              <AlertCircle className="mt-0.5 size-4 shrink-0 text-rose-400" aria-hidden="true" />
-              <span>{outcome.message}</span>
-            </div>
-          ) : null}
-
-          <div className="mt-8 flex flex-wrap items-center justify-between gap-3 border-t border-white/10 pt-6">
-            <button
-              type="button"
-              onClick={handleBack}
-              disabled={outcome.status === "submitting"}
-              className="inline-flex min-h-[44px] items-center gap-2 rounded-xl border border-white/15 bg-[#141A24] px-4 py-2.5 text-sm font-medium text-white transition-colors hover:border-white/30 disabled:opacity-60 cursor-pointer"
-            >
-              <ArrowLeft className="size-4" aria-hidden="true" />
-              <span>{copy.backButton}</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={handleSubmitSurvey}
-              disabled={outcome.status === "submitting"}
-              className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-xl bg-[#00E5FF] px-6 py-3 font-display text-sm font-semibold text-[#050505] transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-70 cursor-pointer"
-            >
-              {outcome.status === "submitting" ? (
-                <>
-                  <Loader2 className="size-4 animate-spin" aria-hidden="true" />
-                  <span>{copy.submittingButton}</span>
-                </>
-              ) : (
-                <>
-                  <span>{copy.submitButton}</span>
-                  <ArrowRight className="size-4" aria-hidden="true" />
-                </>
-              )}
-            </button>
           </div>
-        </div>
-      )}
+        ) : (
+          /* Review & Submit Step */
+          <div className="animate-fade-rise pt-7">
+            <h3 className="font-display text-xl font-bold text-white sm:text-2xl">
+              {copy.reviewTitle}
+            </h3>
+            <p className="mt-2 text-sm text-[#9299A5]">{copy.reviewSubtitle}</p>
+
+            <div className="mt-6 divide-y divide-white/10 rounded-2xl border border-white/10 bg-[#050505]/70">
+              {questions.map((q, idx) => (
+                <div
+                  key={q.id}
+                  className="flex flex-col justify-between gap-3 px-4 py-4 sm:flex-row sm:items-start sm:px-5"
+                >
+                  <div className="min-w-0 flex-1">
+                    <p className="font-mono text-[11px] text-[#9299A5]">
+                      0{idx + 1} · {q.prompt}
+                    </p>
+                    <p className="mt-1.5 text-sm font-medium break-words text-white">
+                      {formatAnswerSummary(q)}
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setStepValidationError("");
+                      setOutcome({ status: "idle", message: "" });
+                      setStepIndex(idx);
+                      focusStepRegion();
+                    }}
+                    className="inline-flex min-h-[40px] shrink-0 items-center self-start rounded-lg border border-white/15 bg-[#141A24] px-3.5 py-1.5 text-xs font-medium text-white transition-colors hover:border-[#00E5FF] hover:text-[#00E5FF] cursor-pointer"
+                  >
+                    {copy.editLabel}
+                  </button>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-5 flex items-start gap-3 rounded-xl border border-white/10 bg-[#141A24] p-4">
+              <Shield className="mt-0.5 size-4 shrink-0 text-[#00E5FF]" aria-hidden="true" />
+              <p className="text-xs leading-relaxed text-[#9299A5]">{copy.privacySummary}</p>
+            </div>
+
+            {stepValidationError ? (
+              <div
+                role="alert"
+                className="mt-4 flex items-start gap-2 rounded-xl border border-rose-500/40 bg-rose-950/40 px-4 py-3 text-xs font-medium text-rose-200"
+              >
+                <AlertCircle className="mt-0.5 size-4 shrink-0 text-rose-400" aria-hidden="true" />
+                <span>{stepValidationError}</span>
+              </div>
+            ) : null}
+
+            {outcome.status === "error" ? (
+              <div
+                role="alert"
+                className="mt-4 flex items-start gap-2 rounded-xl border border-rose-500/40 bg-rose-950/40 px-4 py-3 text-xs font-medium text-rose-200"
+              >
+                <AlertCircle className="mt-0.5 size-4 shrink-0 text-rose-400" aria-hidden="true" />
+                <span>{outcome.message}</span>
+              </div>
+            ) : null}
+
+            <div className="mt-8 flex flex-wrap items-center justify-between gap-3 border-t border-white/10 pt-6">
+              <button
+                type="button"
+                onClick={handleBack}
+                disabled={outcome.status === "submitting"}
+                className="inline-flex min-h-[44px] items-center gap-2 rounded-xl border border-white/15 bg-[#141A24] px-4 py-2.5 text-sm font-medium text-white transition-colors hover:border-white/30 disabled:opacity-60 cursor-pointer"
+              >
+                <ArrowLeft className="size-4" aria-hidden="true" />
+                <span>{copy.backButton}</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={handleSubmitSurvey}
+                disabled={outcome.status === "submitting"}
+                className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-xl bg-[#00E5FF] px-6 py-3 font-display text-sm font-semibold text-[#050505] transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-70 cursor-pointer"
+              >
+                {outcome.status === "submitting" ? (
+                  <>
+                    <Loader2 className="size-4 animate-spin" aria-hidden="true" />
+                    <span>{copy.submittingButton}</span>
+                  </>
+                ) : (
+                  <>
+                    <span>{copy.submitButton}</span>
+                    <ArrowRight className="size-4" aria-hidden="true" />
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
