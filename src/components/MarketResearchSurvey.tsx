@@ -426,21 +426,47 @@ export function MarketResearchSurvey({ copy, locale }: MarketResearchSurveyProps
   }
 
   return (
-    <div className="rounded-3xl border border-white/15 bg-[#0B0F19] p-5 sm:p-10">
-      {/* Progress Header */}
-      <div className="border-b border-white/10 pb-6">
-        <div className="flex flex-wrap items-center justify-between gap-2">
-          <span className="font-mono text-xs font-medium tracking-wider text-[#00E5FF] uppercase">
+    <div className="rounded-2xl border border-white/12 bg-[#05080F]/90 p-5 sm:p-8">
+      {/* Numbered Progress Stepper + Bar matching Mock-up */}
+      <div className="border-b border-white/10 pb-5">
+        <div className="flex items-center justify-between gap-2">
+          <div className="flex items-center gap-1.5 sm:gap-2" aria-hidden="true">
+            {questions.map((q, idx) => {
+              const isCurrent = !isReviewStep && idx === stepIndex;
+              const isCompleted = isReviewStep || idx < stepIndex || hasAnswerForQuestion(q);
+              return (
+                <div key={q.id} className="flex items-center gap-1.5 sm:gap-2">
+                  <span
+                    className={`flex size-6 items-center justify-center rounded-full font-mono text-[11px] font-semibold tabular-nums transition-colors sm:size-7 sm:text-xs ${
+                      isCurrent
+                        ? "bg-[#00E5FF] text-[#050505]"
+                        : isCompleted
+                          ? "border border-[#00E5FF]/50 bg-[#141A24] text-[#00E5FF]"
+                          : "border border-white/15 bg-[#0B0F19] text-[#9299A5]"
+                    }`}
+                  >
+                    {idx + 1}
+                  </span>
+                  {idx < questions.length - 1 ? (
+                    <span className="hidden h-px w-3 bg-white/15 sm:inline-block" />
+                  ) : null}
+                </div>
+              );
+            })}
+          </div>
+          <span className="font-mono text-xs tabular-nums text-[#9299A5]">{progressPercent}%</span>
+        </div>
+
+        <div className="mt-3 flex flex-wrap items-center justify-between gap-2">
+          <span className="font-mono text-[11px] font-medium tracking-wider text-[#00E5FF] uppercase">
             {isReviewStep
               ? `Step ${totalSteps} of ${totalSteps} · Review`
               : currentQuestion?.stepLabel}
           </span>
-          <span className="font-mono text-xs tabular-nums text-[#9299A5]">
-            {progressPercent}% complete
-          </span>
         </div>
+
         <div
-          className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-[#141A24]"
+          className="mt-2.5 h-1.5 w-full overflow-hidden rounded-full bg-[#141A24]"
           role="progressbar"
           aria-valuenow={progressPercent}
           aria-valuemin={0}
@@ -452,13 +478,13 @@ export function MarketResearchSurvey({ copy, locale }: MarketResearchSurveyProps
             style={{ width: `${progressPercent}%` }}
           />
         </div>
-        <p className="mt-3 text-xs text-[#9299A5]">{copy.noEmailBadge}</p>
+        <p className="mt-2.5 text-xs text-[#9299A5]">{copy.noEmailBadge}</p>
       </div>
 
       {/* Question or Review Step */}
       <div ref={stepFocusRef} tabIndex={-1} className="outline-none">
         {!isReviewStep && currentQuestion ? (
-          <div key={currentQuestion.id} className="animate-fade-rise pt-7">
+          <div key={currentQuestion.id} className="animate-fade-rise pt-6">
             <fieldset>
               <legend className="font-display text-xl font-bold leading-snug text-white sm:text-2xl text-balance">
                 {currentQuestion.prompt}

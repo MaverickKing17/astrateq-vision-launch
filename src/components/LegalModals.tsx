@@ -124,9 +124,9 @@ export function LegalModal({ type, onClose }: LegalModalProps) {
                   Research & Pre-Release Data Handling Summary
                 </p>
                 <p className="mt-1 text-xs leading-relaxed text-[#9299A5]">
-                  This notice explains how information submitted on Astrateq.ai is handled during
-                  our consumer research phase, as well as the intended data design of the iOS
-                  concept. We do not claim third-party privacy or security certifications.
+                  This notice explains how information submitted on the Astrateq Gadgets website is
+                  handled during our consumer research phase, as well as the intended data design of
+                  the iOS concept. We do not claim third-party privacy or security certifications.
                 </p>
               </div>
 

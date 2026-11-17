@@ -81,11 +81,24 @@ export async function processWaitlistSubmission(
       storedInDatabase: dbResult.saved,
       emailDispatched: false,
       message:
-        "This email address is already registered on our beta-updates notification list. No duplicate entry was created, and submitting an email does not guarantee beta access.",
+        "This email address is already registered on our beta-updates notification list. No duplicate entry was created, and registering does not guarantee beta access.",
     };
   }
 
-  // 2. Attempt Resend email notification if configured
+  // If Supabase IS configured but failed to save, do not trigger Resend or pretend registration succeeded
+  if (dbResult.configured && !dbResult.saved) {
+    return {
+      success: false,
+      storedInDatabase: false,
+      emailDispatched: false,
+      error: "database_write_failed",
+      message:
+        dbResult.errorMessage ||
+        "We could not record your registration in the database right now. Please try again later.",
+    };
+  }
+
+  // 2. Trigger Resend notification only after confirmed registration (or Resend-only fallback when Supabase is unconfigured)
   const resend = getResendClient();
   let emailDispatched = false;
 
@@ -101,7 +114,7 @@ export async function processWaitlistSubmission(
         to: recipientEmail,
         subject: `Astrateq Gadgets — Beta Interest Request: ${cleanEmail}`,
         text: [
-          "A visitor submitted a beta interest registration on Astrateq.ai:",
+          "A visitor registered beta interest on Astrateq Gadgets:",
           "",
           `Email: ${cleanEmail}`,
           `First Name: ${cleanFirstName || "Not provided"}`,
@@ -141,7 +154,7 @@ export async function processWaitlistSubmission(
             from: senderEmail,
             to: cleanEmail,
             subject: "Astrateq Gadgets — Beta Updates Request Received",
-            text: `Thank you${cleanFirstName ? `, ${cleanFirstName}` : ""}, for your interest in Astrateq Gadgets. Your email has been added to our beta-updates notification list. Submitting an email does not guarantee beta access, and we will follow up if testing windows open.`,
+            text: `Thank you${cleanFirstName ? `, ${cleanFirstName}` : ""}, for your interest in Astrateq Gadgets. Your email has been added to our beta-updates notification list. Registering does not guarantee beta access, and we will follow up if testing windows open.`,
           });
         } catch (autoErr) {
           console.warn("[Astrateq Resend] Auto-responder note:", autoErr);
@@ -152,7 +165,7 @@ export async function processWaitlistSubmission(
     }
   }
 
-  // Truthful status reporting: only claim saved/sent when at least one real backend succeeded
+  // Truthful status reporting
   if (dbResult.saved || emailDispatched) {
     sessionRegisteredEmails.add(cleanEmail);
     return {

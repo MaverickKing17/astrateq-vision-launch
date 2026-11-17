@@ -1,6 +1,6 @@
 export type Locale = "en-CA" | "fr-CA";
 
-export type FeatureModeId = "awareness" | "drowsiness" | "distraction" | "gateway";
+export type FeatureModeId = "gateway" | "awareness" | "drowsiness" | "feedback";
 
 export interface FeatureMode {
   id: FeatureModeId;
@@ -11,7 +11,15 @@ export interface FeatureMode {
   screenHeading: string;
   screenSubheading: string;
   statusLabel: string;
+  ringTitle: string;
+  ringSubtitle: string;
   indicators: Array<{ label: string; value: string }>;
+}
+
+export interface ProductPillarCard {
+  id: string;
+  title: string;
+  description: string;
 }
 
 export interface DevelopmentStageItem {
@@ -63,34 +71,41 @@ export interface SiteCopy {
   brand: string;
   skipToContent: string;
   nav: {
-    product: string;
-    survey: string;
+    overview: string;
+    howItWorks: string;
+    technology: string;
     privacy: string;
+    research: string;
     faq: string;
-    betaAccess: string;
     primaryAction: string;
+    secondaryAction: string;
     openMenu: string;
     closeMenu: string;
   };
   hero: {
-    eyebrow: string;
-    headline: string;
+    badge: string;
+    headlineLine1: string;
+    headlineLine2: string;
     supportingHeadline: string;
     description: string;
-    researchBanner: string;
     primaryCta: string;
     secondaryCta: string;
-    tertiaryCta: string;
-    contextNote: string;
+    stageIndicator: string;
     previewLabel: string;
   };
-  demonstration: {
+  highlights: Array<{
+    title: string;
+    subtitle: string;
+  }>;
+  productExplanation: {
     eyebrow: string;
     title: string;
     subtitle: string;
+    cards: ProductPillarCard[];
     disclaimer: string;
     stagesHeading: string;
     stages: DevelopmentStageItem[];
+    modesHeading: string;
     modes: FeatureMode[];
   };
   howItWorks: {
@@ -98,6 +113,7 @@ export interface SiteCopy {
     title: string;
     subtitle: string;
     steps: HowItWorksStep[];
+    responsibilityNote: string;
   };
   privacy: {
     eyebrow: string;
@@ -108,6 +124,7 @@ export interface SiteCopy {
       description: string;
     }>;
     auditNote: string;
+    policyLinkLabel: string;
   };
   technology: {
     eyebrow: string;
@@ -119,6 +136,7 @@ export interface SiteCopy {
     eyebrow: string;
     title: string;
     subtitle: string;
+    introMeta: string;
     transparencyNote: string;
     timeEstimate: string;
     privacySummary: string;
@@ -162,8 +180,9 @@ export interface SiteCopy {
   };
   footer: {
     tagline: string;
+    stageNote: string;
     marketNote: string;
-    productHeading: string;
+    navigationHeading: string;
     legalHeading: string;
     contactHeading: string;
     privacyLink: string;
@@ -180,235 +199,288 @@ export const EN_CA_COPY: SiteCopy = {
   brand: "Astrateq Gadgets",
   skipToContent: "Skip to main content",
   nav: {
-    product: "Product",
-    survey: "Survey",
+    overview: "Overview",
+    howItWorks: "How It Works",
+    technology: "Technology",
     privacy: "Privacy",
+    research: "Consumer Research",
     faq: "FAQ",
-    betaAccess: "Beta Updates",
-    primaryAction: "Share Your Feedback",
+    primaryAction: "Share Your Interest",
+    secondaryAction: "Explore the App",
     openMenu: "Open navigation menu",
     closeMenu: "Close navigation menu",
   },
   hero: {
-    eyebrow: "Early-Stage iOS Concept · Canadian Market Research",
-    headline: "Stay Aware. Stay Ahead.",
-    supportingHeadline: "Everyday Driver Awareness. Designed for iPhone.",
+    badge: "Consumer Market Research",
+    headlineLine1: "Stay Aware.",
+    headlineLine2: "Stay Ahead.",
+    supportingHeadline: "Discover a new perspective on everyday driving.",
     description:
-      "Astrateq Gadgets is an emerging iOS application concept exploring how on-device intelligence and computer vision can help everyday drivers notice visual cues associated with distraction and drowsiness.",
-    researchBanner:
-      "Astrateq Gadgets is currently in an early development and consumer research phase. We are gathering feedback to understand whether driver-awareness intelligence would be valuable in everyday driving.",
-    primaryCta: "Share Your Feedback",
-    secondaryCta: "Explore Astrateq Gadgets",
-    tertiaryCta: "Request Beta Updates",
-    contextNote: "2-minute anonymous survey · No commercial launch claims · Canada",
-    previewLabel: "Concept Interface Simulation · Early Development",
+      "Astrateq Gadgets is an emerging driver-awareness intelligence experience for iPhone, exploring how on-device computer vision can help drivers become more aware of visual indicators associated with distraction and drowsiness.",
+    primaryCta: "Share Your Interest",
+    secondaryCta: "Explore the Technology",
+    stageIndicator: "Early-stage iOS application · Consumer research underway",
+    previewLabel: "Illustrative iOS interface concept · Early development simulation",
   },
-  demonstration: {
-    eyebrow: "Product Concept & Transparency",
-    title: "Intelligence That Works Alongside You.",
+  highlights: [
+    {
+      title: "Driver Awareness",
+      subtitle: "Explore visual attention indicators.",
+    },
+    {
+      title: "Drowsiness Monitoring",
+      subtitle: "Evaluate eye-closure cadence cues.",
+    },
+    {
+      title: "Privacy Conscious",
+      subtitle: "Designed for local camera evaluation.",
+    },
+    {
+      title: "Built for iPhone",
+      subtitle: "Exploring native iOS capabilities.",
+    },
+  ],
+  productExplanation: {
+    eyebrow: "Product Concept",
+    title: "Driver Awareness, Reimagined.",
     subtitle:
-      "Explore the proposed capabilities inside the Astrateq Gadgets iOS concept—from active trip awareness cues to pre-drive setup in the Driver Gateway.",
+      "Astrateq Gadgets explores how computer vision and on-device intelligence on iPhone can evaluate visual indicators associated with driver attention and drowsiness—without dedicated aftermarket hardware.",
+    cards: [
+      {
+        id: "awareness",
+        title: "Driver Awareness",
+        description:
+          "Explores monitoring relevant visual indicators associated with driver attention, such as sustained head or gaze orientation away from the roadway during a drive.",
+      },
+      {
+        id: "drowsiness",
+        title: "Drowsiness-Related Monitoring",
+        description:
+          "Explores evaluating eye-closure patterns and other implemented visual indicators to surface timely awareness prompts—strictly as an informational aid, never as a medical device or accident-prevention guarantee.",
+      },
+      {
+        id: "privacy-processing",
+        title: "Privacy-Conscious Processing",
+        description:
+          "Designed so driver-facing camera frames are evaluated locally on your iPhone in transient memory rather than streamed as cloud video, clearly separating on-device vision from optional non-video metadata.",
+      },
+    ],
     disclaimer:
-      "Interface views above and below are concept simulations illustrating planned iOS workflows. Astrateq Gadgets is not a commercially launched product, has not completed real-world safety validation, and does not claim detection accuracy guarantees or accident prevention.",
-    stagesHeading: "Development Status & Scope",
+      "All iPhone interface previews shown on this page are concept simulations illustrating intended iOS workflows. Astrateq Gadgets is in early development and consumer market research, is not a commercially launched product, and makes no guarantee of detection accuracy or accident prevention.",
+    stagesHeading: "Development Status & Transparency",
     stages: [
       {
         stage: "Implemented Today",
-        scope: "Consumer Research Platform",
+        scope: "Consumer Research Experience",
         details:
-          "This website, interactive concept previews, anonymous market-research survey, and optional beta-update registration workflow.",
+          "This Astrateq Gadgets website, interactive concept previews, anonymous 7-question consumer survey, and optional beta-interest registration.",
       },
       {
         stage: "Prototype / Simulation",
         scope: "iOS Concept Screens & Vision R&D",
         details:
-          "Interface concepts for Driver Awareness, Drowsiness Monitoring, Distraction Awareness, and Driver Gateway; not yet validated in public road trials.",
+          "Design and computer-vision exploration for Driver Gateway, Driver Awareness, Drowsiness Monitoring, and Awareness Feedback; not yet road-validated.",
       },
       {
         stage: "Planned Future Work",
-        scope: "TestFlight Beta & Optional Sync",
+        scope: "Beta Testing & Optional Sync",
         details:
-          "iOS TestFlight testing builds, supported device matrix, and optional non-video trip count synchronization if consumer research supports further investment.",
+          "Initial iOS testing builds, supported iPhone compatibility validation, and optional non-video summary synchronization if consumer interest supports further development.",
       },
     ],
+    modesHeading: "Intended iOS Experience Previews",
     modes: [
+      {
+        id: "gateway",
+        tabLabel: "Driver Gateway",
+        eyebrow: "Pre-Drive Hub",
+        title: "Driver Gateway",
+        description:
+          "The starting point before shifting into drive. Drivers verify phone mount alignment, choose audio or visual prompt preferences, and manage optional summary sync settings.",
+        screenHeading: "Driver Gateway",
+        screenSubheading: "Pre-Drive Setup",
+        statusLabel: "Concept · Setup Check",
+        ringTitle: "Mount Check",
+        ringSubtitle: "Pre-Drive Concept",
+        indicators: [
+          { label: "Mount Alignment", value: "Check View" },
+          { label: "Audio Prompts", value: "Configurable" },
+        ],
+      },
       {
         id: "awareness",
         tabLabel: "Driver Awareness",
-        eyebrow: "A · Driver Awareness",
-        title: "Continuous Attentiveness Cues",
+        eyebrow: "Active Session View",
+        title: "Driver Awareness",
         description:
-          "Explores observing forward-attention indicators during everyday commutes without cluttering your field of view. Subtle status cues let drivers see intended monitoring state at a glance.",
-        screenHeading: "Concept Trip View",
+          "Explores evaluating forward-attention visual cues on-device during regular commutes, displaying a calm, uncluttered status summary.",
+        screenHeading: "Driver Focus",
         screenSubheading: "Driver Awareness",
         statusLabel: "Simulation · On-Device Concept",
+        ringTitle: "Driver Focus",
+        ringSubtitle: "Concept Preview",
         indicators: [
-          { label: "Intended Mode", value: "On-Device" },
-          { label: "Gaze Target", value: "Forward" },
-          { label: "Audio Cue", value: "Configurable" },
+          { label: "Attention Monitor", value: "Illustrative" },
+          { label: "Drowsiness Check", value: "Illustrative" },
         ],
       },
       {
         id: "drowsiness",
         tabLabel: "Drowsiness Monitoring",
-        eyebrow: "B · Drowsiness Monitoring",
-        title: "Eye-Closure & Fatigue Indicators",
+        eyebrow: "Fatigue Indicator Evaluation",
+        title: "Drowsiness-Related Monitoring",
         description:
-          "Explores evaluating eyelid closure patterns and blink cadence for visual cues associated with fatigue—strictly as an awareness prompt, not a medical device or safety guarantee.",
-        screenHeading: "Concept Fatigue View",
-        screenSubheading: "Drowsiness Monitoring",
-        statusLabel: "Simulation · Blink Cadence",
+          "Explores evaluating eye-closure duration and blink cadence patterns associated with driver fatigue, intended strictly as a supportive awareness cue.",
+        screenHeading: "Fatigue Cues",
+        screenSubheading: "Drowsiness Check",
+        statusLabel: "Simulation · Eye Landmarks",
+        ringTitle: "Blink Cadence",
+        ringSubtitle: "On-Device Concept",
         indicators: [
-          { label: "Visual Cue", value: "Eye Landmarks" },
-          { label: "Intended Eval", value: "In-Memory" },
-          { label: "Prompt State", value: "Standby" },
+          { label: "Eye Landmarks", value: "Transient RAM" },
+          { label: "Cloud Video", value: "Not Streamed" },
         ],
       },
       {
-        id: "distraction",
-        tabLabel: "Distraction Awareness",
-        eyebrow: "C · Distraction Awareness",
-        title: "Gaze & Head-Orientation Checks",
+        id: "feedback",
+        tabLabel: "Awareness Feedback",
+        eyebrow: "Prompt & Notification Concept",
+        title: "Gentle Awareness Feedback",
         description:
-          "Explores evaluating head pose and gaze direction indicators to recognize sustained glances away from the roadway, surfacing an awareness prompt when attention drifts.",
-        screenHeading: "Concept Attention View",
-        screenSubheading: "Distraction Awareness",
-        statusLabel: "Simulation · Head Pose",
+          "Where implemented in future builds, subtle visual or audible cues remind drivers to refocus attention on the road or consider taking a break.",
+        screenHeading: "Focus Prompt",
+        screenSubheading: "Awareness Cue",
+        statusLabel: "Simulation · Audio + Visual",
+        ringTitle: "Prompt Active",
+        ringSubtitle: "Concept Alert",
         indicators: [
-          { label: "Orientation", value: "Roadway Axis" },
-          { label: "Video Upload", value: "Not Planned" },
-          { label: "Feedback", value: "Visual + Chime" },
-        ],
-      },
-      {
-        id: "gateway",
-        tabLabel: "Driver Gateway",
-        eyebrow: "D · Driver Gateway",
-        title: "Pre-Drive Control & Preferences",
-        description:
-          "The proposed starting hub before shifting into drive. Mount alignment checks, audio prompt settings, and optional trip summary sync controls live in one clear screen.",
-        screenHeading: "Driver Gateway",
-        screenSubheading: "Pre-Drive Setup",
-        statusLabel: "Concept · Mount Check",
-        indicators: [
-          { label: "Camera View", value: "Check Mount" },
-          { label: "Optional Sync", value: "User Opt-In" },
-          { label: "Safety Notice", value: "Required" },
+          { label: "Visual Cue", value: "High Contrast" },
+          { label: "Audio Chime", value: "Optional" },
         ],
       },
     ],
   },
   howItWorks: {
     eyebrow: "How It Works",
-    title: "Built around everyday commutes, explained simply.",
+    title: "Four straightforward steps around your commute.",
     subtitle:
-      "The Astrateq Gadgets concept is designed to run quietly alongside a regular drive in three clear steps—without dedicated hardware.",
+      "Designed to integrate cleanly into everyday driving routines without extra dash-mounted cameras or complex setup.",
     steps: [
       {
         number: "01",
-        title: "On-device processing",
+        title: "Open the Application",
         description:
-          "When mounted securely in your vehicle, your iPhone camera is intended to evaluate frames locally using supported iOS vision and machine-learning frameworks.",
+          "The driver launches Astrateq Gadgets on their securely mounted iPhone before beginning a trip.",
       },
       {
         number: "02",
-        title: "Driver-state monitoring",
+        title: "Start the Experience",
         description:
-          "Planned computer-vision routines evaluate visual indicators such as sustained eye closure, blink cadence changes, and head or gaze orientation away from the road.",
+          "The user enters the Driver Gateway and selects the intended driver-awareness session experience.",
       },
       {
         number: "03",
-        title: "Awareness feedback",
+        title: "On-Device Analysis",
         description:
-          "When supported visual indicators suggest sustained distraction or fatigue, the concept surfaces visual or audible prompts designed to encourage refocusing or taking a break.",
+          "Where implemented in prototype vision pipelines, the iPhone camera evaluates visual indicators locally in transient memory.",
+      },
+      {
+        number: "04",
+        title: "Awareness Feedback",
+        description:
+          "Where implemented, the application communicates subtle visual or audible notifications encouraging driver focus.",
       },
     ],
+    responsibilityNote:
+      "Driver Responsibility: Astrateq Gadgets is an exploratory awareness concept. It never replaces attentive, responsible driving practices and cannot guarantee detection of every distraction or drowsiness event.",
   },
   privacy: {
-    eyebrow: "Privacy & Data Transparency",
-    title: "Your Privacy Is Part of the Technology.",
+    eyebrow: "Privacy & Architecture",
+    title: "Technology Designed With Privacy in Mind.",
     subtitle:
-      "Everyday drivers deserve plain answers about what this website collects today and how camera data is intended to be handled in the iOS concept.",
+      "Drivers deserve clarity on what runs locally on their iPhone, what camera permissions are required, and what information does or does not leave the device.",
     pillars: [
       {
-        title: "Intended on-device camera processing",
+        title: "On-device camera evaluation",
         description:
-          "In the proposed iOS app architecture, driver-facing camera frames are intended to be evaluated locally in transient memory on your iPhone—not streamed or stored as cloud video.",
+          "Camera access is requested solely during active monitoring sessions so visual indicators can be processed locally on iPhone hardware.",
       },
       {
-        title: "Optional sync & telemetry scope",
+        title: "No video frame storage",
         description:
-          "Where optional Supabase synchronization or diagnostics are offered in future builds, they are limited to non-video metadata (such as opt-in summary counts) and can be disabled.",
+          "Raw driver-facing camera frames are evaluated in transient device memory and discarded rather than saved as recorded clips or uploaded to cloud servers.",
       },
       {
-        title: "Website survey & beta separation",
+        title: "Distinct from network telemetry",
         description:
-          "This website does not access your camera. Anonymous survey answers do not require an email address and are stored separately from optional beta-update registrations.",
+          'Unlike local camera video, any optional account sync, diagnostics, or feedback telemetry uses standard encrypted network requests—we never make blanket "zero cloud processing" claims.',
       },
       {
-        title: "Data retention & removal",
+        title: "Optional synchronization controls",
         description:
-          "Research responses and optional beta registrations are retained only while evaluating product feasibility and managing requested updates. You can request removal of your beta email anytime.",
+          "If future builds offer optional Supabase session summaries, sharing remains opt-in, limited to non-video metadata, and separate from this anonymous research survey.",
       },
     ],
     auditNote:
-      "Transparency Note: Astrateq Gadgets is in early development and consumer research. We do not claim third-party privacy certifications, security certifications, or completed compliance audits.",
+      "Transparency Note: Astrateq Gadgets is in early development and consumer market research. We do not claim third-party security certifications, completed compliance audits, or guaranteed absolute privacy.",
+    policyLinkLabel: "Read our Privacy Policy",
   },
   technology: {
-    eyebrow: "Core Architecture",
-    title: "Designed around native iOS capabilities.",
+    eyebrow: "Technical Architecture",
+    title: "Exploring native iOS intelligence.",
     subtitle:
-      "We are exploring native Apple iOS frameworks to evaluate visual cues smoothly on existing iPhone hardware.",
+      "Evaluating Apple silicon capabilities to keep real-time visual analysis responsive on everyday iPhones across changing Canadian daylight and winter conditions.",
     items: [
       {
         id: "ane",
         title: "Apple Neural Engine & Core ML",
-        summary: "Target on-device inference path",
+        summary: "Intended on-device execution",
         detail:
-          "Intended to execute vision workloads on Apple silicon Neural Engine cores via Core ML, supporting responsive on-device evaluation without continuous server round trips.",
+          "Designed to run compact vision inference locally on iPhone Neural Engine hardware without continuous server round trips for frame evaluation.",
       },
       {
         id: "vision",
-        title: "iOS Camera & Facial Landmark Pipeline",
-        summary: "Structured visual indicator tracking",
+        title: "Front Camera & Visual Indicators",
+        summary: "Eye-closure & gaze cues",
         detail:
-          "Planned to evaluate geometric eye-closure ratios and head-pose orientation from the front camera feed while respecting standard iOS camera permission controls.",
+          "Explores evaluating facial landmark geometry, blink cadence, and head-orientation cues strictly while an awareness session is active.",
       },
       {
-        id: "gateway-sync",
-        title: "Driver Gateway & Optional Sync",
-        summary: "Clear separation between video and metadata",
+        id: "separation",
+        title: "Video vs. Metadata Separation",
+        summary: "Controlled optional sync",
         detail:
-          "Designed to keep real-time camera processing isolated on your iPhone while optionally allowing non-video session summaries to synchronize with Supabase when enabled by the user.",
+          "Architecture isolates raw camera streams inside transient memory on the device, keeping any optional future backend communication strictly non-video.",
       },
     ],
   },
   survey: {
-    eyebrow: "Consumer Market Research · 2–3 Minutes",
+    eyebrow: "Integrated Consumer Research",
     title: "Help Shape the Future of Driver Awareness.",
     subtitle:
-      "We're researching whether driver-awareness intelligence could become a useful part of everyday driving. Your feedback will help us understand what drivers value, what concerns them, and what features would make an application like Astrateq Gadgets worth using.",
+      "We're exploring whether driver-awareness intelligence could become a useful part of everyday driving. Your feedback will help us understand what drivers value, what concerns them, and what would make an application like Astrateq Gadgets worth using.",
+    introMeta: "2–3 minutes · Optional participation · No purchase required",
     transparencyNote:
-      "Astrateq Gadgets is currently in an early development and consumer research phase. Survey participation is anonymous, does not require purchasing anything, does not subscribe you to marketing emails, and does not guarantee beta access.",
-    timeEstimate: "7 short questions · Approx. 2–3 minutes",
+      "Astrateq Gadgets is an early-stage iOS concept conducting consumer market research. Survey participation is anonymous, does not require an email address, and never subscribes you to marketing communications.",
+    timeEstimate: "7 questions · 2–3 minutes",
     privacySummary:
-      "No email address or personal contact details are requested in this survey. Anonymous answers are used solely for product feasibility and consumer interest research.",
+      "No email or contact information is requested in this survey. Answers are stored anonymously for consumer product research only.",
     backButton: "Back",
     skipButton: "Skip question",
     continueButton: "Continue",
-    reviewButton: "Review answers",
-    submitButton: "Submit Survey Feedback",
-    submittingButton: "Saving Survey...",
-    reviewTitle: "Review Your Feedback",
+    reviewButton: "Review Answers",
+    submitButton: "Submit Research Survey",
+    submittingButton: "Saving Responses...",
+    reviewTitle: "Review Your Responses",
     reviewSubtitle:
-      "Confirm or edit your responses below before submitting. No email address is collected.",
+      "Check or edit your answers below before submitting. No email address is required.",
     editLabel: "Edit",
     skippedLabel: "Skipped",
-    noEmailBadge: "No email required · Strictly separate from beta updates",
+    noEmailBadge: "Anonymous research · No email required · Separate from beta registration",
     questions: [
       {
         id: "drivingFrequency",
-        stepLabel: "Question 1 of 7 · Driving frequency",
+        stepLabel: "Question 1 of 7 · Driving Frequency",
         prompt: "How often do you drive?",
         type: "single",
         options: [
@@ -421,7 +493,7 @@ export const EN_CA_COPY: SiteCopy = {
       },
       {
         id: "productInterest",
-        stepLabel: "Question 2 of 7 · Product interest",
+        stepLabel: "Question 2 of 7 · Product Interest",
         prompt:
           "Would you consider using an iPhone application designed to help monitor visual indicators associated with driver distraction and drowsiness?",
         type: "single",
@@ -435,8 +507,8 @@ export const EN_CA_COPY: SiteCopy = {
       },
       {
         id: "valuableCapabilities",
-        stepLabel: "Question 3 of 7 · Most valuable functionality",
-        prompt: "Which capabilities would interest you most?",
+        stepLabel: "Question 3 of 7 · Desired Capabilities",
+        prompt: "Which features would interest you most?",
         helperText: "Select all that apply.",
         type: "multi",
         otherOption: "Other.",
@@ -445,14 +517,14 @@ export const EN_CA_COPY: SiteCopy = {
           "Drowsiness-related monitoring.",
           "Real-time awareness notifications.",
           "On-device AI processing.",
-          "Privacy-focused camera processing.",
+          "Privacy-conscious camera processing.",
           "Driving activity insights.",
           "Other.",
         ],
       },
       {
         id: "privacyImportance",
-        stepLabel: "Question 4 of 7 · Privacy preferences",
+        stepLabel: "Question 4 of 7 · Privacy Expectations",
         prompt:
           "How important is it to you that camera-based driver monitoring is processed directly on your iPhone rather than uploaded to cloud servers?",
         type: "single",
@@ -466,7 +538,7 @@ export const EN_CA_COPY: SiteCopy = {
       },
       {
         id: "adoptionConcerns",
-        stepLabel: "Question 5 of 7 · Adoption concerns",
+        stepLabel: "Question 5 of 7 · Adoption Concerns",
         prompt: "What would make you hesitant to use an application like this?",
         helperText: "Select all that apply.",
         type: "multi",
@@ -486,7 +558,7 @@ export const EN_CA_COPY: SiteCopy = {
       },
       {
         id: "everydayUsageLikelihood",
-        stepLabel: "Question 6 of 7 · Potential usage",
+        stepLabel: "Question 6 of 7 · Potential Everyday Usage",
         prompt:
           "If an application like this met your expectations, how likely would you be to use it during everyday driving?",
         type: "single",
@@ -494,25 +566,25 @@ export const EN_CA_COPY: SiteCopy = {
       },
       {
         id: "additionalFeedback",
-        stepLabel: "Question 7 of 7 · Additional feedback (Optional)",
+        stepLabel: "Question 7 of 7 · Additional Feedback",
         prompt:
           "Is there anything you would want an application like Astrateq Gadgets to do differently or better?",
-        helperText: "Optional — share any thoughts, concerns, or everyday driving scenarios.",
+        helperText: "Optional — share any thoughts, concerns, or everyday driving feedback.",
         type: "text",
         placeholder: "Share your thoughts (optional)...",
       },
     ],
   },
   beta: {
-    eyebrow: "Optional Future Beta Updates",
-    title: "Request Beta Updates.",
+    eyebrow: "Beta Interest Registration",
+    title: "Be Among the First to Explore Astrateq Gadgets.",
     subtitle:
-      "Separate from the survey above, you can leave your email if you would like to receive occasional updates on Astrateq Gadgets development and potential future testing opportunities.",
+      "We're exploring the next generation of driver-awareness intelligence for iPhone. Register your interest to receive occasional development updates and potential future beta opportunities.",
     emailLabel: "Email address (required)",
-    emailPlaceholder: "name@example.ca",
+    emailPlaceholder: "you@domain.ca",
     firstNameLabel: "First name (optional)",
     firstNamePlaceholder: "Optional",
-    iphoneModelLabel: "iPhone model of interest (optional)",
+    iphoneModelLabel: "iPhone model (optional)",
     iphoneModelOptions: [
       "Prefer not to say",
       "iPhone 16 / 16 Pro series",
@@ -521,99 +593,99 @@ export const EN_CA_COPY: SiteCopy = {
       "iPhone 13 series",
       "Older or other iPhone model",
     ],
-    submitButton: "Request Beta Updates",
-    submittingButton: "Submitting...",
+    submitButton: "Register for Beta Updates",
+    submittingButton: "Registering...",
     consentLabel:
-      "I consent to receive occasional email updates from Astrateq Gadgets (Astrateq.ai) regarding product development and future beta testing opportunities. I understand I can withdraw consent at any time.",
+      "I agree to receive occasional Astrateq Gadgets development updates and beta-related communications. I understand I can unsubscribe at any time.",
     privacyNotice:
-      "Registering adds you only to our beta-update list and does not guarantee beta access or require purchasing anything. Survey respondents are never subscribed automatically.",
-    successTitle: "Beta Update Request Received",
-    duplicateTitle: "Already on Update List",
+      "Survey respondents are never subscribed automatically. Registering your email records your interest in updates only and does not promise guaranteed beta access.",
+    successTitle: "Beta Interest Registered",
+    duplicateTitle: "Already Registered",
     successBody:
-      "Thank you. Your interest in receiving future Astrateq Gadgets updates has been noted. Registering does not guarantee beta access, and we will only contact you if testing opportunities or development updates are shared.",
+      "Thank you for registering your interest in Astrateq Gadgets. We will send occasional updates if development milestones or testing windows open. Registration does not guarantee beta access.",
     submitAnother: "Register another email address",
   },
   faq: {
     eyebrow: "Frequently Asked Questions",
-    title: "Clear answers about our research & concept.",
+    title: "Clear, honest answers.",
     subtitle:
-      "Honest details on the current development stage, compatibility plans, privacy architecture, and participation.",
+      "Details on the current research stage, intended camera privacy, device compatibility evaluation, and participation.",
     items: [
       {
         id: "what-is",
         question: "What is Astrateq Gadgets?",
         answer:
-          "Astrateq Gadgets is an early-stage iOS application concept exploring how on-device intelligence and computer vision can help everyday drivers become more aware of visual indicators associated with distraction and drowsiness.",
+          "Astrateq Gadgets is an early-stage driver-awareness intelligence iOS application concept. It explores how on-device computer vision on iPhone can help everyday drivers become more aware of visual indicators associated with distraction and drowsiness.",
+      },
+      {
+        id: "available-yet",
+        question: "Is the application available yet?",
+        answer:
+          "Not yet. Astrateq Gadgets is currently in an early product development and consumer market research phase to evaluate driver interest before any commercial or public App Store release.",
       },
       {
         id: "supported-iphones",
-        question: "Which iPhones will be supported?",
+        question: "Which iPhone devices will be supported?",
         answer:
-          "Final hardware compatibility and minimum iOS requirements have not been finalized and will be announced if the product advances to public beta testing. Our research currently focuses on modern iPhones equipped with Apple Neural Engine hardware.",
+          "Exact supported iPhone models and minimum iOS version requirements are still being evaluated. Research currently prioritizes modern iPhones equipped with Apple Neural Engine hardware.",
       },
       {
         id: "how-monitoring-works",
         question: "How does driver-awareness monitoring work?",
         answer:
-          "In the proposed workflow, your iPhone is mounted securely in view of the driver, and on-device computer vision evaluates visual indicators such as eye-closure cadence and head or gaze orientation while a session is active.",
+          "In the intended iPhone experience, the driver launches Astrateq Gadgets while the device is securely mounted and starts an awareness session. On-device vision routines are designed to evaluate visual cues such as eye-closure cadence and head orientation and surface gentle awareness prompts when appropriate.",
       },
       {
-        id: "local-processing",
-        question: "Does the application process video locally?",
+        id: "uses-camera",
+        question: "Does the application use the iPhone camera?",
         answer:
-          "In the proposed iOS concept architecture, camera frames are intended to be evaluated locally on your iPhone in transient memory rather than streaming continuous video to cloud servers. This website itself does not access your camera.",
+          "Yes, the proposed iPhone application concept relies on the front-facing iPhone camera during an active driving session to evaluate attention and fatigue visual cues, subject to standard iOS camera permissions. This website itself never accesses your camera.",
       },
       {
         id: "cloud-upload",
         question: "Is video uploaded to cloud servers?",
         answer:
-          "No raw driver-facing camera video is intended to be stored or uploaded to cloud servers. Where optional Supabase synchronization is offered in future builds, it is limited to non-video metadata (such as summary counts) and can be disabled.",
+          "In the intended architecture, driver-facing camera frames are processed locally on-device in transient memory and are not stored or uploaded as cloud video. Where future builds include optional non-video summary synchronization or diagnostics, those remain separate network requests under user control.",
       },
       {
-        id: "distraction-detected",
-        question: "What happens if the application detects signs of distraction?",
+        id: "prevent-accidents",
+        question: "Does the application prevent accidents?",
         answer:
-          "Where supported in future builds, the concept provides a visual or audible awareness prompt designed to remind the driver to refocus on the road or consider taking a rest break.",
+          "No. Astrateq Gadgets cannot guarantee accident prevention, cannot detect every distraction or fatigue event, and is not a medical device or autonomous driving feature. The driver always retains full responsibility for safe vehicle operation.",
       },
       {
-        id: "responsible-driving",
-        question: "Does Astrateq Gadgets replace responsible driving?",
+        id: "survey-cost",
+        question: "Does participating in the survey cost anything?",
         answer:
-          "No. Astrateq Gadgets is strictly an exploratory awareness aid. It is not an autonomous driving system, medical device, or accident-prevention guarantee. Drivers remain fully responsible for safe vehicle operation and obeying Canadian road laws.",
+          "No. Participating in the consumer market research survey is completely free, anonymous, optional, and requires no purchase or email registration.",
       },
       {
-        id: "beta-availability",
-        question: "When will beta access become available?",
+        id: "beta-guarantee",
+        question: "Does registering interest guarantee beta access?",
         answer:
-          "Astrateq Gadgets is currently in an early development and consumer market research phase. Any future testing dates will be shared with registered update subscribers if we proceed to beta trials.",
-      },
-      {
-        id: "support",
-        question: "How can users ask questions or request support?",
-        answer:
-          "You can email kingnarmer702@gmail.com directly or open the Support information panel in the footer.",
+          "No. Registering your email adds you to an optional notification list for future development updates and potential testing invitations, without guaranteeing acceptance into a beta cohort or a launch timeline.",
       },
     ],
   },
   footer: {
-    tagline:
-      "An early-stage iOS driver-awareness concept exploring privacy-conscious on-device intelligence for everyday driving.",
-    marketNote: "Consumer market research · Canada & North America",
-    productHeading: "Navigation",
-    legalHeading: "Policies & Notices",
+    tagline: "Smarter Driving Awareness. Early-Stage iOS Concept.",
+    stageNote:
+      "Early-stage product development & Canadian consumer market research. Not yet a commercially available product.",
+    marketNote: "Designed for Canadian everyday drivers",
+    navigationHeading: "Explore",
+    legalHeading: "Policies & Information",
     contactHeading: "Contact",
-    privacyLink: "Privacy Notice",
+    privacyLink: "Privacy Policy",
     termsLink: "Research & Beta Terms",
     safetyLink: "Safety Notice",
-    supportLink: "Support",
+    supportLink: "Contact & Support",
     legalDraftNote:
-      "Pre-release informational notices for consumer research. Full legal documents will be published prior to any public release.",
-    copyright: `© ${new Date().getFullYear()} Astrateq Gadgets (Astrateq.ai). All rights reserved.`,
+      "Pre-release informational notices. Comprehensive App Store & Beta terms will be published prior to any public release.",
+    copyright: `© ${new Date().getFullYear()} Astrateq Gadgets. All rights reserved.`,
   },
 };
 
 export function getCopy(locale: Locale = "en-CA"): SiteCopy {
-  // Architecture ready for professionally reviewed fr-CA localization
   switch (locale) {
     case "fr-CA":
     case "en-CA":

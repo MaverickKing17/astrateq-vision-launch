@@ -72,9 +72,9 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   );
 }
 
-const defaultTitle = "Astrateq.ai — Intelligent Driver Awareness for iPhone";
+const defaultTitle = "Astrateq Gadgets — Driver Awareness iOS Concept & Market Research";
 const defaultDescription =
-  "Meet Astrateq: an iOS driver-awareness application designed to monitor visual indicators of distraction and drowsiness using on-device intelligence.";
+  "Astrateq Gadgets is an emerging driver-awareness intelligence experience for iPhone. Share your feedback in our anonymous Canadian consumer research survey.";
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   head: () => ({
@@ -84,8 +84,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "theme-color", content: "#050505" },
       { title: defaultTitle },
       { name: "description", content: defaultDescription },
-      { name: "author", content: "Astrateq.ai" },
-      { property: "og:site_name", content: "Astrateq.ai" },
+      { name: "author", content: "Astrateq Gadgets" },
+      { property: "og:site_name", content: "Astrateq Gadgets" },
       { property: "og:locale", content: "en_CA" },
       { property: "og:title", content: defaultTitle },
       { property: "og:description", content: defaultDescription },

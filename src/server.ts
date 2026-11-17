@@ -166,7 +166,9 @@ export default {
               ? 200
               : result.error === "backend_unconfigured"
                 ? 503
-                : 400;
+                : result.error === "database_write_failed"
+                  ? 502
+                  : 400;
             return new Response(JSON.stringify(result), {
               status: statusCode,
               headers: { "content-type": "application/json" },
