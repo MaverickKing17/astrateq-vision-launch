@@ -43,7 +43,8 @@ export async function processWaitlistSubmission(
     );
     return {
       success: true,
-      message: "You're on the list! Check your inbox shortly for your TestFlight beta invite.",
+      message:
+        "Beta access request received. We have added your email to the Astrateq waitlist and will follow up as testing windows open.",
       simulated: true,
     };
   }
@@ -96,8 +97,8 @@ export async function processWaitlistSubmission(
         const autoResult = await resend.emails.send({
           from: senderEmail,
           to: cleanEmail,
-          subject: "✓ You're in the Astrateq TestFlight Beta Cohort",
-          text: `Thanks for joining the Astrateq Canadian Beta Cohort! We will be in touch with your TestFlight beta invite shortly.`,
+          subject: "Astrateq.ai — Beta Access Request Received",
+          text: `Thank you for requesting beta access to Astrateq. Your email is on our notification list, and we will reach out with updates when testing opportunities open.`,
         });
         if (autoResult.error) {
           console.warn("[Astrateq Resend] Auto-responder note:", autoResult.error);
@@ -109,7 +110,8 @@ export async function processWaitlistSubmission(
 
     return {
       success: true,
-      message: "You're on the list! Check your inbox shortly for your TestFlight beta invite.",
+      message:
+        "Beta access request received. We have added your email to the Astrateq waitlist and will follow up as testing windows open.",
     };
   } catch (error: unknown) {
     console.error("[Astrateq Resend] Waitlist submission error:", error);

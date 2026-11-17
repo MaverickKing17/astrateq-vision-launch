@@ -1,7 +1,7 @@
 import { useEffect } from "react";
-import { X, ShieldAlert, Lock, FileText, Scale, Headphones } from "lucide-react";
+import { X, ShieldAlert, Lock, FileText, Headphones } from "lucide-react";
 
-export type LegalModalType = "disclaimer" | "privacy" | "terms" | "dmca" | "support" | null;
+export type LegalModalType = "safety" | "privacy" | "terms" | "support" | null;
 
 interface LegalModalProps {
   type: LegalModalType;
@@ -29,105 +29,97 @@ export function LegalModal({ type, onClose }: LegalModalProps) {
 
   if (!type) return null;
 
+  const headingId = `legal-modal-title-${type}`;
+
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6"
       role="dialog"
       aria-modal="true"
+      aria-labelledby={headingId}
     >
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-[#080B11]/85 backdrop-blur-md transition-opacity"
+        className="fixed inset-0 bg-[#050505]/85 backdrop-blur-sm"
         onClick={onClose}
+        aria-hidden="true"
       />
 
       {/* Modal Container */}
-      <div
-        className="relative z-10 flex max-h-[88vh] w-full max-w-2xl flex-col rounded-2xl border border-[#223046] bg-[#0E1420] shadow-[0_0_50px_rgba(0,240,255,0.12)]"
-        style={{
-          fontFamily: "'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif",
-        }}
-      >
+      <div className="relative z-10 flex max-h-[88vh] w-full max-w-2xl flex-col overflow-hidden rounded-2xl border border-white/15 bg-[#0B0F19] shadow-2xl">
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-[#223046] px-6 py-5 bg-[#080B11]/60">
-          <div className="flex items-center gap-3">
-            <span className="flex size-9 shrink-0 items-center justify-center rounded-lg border border-[#00F0FF]/40 bg-[#00F0FF]/10 text-[#00F0FF]">
-              {type === "disclaimer" && <ShieldAlert className="size-5 text-[#00F0FF]" />}
-              {type === "privacy" && <Lock className="size-5 text-[#00F0FF]" />}
-              {type === "terms" && <FileText className="size-5 text-[#00F0FF]" />}
-              {type === "dmca" && <Scale className="size-5 text-[#00F0FF]" />}
-              {type === "support" && <Headphones className="size-5 text-[#00F0FF]" />}
+        <div className="flex items-center justify-between gap-4 border-b border-white/10 bg-[#141A24] px-6 py-5">
+          <div className="flex min-w-0 items-center gap-3">
+            <span className="flex size-9 shrink-0 items-center justify-center rounded-lg border border-[#00E5FF]/30 bg-[#00E5FF]/10 text-[#00E5FF]">
+              {type === "safety" && <ShieldAlert className="size-5" aria-hidden="true" />}
+              {type === "privacy" && <Lock className="size-5" aria-hidden="true" />}
+              {type === "terms" && <FileText className="size-5" aria-hidden="true" />}
+              {type === "support" && <Headphones className="size-5" aria-hidden="true" />}
             </span>
-            <div>
-              <p className="label-mono text-[11px] font-semibold text-[#00F0FF]">
-                LEGAL & COMPLIANCE · AUG 2026
+            <div className="min-w-0">
+              <p className="font-mono text-[11px] tracking-wider text-[#9299A5] uppercase">
+                Pre-Launch Notice · Astrateq.ai
               </p>
-              <h3 className="font-display text-base font-bold text-[#FFFFFF] sm:text-lg">
-                {type === "disclaimer" && "Driver Safety & Operation Disclaimer"}
-                {type === "privacy" && "Privacy Policy & On-Device Processing Guarantee"}
-                {type === "terms" && "Pre-Launch Beta Cohort Agreement"}
-                {type === "dmca" && "Intellectual Property & DMCA Policy"}
-                {type === "support" && "Beta Support & Technical Inquiries"}
+              <h3
+                id={headingId}
+                className="truncate font-display text-base font-bold text-white sm:text-lg"
+              >
+                {type === "safety" && "Driver Safety & Operation Notice"}
+                {type === "privacy" && "Pre-Release Privacy Notice"}
+                {type === "terms" && "Pre-Launch Beta Terms Summary"}
+                {type === "support" && "Support & Inquiries"}
               </h3>
             </div>
           </div>
           <button
+            type="button"
             onClick={onClose}
-            className="flex size-8 items-center justify-center rounded-lg border border-[#223046] bg-[#131B29] text-[#E2E8F0] transition-all hover:border-[#00F0FF] hover:bg-[#00F0FF] hover:text-[#080B11] hover:shadow-[0_0_12px_rgba(0,240,255,0.4)] cursor-pointer"
+            className="flex size-10 shrink-0 items-center justify-center rounded-lg border border-white/15 bg-[#0B0F19] text-white transition-colors hover:border-[#00E5FF] hover:text-[#00E5FF] cursor-pointer"
             aria-label="Close dialog"
           >
-            <X className="size-4" />
+            <X className="size-4" aria-hidden="true" />
           </button>
         </div>
 
         {/* Scrollable Body */}
-        <div className="overflow-y-auto px-6 py-6 text-sm leading-relaxed text-[#94A3B8] space-y-5">
-          {type === "disclaimer" && (
+        <div className="space-y-5 overflow-y-auto px-6 py-6 text-sm leading-relaxed text-[#9299A5]">
+          {type === "safety" && (
             <>
-              <div className="rounded-xl border border-amber-500/30 bg-amber-500/10 p-4">
-                <p className="font-semibold text-amber-300">
-                  ⚠️ Critical Safety Notice for All Operators
-                </p>
-                <p className="mt-1 text-xs text-amber-200/90">
-                  Astrateq is an auxiliary driver awareness assistance tool and is NOT an autonomous
-                  driving system, autopilot, collision prevention mechanism, or replacement for
-                  attentive human vigilance.
+              <div className="rounded-xl border border-amber-400/30 bg-amber-950/30 p-4">
+                <p className="font-semibold text-amber-200">Auxiliary Awareness Aid Only</p>
+                <p className="mt-1 text-xs leading-relaxed text-amber-100/90">
+                  Astrateq is an informational driver-awareness tool currently in development. It is
+                  not an autonomous driving system, collision-prevention tool, or medical device.
                 </p>
               </div>
 
               <div className="space-y-2">
-                <h4 className="font-bold text-[#FFFFFF]">1. Sole Driver Responsibility</h4>
-                <p className="text-[#E2E8F0]">
-                  The operator of the motor vehicle retains 100% full legal and operational
-                  responsibility for the safe navigation, monitoring, and control of the vehicle at
-                  all times. You must continuously maintain visual scan paths, safe following
-                  distances, and awareness of weather, road hazards, traffic signals, pedestrians,
-                  and surrounding motorists.
+                <h4 className="font-display font-semibold text-white">1. Driver Responsibility</h4>
+                <p>
+                  The vehicle operator retains complete legal and operational responsibility for
+                  safe driving at all times. You must maintain attentive visual awareness, safe
+                  following distances, and full control of your vehicle regardless of app status.
                 </p>
               </div>
 
               <div className="space-y-2">
-                <h4 className="font-bold text-[#FFFFFF]">2. Legal & Regulatory Compliance</h4>
-                <p className="text-[#E2E8F0]">
-                  Users are strictly obligated to abide by all municipal, provincial, state, and
-                  federal laws regarding hands-free device usage and distracted driving in Canada
-                  (including Ontario HTA Section 78.1 and corresponding provincial motor vehicle
-                  acts) and the United States. Ensure your mobile phone or dashcam hardware is
-                  mounted securely in compliance with local windshield obstruction regulations prior
-                  to vehicle operation.
-                </p>
-              </div>
-
-              <div className="space-y-2">
-                <h4 className="font-bold text-[#FFFFFF]">
-                  3. Operational Boundaries in Harsh Weather
+                <h4 className="font-display font-semibold text-white">
+                  2. Canadian Road & Mounting Laws
                 </h4>
-                <p className="text-[#E2E8F0]">
-                  While Astrateq’s Edge-AI models incorporate winter fatigue and snow-glare
-                  mitigation models, extreme ambient conditions (such as heavy blizzards, uncleaned
-                  windshield ice, dense fog, or lens obstruction) may degrade inference fidelity.
-                  Never rely on automated alerts as a substitute for reduced speed and defensive
-                  driving in Canadian winter conditions.
+                <p>
+                  Drivers must comply with all federal, provincial, territorial, and state laws
+                  governing hands-free mounting, windshield visibility, and distracted driving.
+                  Mount your iPhone securely before driving and avoid interacting with your screen
+                  while in motion.
+                </p>
+              </div>
+
+              <div className="space-y-2">
+                <h4 className="font-display font-semibold text-white">3. Environmental Limits</h4>
+                <p>
+                  Lighting extremes, sunglass polarization, snow glare, or camera obstruction can
+                  affect optical visibility. Never rely on software alerts in place of cautious
+                  driving.
                 </p>
               </div>
             </>
@@ -135,154 +127,72 @@ export function LegalModal({ type, onClose }: LegalModalProps) {
 
           {type === "privacy" && (
             <>
-              <div className="rounded-xl border border-[#00F0FF]/30 bg-[#00F0FF]/10 p-4">
-                <p className="font-semibold text-[#00F0FF]">
-                  🔒 Absolute Data Sovereignty Architecture
-                </p>
-                <p className="mt-1 text-xs text-[#E2E8F0]">
-                  Updated as of August 2026. Driver-facing camera video feeds, gaze tracking
-                  metadata, and cabin sensor streams are processed exclusively on your device's
-                  local Neural Processing Unit (NPU).
+              <div className="rounded-xl border border-[#00E5FF]/25 bg-[#141A24] p-4">
+                <p className="font-semibold text-white">Pre-Release Privacy Architecture Summary</p>
+                <p className="mt-1 text-xs leading-relaxed text-[#9299A5]">
+                  This summary describes Astrateq&apos;s intended data-handling design. A formal,
+                  counsel-reviewed Privacy Policy will be published prior to public App Store
+                  launch.
                 </p>
               </div>
 
               <div className="space-y-2">
-                <h4 className="font-bold text-[#FFFFFF]">
-                  1. Zero Cloud Transmission of Raw Video
+                <h4 className="font-display font-semibold text-white">
+                  1. On-Device Camera Evaluation
                 </h4>
-                <p className="text-[#E2E8F0]">
-                  At no point does Astrateq stream, capture, or transmit raw camera video or facial
-                  biometric records to cloud servers or external infrastructure. Neural network
-                  inference operates locally in device volatile memory with real-time memory purge
-                  on frame completion.
+                <p>
+                  Driver-facing camera frames are intended to be evaluated locally in transient
+                  memory on your iPhone. Astrateq is designed not to record, store, or stream raw
+                  video feeds to external cloud servers.
                 </p>
               </div>
 
               <div className="space-y-2">
-                <h4 className="font-bold text-[#FFFFFF]">2. Biometrics & PIPEDA Compliance</h4>
-                <p className="text-[#E2E8F0]">
-                  In accordance with the Canadian Personal Information Protection and Electronic
-                  Documents Act (PIPEDA) and international privacy frameworks:
-                </p>
-                <ul className="list-disc pl-5 space-y-1 text-xs text-[#E2E8F0]">
+                <h4 className="font-display font-semibold text-white">
+                  2. Optional Sync & Waitlist Information
+                </h4>
+                <ul className="list-disc space-y-1.5 pl-5 text-xs">
                   <li>
-                    No facial geometry templates or persistent driver identities are retained or
-                    cataloged.
+                    Where optional synchronization with Supabase is enabled in a build, only
+                    non-video metadata (such as summary trip counts or preferences) is synced.
                   </li>
                   <li>
-                    No driving telemetry is sold, traded, or shared with commercial data brokers,
-                    insurers, or advertising platforms.
+                    Email addresses submitted via the beta-access form on Astrateq.ai are used
+                    solely to notify you about beta availability and product updates.
                   </li>
-                  <li>
-                    Waitlist email addresses are stored securely solely for cohort management and
-                    authentication dispatch.
-                  </li>
+                  <li>We do not sell personal contact details to third parties.</li>
                 </ul>
-              </div>
-
-              <div className="space-y-2">
-                <h4 className="font-bold text-[#FFFFFF]">3. Anonymized Diagnostic Telemetry</h4>
-                <p className="text-[#E2E8F0]">
-                  Users may optionally opt in to transmit high-level aggregated performance
-                  benchmarks (e.g., inference frame rates, NPU latency in milliseconds, thermal
-                  throttling statistics) to aid winter model calibration. These diagnostics contain
-                  zero visual, location, or personally identifiable metadata.
-                </p>
               </div>
             </>
           )}
 
           {type === "terms" && (
             <>
-              <div className="rounded-xl border border-[#334155] bg-[#0F172A]/60 p-4">
-                <p className="font-semibold text-[#FFFFFF]">
-                  📋 Canadian Beta Cohort Participation Terms (Phase 01)
-                </p>
-                <p className="mt-1 text-xs text-[#E2E8F0]">
-                  These terms govern early access to the Astrateq TestFlight (iOS) and Early Access
-                  (Android) builds across the limited 500-seat winter validation program.
+              <div className="rounded-xl border border-white/10 bg-[#141A24] p-4">
+                <p className="font-semibold text-white">Pre-Launch Informational Terms Summary</p>
+                <p className="mt-1 text-xs leading-relaxed text-[#9299A5]">
+                  Full Beta Testing Terms of Use will be presented before any TestFlight invitation
+                  is redeemed.
                 </p>
               </div>
 
               <div className="space-y-2">
-                <h4 className="font-bold text-[#FFFFFF]">
-                  1. Pre-Release Software Provided "As-Is"
+                <h4 className="font-display font-semibold text-white">1. Waitlist Requests</h4>
+                <p>
+                  Submitting your email on Astrateq.ai places you on a notification list for future
+                  testing windows. Submission does not guarantee immediate TestFlight admission or
+                  specific release timelines.
+                </p>
+              </div>
+
+              <div className="space-y-2">
+                <h4 className="font-display font-semibold text-white">
+                  2. Pre-Release Software Nature
                 </h4>
-                <p className="text-[#E2E8F0]">
-                  The beta release represents developmental software provided strictly for
-                  evaluation, testing, and algorithmic refinement. Astrateq Gadgets provides no
-                  warranties, express or implied, regarding uninterrupted operation or specific
-                  hardware compatibility.
-                </p>
-              </div>
-
-              <div className="space-y-2">
-                <h4 className="font-bold text-[#FFFFFF]">
-                  2. Cohort Slot Reservation & Inactivity
-                </h4>
-                <p className="text-[#E2E8F0]">
-                  Early access invites are capped at 500 active testers for the Canadian winter
-                  phase. Invitations are non-transferable. Astrateq reserves the right to reallocate
-                  inactive slots to waitlist commuters if TestFlight builds remain uninstalled after
-                  14 calendar days.
-                </p>
-              </div>
-
-              <div className="space-y-2">
-                <h4 className="font-bold text-[#FFFFFF]">3. Tester Feedback Ownership</h4>
-                <p className="text-[#E2E8F0]">
-                  Any qualitative bug submissions, glare scenario logs, or feature suggestions
-                  submitted through official beta feedback forms become the exclusive intellectual
-                  property of Astrateq Gadgets for product development without royalty or
-                  compensation obligations.
-                </p>
-              </div>
-            </>
-          )}
-
-          {type === "dmca" && (
-            <>
-              <div className="space-y-2">
-                <h4 className="font-bold text-[#FFFFFF]">1. Intellectual Property Protection</h4>
-                <p className="text-[#E2E8F0]">
-                  All software code, edge-inference models, proprietary algorithms, trademarks,
-                  visual user interfaces, HUD iconography, and documentation associated with
-                  Astrateq Gadgets are protected under Canadian, United States, and international
-                  intellectual property legislation.
-                </p>
-              </div>
-
-              <div className="space-y-2">
-                <h4 className="font-bold text-[#FFFFFF]">2. Notice and Takedown Procedure</h4>
-                <p className="text-[#E2E8F0]">
-                  In compliance with the U.S. Digital Millennium Copyright Act (17 U.S.C. § 512) and
-                  the Canadian Copyright Act Notice-and-Notice regime, copyright holders or
-                  authorized representatives may submit written infringement notifications
-                  containing:
-                </p>
-                <ul className="list-disc pl-5 space-y-1 text-xs text-[#E2E8F0]">
-                  <li>Identification of the copyrighted work claimed to have been infringed.</li>
-                  <li>
-                    Specific identification of the allegedly infringing material and location URL.
-                  </li>
-                  <li>
-                    Direct contact information (name, address, telephone number, and verified
-                    email).
-                  </li>
-                  <li>A statement of good faith belief that the use is unauthorized.</li>
-                  <li>
-                    A statement made under penalty of perjury that the information provided is
-                    accurate.
-                  </li>
-                </ul>
-              </div>
-
-              <div className="space-y-2">
-                <h4 className="font-bold text-[#FFFFFF]">3. Designated Legal Agent</h4>
-                <p className="text-[#E2E8F0]">
-                  Direct all formal DMCA and Canadian Copyright notices to: <br />
-                  <span className="font-mono text-xs text-[#00F0FF]">legal@astrateq.com</span>{" "}
-                  (Subject: Notice of Infringement / DMCA Agent).
+                <p>
+                  Beta software is provided for evaluation and feedback purposes only and may change
+                  prior to general availability. Compatibility details and supported iOS versions
+                  will be announced when beta builds open.
                 </p>
               </div>
             </>
@@ -290,62 +200,40 @@ export function LegalModal({ type, onClose }: LegalModalProps) {
 
           {type === "support" && (
             <>
-              <div className="rounded-xl border border-[#334155] bg-[#0F172A]/60 p-4">
-                <p className="font-semibold text-[#FFFFFF]">
-                  🛠️ Developer Support & Cohort Helpdesk
-                </p>
-                <p className="mt-1 text-xs text-[#E2E8F0]">
-                  Direct technical assistance for TestFlight builds, device compatibility
-                  diagnostics, and Canadian commuter onboarding.
+              <div className="rounded-xl border border-white/10 bg-[#141A24] p-4">
+                <p className="font-semibold text-white">Pre-Release Support & Contact</p>
+                <p className="mt-1 text-xs leading-relaxed text-[#9299A5]">
+                  Have a question about the Astrateq iOS beta program, Canadian compatibility, or
+                  partnership inquiries? Reach out directly below.
                 </p>
               </div>
 
-              <div className="grid gap-3 sm:grid-cols-2">
-                <div className="rounded-xl border border-[#223046] bg-[#131B29] p-3.5">
-                  <p className="text-xs font-bold text-[#00F0FF]">TESTFLIGHT & APP SUPPORT</p>
-                  <p className="mt-1 font-mono text-xs text-[#FFFFFF]">beta@astrateq.com</p>
-                  <p className="mt-1 text-[11px] text-[#94A3B8]">
-                    Invite redemption, build crashes, and iOS/Android compatibility.
-                  </p>
-                </div>
-                <div className="rounded-xl border border-[#223046] bg-[#131B29] p-3.5">
-                  <p className="text-xs font-bold text-[#00F0FF]">PARTNERSHIPS & FLEET</p>
-                  <p className="mt-1 font-mono text-xs text-[#FFFFFF]">fleets@astrateq.com</p>
-                  <p className="mt-1 text-[11px] text-[#94A3B8]">
-                    Inquiries for commercial transport, dashcam hardware, and OBD-II pilot programs.
-                  </p>
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <h4 className="font-bold text-[#FFFFFF]">Minimum Hardware Requirements for Beta</h4>
-                <ul className="list-disc pl-5 space-y-1 text-xs text-[#E2E8F0]">
-                  <li>
-                    <strong className="text-[#FFFFFF]">iOS:</strong> iPhone 13 or newer running iOS
-                    17.0+ (Apple Neural Engine required).
-                  </li>
-                  <li>
-                    <strong className="text-[#FFFFFF]">Android:</strong> Devices with dedicated NPU
-                    / Google Tensor G2+, Snapdragon 8 Gen 1+, running Android 14+.
-                  </li>
-                  <li>
-                    <strong className="text-[#FFFFFF]">Mounting:</strong> Rigid, vibration-isolated
-                    dashboard or windshield mount with direct driver line-of-sight.
-                  </li>
-                </ul>
+              <div className="rounded-xl border border-white/10 bg-[#141A24] p-4">
+                <p className="font-mono text-xs text-[#00E5FF] uppercase">Direct Email</p>
+                <a
+                  href="mailto:kingnarmer702@gmail.com"
+                  className="mt-1 inline-block font-mono text-sm font-medium text-white underline-offset-4 hover:text-[#00E5FF] hover:underline"
+                >
+                  kingnarmer702@gmail.com
+                </a>
+                <p className="mt-2 text-xs text-[#9299A5]">
+                  Please include your iPhone model and iOS version if asking about device
+                  compatibility.
+                </p>
               </div>
             </>
           )}
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-between border-t border-[#223046] bg-[#080B11]/80 px-6 py-4">
-          <p className="text-xs text-[#94A3B8]">Astrateq Gadgets • Legal & Compliance Division</p>
+        <div className="flex items-center justify-between gap-4 border-t border-white/10 bg-[#050505] px-6 py-4">
+          <p className="text-xs text-[#9299A5]">Astrateq.ai · Pre-Release Information</p>
           <button
+            type="button"
             onClick={onClose}
-            className="rounded-lg bg-[#00F0FF] px-4 py-2 text-xs font-bold text-[#080B11] transition-all hover:brightness-110 hover:shadow-[0_0_14px_rgba(0,240,255,0.4)] cursor-pointer"
+            className="min-h-[40px] rounded-lg bg-[#00E5FF] px-4 py-2 font-display text-xs font-semibold text-[#050505] transition-opacity hover:opacity-90 cursor-pointer"
           >
-            I Understand & Close
+            Close
           </button>
         </div>
       </div>

@@ -4,20 +4,6 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/*
- * Design system definition.
- *
- * The @theme inline block maps CSS custom properties to Tailwind utility
- * classes (e.g. --color-primary -> bg-primary, text-primary).
- *
- * The :root and .dark blocks define the actual color values using oklch.
- * All colors MUST use oklch format.
- *
- * To add a new semantic color:
- * 1. Add the variable to :root (light value) and .dark (dark value)
- * 2. Register it in @theme inline as --color-<name>: var(--<name>)
- */
-
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -46,44 +32,43 @@
   --color-ring: var(--ring);
   --color-surface: var(--surface);
   --color-surface-strong: var(--surface-strong);
-  --font-display: "Segoe UI Semibold", "Segoe UI Bold", "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
-  --font-sans: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
-  --font-mono: "Segoe UI Mono", "JetBrains Mono", ui-monospace, monospace;
+  --font-display: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-sans: "DM Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
 :root {
   --radius: 0.75rem;
-  --background: #080B11;
+  --background: #050505;
   --foreground: #FFFFFF;
-  --card: #131B29;
+  --card: #0B0F19;
   --card-foreground: #FFFFFF;
-  --popover: #131B29;
+  --popover: #0B0F19;
   --popover-foreground: #FFFFFF;
-  --primary: #00F0FF;
-  --primary-foreground: #080B11;
-  --secondary: #131B29;
+  --primary: #00E5FF;
+  --primary-foreground: #050505;
+  --secondary: #141A24;
   --secondary-foreground: #FFFFFF;
-  --muted: #223046;
-  --muted-foreground: #94A3B8;
-  --accent: #223046;
-  --accent-foreground: #00F0FF;
+  --muted: #141A24;
+  --muted-foreground: #9299A5;
+  --accent: #141A24;
+  --accent-foreground: #00E5FF;
   --destructive: oklch(0.62 0.21 25);
   --destructive-foreground: #FFFFFF;
-  --border: #223046;
-  --input: #1E293B;
-  --ring: #00F0FF;
-  --surface: #131B29;
-  --surface-strong: #1E293B;
-  --glow-primary: 0 0 0 1px rgba(0, 240, 255, 0.45), 0 0 20px rgba(0, 240, 255, 0.4);
-  --gradient-hero: radial-gradient(
-    ellipse 85% 60% at 50% 20%,
-    rgba(0, 240, 255, 0.08),
-    transparent 72%
-  );
-  --grid-line: rgba(248, 250, 252, 0.04);
+  --border: #1F2937;
+  --input: #141A24;
+  --ring: #00E5FF;
+  --surface: #0B0F19;
+  --surface-strong: #141A24;
 }
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+    background-color: #050505;
+    color: #FFFFFF;
+  }
+
   * {
     border-color: var(--color-border);
   }
@@ -91,125 +76,40 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
-    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+    font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   h1,
   h2,
-  h3 {
-    font-family: 'Segoe UI Semibold', 'Segoe UI Bold', 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
-    font-weight: 700;
+  h3,
+  h4 {
+    font-family: var(--font-display);
     color: #FFFFFF;
-    letter-spacing: -0.015em;
+    letter-spacing: -0.025em;
+  }
+
+  :focus-visible {
+    outline: 2px solid #00E5FF;
+    outline-offset: 3px;
   }
 }
 
-@utility glow-cyan {
-  box-shadow: var(--glow-primary);
+@utility hairline-surface {
+  background-color: #0B0F19;
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-@utility hero-glow {
-  background-image: var(--gradient-hero);
+@utility graphite-surface {
+  background-color: #141A24;
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-@utility tech-grid {
-  background-image:
-    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
-  background-size: 56px 56px;
-}
-
-@utility glass-card {
-  position: relative;
-  background:
-    radial-gradient(100% 70% at 50% 0%, rgba(0, 242, 254, 0.1) 0%, rgba(15, 23, 42, 0) 75%) padding-box,
-    linear-gradient(rgba(15, 23, 42, 0.65), rgba(15, 23, 42, 0.65)) padding-box,
-    linear-gradient(160deg, rgba(0, 242, 254, 0.5) 0%, rgba(0, 242, 254, 0.15) 35%, rgba(30, 41, 59, 0.4) 75%, rgba(15, 23, 42, 0.1) 100%) border-box;
-  border: 1px solid transparent;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4), 0 0 1px rgba(0, 242, 254, 0.3);
-  transition:
-    transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-    border-color 0.35s ease,
-    background 0.35s ease,
-    box-shadow 0.35s ease;
-
-  &:hover {
-    transform: translateY(-5px);
-    background:
-      radial-gradient(100% 80% at 50% 0%, rgba(0, 242, 254, 0.18) 0%, rgba(15, 23, 42, 0) 80%) padding-box,
-      linear-gradient(rgba(15, 23, 42, 0.75), rgba(15, 23, 42, 0.75)) padding-box,
-      linear-gradient(160deg, rgba(0, 242, 254, 0.95) 0%, rgba(0, 242, 254, 0.45) 40%, rgba(0, 242, 254, 0.15) 80%, rgba(30, 41, 59, 0.4) 100%) border-box;
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5), 0 0 24px rgba(0, 242, 254, 0.35), 0 0 1px rgba(0, 242, 254, 0.6);
-  }
-}
-
-@utility feature-card-premium {
-  position: relative;
-  background:
-    radial-gradient(100% 70% at 50% 0%, rgba(0, 242, 254, 0.12) 0%, rgba(15, 23, 42, 0) 75%) padding-box,
-    linear-gradient(rgba(15, 23, 42, 0.65), rgba(15, 23, 42, 0.65)) padding-box,
-    linear-gradient(160deg, rgba(0, 242, 254, 0.6) 0%, rgba(0, 242, 254, 0.18) 40%, rgba(34, 48, 70, 0.4) 80%, rgba(15, 23, 42, 0.1) 100%) border-box;
-  border: 1px solid transparent;
-  border-radius: 1rem;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4), 0 0 1px rgba(0, 242, 254, 0.3);
-  transition:
-    transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-    background 0.35s ease,
-    box-shadow 0.35s ease;
-
-  &:hover {
-    transform: translateY(-5px);
-    background:
-      radial-gradient(100% 80% at 50% 0%, rgba(0, 242, 254, 0.22) 0%, rgba(15, 23, 42, 0) 80%) padding-box,
-      linear-gradient(rgba(15, 23, 42, 0.75), rgba(15, 23, 42, 0.75)) padding-box,
-      linear-gradient(160deg, rgba(0, 242, 254, 0.95) 0%, rgba(0, 242, 254, 0.5) 45%, rgba(0, 242, 254, 0.2) 85%, rgba(34, 48, 70, 0.4) 100%) border-box;
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5), 0 0 24px rgba(0, 242, 254, 0.35), 0 0 1px rgba(0, 242, 254, 0.6);
-  }
-}
-
-@utility label-mono {
-  font-family: var(--font-mono);
-  font-size: 0.6875rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--color-muted-foreground);
-}
-
-@keyframes scan-sweep {
-  0% {
-    transform: translateY(-10%);
-    opacity: 0;
-  }
-  40% {
-    opacity: 0.9;
-  }
-  100% {
-    transform: translateY(320%);
-    opacity: 0;
-  }
-}
-
-@keyframes pulse-dot {
-  0%,
-  100% {
-    opacity: 1;
-    box-shadow: 0 0 0 0 rgba(0, 240, 255, 0.6);
-  }
-  50% {
-    opacity: 0.65;
-    box-shadow: 0 0 0 6px rgba(0, 240, 255, 0);
-  }
-}
-
-@keyframes rise-in {
+@keyframes fade-rise {
   from {
     opacity: 0;
-    transform: translateY(14px);
+    transform: translateY(10px);
   }
   to {
     opacity: 1;
@@ -217,35 +117,21 @@
   }
 }
 
-@keyframes pulse-reticle {
-  0%, 100% {
-    opacity: 0.95;
-    transform: scale(1);
+@utility animate-fade-rise {
+  animation: fade-rise 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
   }
-  50% {
-    opacity: 0.55;
-    transform: scale(1.025);
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
-
-@utility animate-reticle {
-  animation: pulse-reticle 2.4s ease-in-out infinite;
-  transform-origin: center;
-}
-
-@utility text-glow-cyan {
-  text-shadow: 0 0 8px #00F0FF;
-}
-
-@utility animate-scan {
-  animation: scan-sweep 3.6s ease-in-out infinite;
-}
-
-@utility animate-dot {
-  animation: pulse-dot 2s ease-in-out infinite;
-}
-
-@utility animate-rise {
-  animation: rise-in 0.5s ease-out both;
-}
-
