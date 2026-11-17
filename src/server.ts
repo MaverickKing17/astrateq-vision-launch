@@ -2,7 +2,11 @@ import "./lib/error-capture";
 
 import { consumeLastCapturedError } from "./lib/error-capture";
 import { renderErrorPage } from "./lib/error-page";
-import { processWaitlistSubmission } from "./lib/resend-service";
+import { processWaitlistSubmission, type WaitlistSubmissionPayload } from "./lib/resend-service";
+import {
+  insertSurveyResponseToSupabase,
+  type SurveySubmissionPayload,
+} from "./lib/supabase-research-service";
 
 type ServerEntry = {
   fetch: (request: Request, env: unknown, ctx: unknown) => Promise<Response> | Response;
@@ -50,17 +54,121 @@ export default {
     try {
       const url = new URL(request.url);
 
-      // Handle Waitlist API endpoint
+      // Handle Consumer Market Research Survey endpoint (anonymous, separate from beta waitlist)
+      if (url.pathname === "/api/survey") {
+        if (request.method !== "POST") {
+          return new Response(JSON.stringify({ error: "Method not allowed" }), {
+            status: 405,
+            headers: { "content-type": "application/json" },
+          });
+        }
+
+        try {
+          const body = (await request.json()) as Partial<SurveySubmissionPayload>;
+
+          const hasAnyAnswer =
+            Boolean(body.drivingFrequency) ||
+            Boolean(body.productInterest) ||
+            (Array.isArray(body.valuableCapabilities) && body.valuableCapabilities.length > 0) ||
+            Boolean(body.privacyImportance) ||
+            (Array.isArray(body.adoptionConcerns) && body.adoptionConcerns.length > 0) ||
+            Boolean(body.everydayUsageLikelihood) ||
+            Boolean(body.additionalFeedback?.trim());
+
+          if (!hasAnyAnswer) {
+            return new Response(
+              JSON.stringify({
+                success: false,
+                storedInDatabase: false,
+                message: "Please answer at least one survey question before submitting.",
+              }),
+              {
+                status: 400,
+                headers: { "content-type": "application/json" },
+              },
+            );
+          }
+
+          const dbResult = await insertSurveyResponseToSupabase({
+            drivingFrequency: body.drivingFrequency ?? null,
+            productInterest: body.productInterest ?? null,
+            valuableCapabilities: Array.isArray(body.valuableCapabilities)
+              ? body.valuableCapabilities
+              : [],
+            valuableCapabilitiesOther: body.valuableCapabilitiesOther ?? null,
+            privacyImportance: body.privacyImportance ?? null,
+            adoptionConcerns: Array.isArray(body.adoptionConcerns) ? body.adoptionConcerns : [],
+            adoptionConcernsOther: body.adoptionConcernsOther ?? null,
+            everydayUsageLikelihood: body.everydayUsageLikelihood ?? null,
+            additionalFeedback: body.additionalFeedback ?? null,
+            skippedQuestions: Array.isArray(body.skippedQuestions) ? body.skippedQuestions : [],
+            startedAt: body.startedAt ?? null,
+            completionSeconds: body.completionSeconds ?? null,
+            locale: body.locale ?? "en-CA",
+            source: body.source ?? "web_survey",
+            utmSource: body.utmSource ?? null,
+            utmMedium: body.utmMedium ?? null,
+            utmCampaign: body.utmCampaign ?? null,
+          });
+
+          if (!dbResult.saved) {
+            return new Response(
+              JSON.stringify({
+                success: false,
+                storedInDatabase: false,
+                configured: dbResult.configured,
+                missingConfig: dbResult.missingEnvVars ?? [],
+                message:
+                  dbResult.errorMessage || "Survey response could not be saved to the database.",
+              }),
+              {
+                status: dbResult.configured ? 502 : 503,
+                headers: { "content-type": "application/json" },
+              },
+            );
+          }
+
+          return new Response(
+            JSON.stringify({
+              success: true,
+              storedInDatabase: true,
+              submissionId: dbResult.recordId,
+              message:
+                "Thank you. Your anonymous survey response has been saved to help guide Astrateq Gadgets product research.",
+            }),
+            {
+              status: 201,
+              headers: { "content-type": "application/json" },
+            },
+          );
+        } catch {
+          return new Response(
+            JSON.stringify({
+              success: false,
+              storedInDatabase: false,
+              message: "Invalid survey payload format.",
+            }),
+            {
+              status: 400,
+              headers: { "content-type": "application/json" },
+            },
+          );
+        }
+      }
+
+      // Handle Beta Interest Registration endpoint (strictly separate from survey)
       if (url.pathname === "/api/waitlist") {
         if (request.method === "POST") {
           try {
-            const body = (await request.json()) as { email?: string; source?: string };
-            const result = await processWaitlistSubmission(
-              body?.email ?? "",
-              body?.source ?? "web",
-            );
+            const body = (await request.json()) as WaitlistSubmissionPayload;
+            const result = await processWaitlistSubmission(body);
+            const statusCode = result.success
+              ? 200
+              : result.error === "backend_unconfigured"
+                ? 503
+                : 400;
             return new Response(JSON.stringify(result), {
-              status: result.success ? 200 : 400,
+              status: statusCode,
               headers: { "content-type": "application/json" },
             });
           } catch {

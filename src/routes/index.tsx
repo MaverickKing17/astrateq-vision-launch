@@ -4,13 +4,14 @@ import { ChevronDown, Menu, X, ArrowRight, Cpu, ScanFace, Layers, ShieldCheck } 
 import { getCopy, type FeatureModeId } from "@/lib/i18n";
 import { IphonePreview } from "@/components/IphonePreview";
 import { PrivacyArchitectureDiagram } from "@/components/PrivacyArchitectureDiagram";
+import { MarketResearchSurvey } from "@/components/MarketResearchSurvey";
 import { WaitlistForm } from "@/components/WaitlistForm";
 import { LegalModal, type LegalModalType } from "@/components/LegalModals";
 import winterHighwayImg from "@/assets/images/astrateq_winter_highway_1794939877107.jpg";
 
-const pageTitle = "Astrateq.ai — Intelligent Driver Awareness for iPhone";
+const pageTitle = "Astrateq Gadgets — Driver Awareness iOS Concept & Market Research";
 const pageDescription =
-  "Meet Astrateq: an iOS driver-awareness application designed to monitor visual indicators of distraction and drowsiness using on-device intelligence.";
+  "Astrateq Gadgets is an early-stage iOS driver-awareness concept exploring on-device computer vision. Share your feedback in our 2-minute Canadian driver survey.";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -20,7 +21,7 @@ export const Route = createFileRoute("/")({
       { property: "og:title", content: pageTitle },
       { property: "og:description", content: pageDescription },
       { property: "og:type", content: "website" },
-      { property: "og:site_name", content: "Astrateq.ai" },
+      { property: "og:site_name", content: "Astrateq Gadgets" },
       { property: "og:locale", content: "en_CA" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: pageTitle },
@@ -47,13 +48,13 @@ export default function Index() {
     "@graph": [
       {
         "@type": "SoftwareApplication",
-        name: "Astrateq",
+        name: "Astrateq Gadgets",
         applicationCategory: "UtilitiesApplication",
         operatingSystem: "iOS",
         description: pageDescription,
         publisher: {
           "@type": "Organization",
-          name: "Astrateq.ai",
+          name: "Astrateq Gadgets",
         },
       },
       {
@@ -72,7 +73,7 @@ export default function Index() {
 
   const navLinks = [
     { href: "#product", label: copy.nav.product },
-    { href: "#technology", label: copy.nav.technology },
+    { href: "#survey", label: copy.nav.survey },
     { href: "#privacy", label: copy.nav.privacy },
     { href: "#faq", label: copy.nav.faq },
     { href: "#beta-access", label: copy.nav.betaAccess },
@@ -108,7 +109,7 @@ export default function Index() {
             href="#top"
             className="font-display text-lg font-bold tracking-tight text-white whitespace-nowrap shrink-0"
           >
-            Astrateq<span className="text-[#00E5FF]">.ai</span>
+            Astrateq <span className="text-[#00E5FF]">Gadgets</span>
           </a>
 
           {/* Zone 2: Concise Single-Line Navigation Links */}
@@ -124,13 +125,13 @@ export default function Index() {
             ))}
           </nav>
 
-          {/* Zone 3: Primary Action + Mobile Menu Trigger */}
+          {/* Zone 3: Primary Market Research Action + Mobile Menu Trigger */}
           <div className="flex items-center gap-3 shrink-0">
             <a
-              href="#beta-access"
+              href="#survey"
               className="hidden min-h-[40px] items-center justify-center rounded-lg bg-[#00E5FF] px-4 py-2 font-display text-xs font-semibold text-[#050505] transition-opacity hover:opacity-90 sm:inline-flex whitespace-nowrap shrink-0"
             >
-              {copy.nav.requestBeta}
+              {copy.nav.primaryAction}
             </a>
 
             <button
@@ -169,11 +170,11 @@ export default function Index() {
                 </a>
               ))}
               <a
-                href="#beta-access"
+                href="#survey"
                 onClick={() => setMobileMenuOpen(false)}
                 className="mt-2 flex min-h-[44px] items-center justify-center rounded-lg bg-[#00E5FF] px-4 py-2.5 font-display text-sm font-semibold text-[#050505]"
               >
-                {copy.nav.requestBeta}
+                {copy.nav.primaryAction}
               </a>
             </div>
           </nav>
@@ -212,9 +213,14 @@ export default function Index() {
                 {copy.hero.description}
               </p>
 
+              {/* Transparent Early-Stage Research Status Notice */}
+              <div className="mt-6 max-w-xl rounded-xl border border-white/10 bg-[#0B0F19] p-4">
+                <p className="text-xs leading-relaxed text-[#9299A5]">{copy.hero.researchBanner}</p>
+              </div>
+
               <div className="mt-8 flex flex-wrap items-center gap-4">
                 <a
-                  href="#beta-access"
+                  href="#survey"
                   className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-xl bg-[#00E5FF] px-6 py-3 font-display text-sm font-semibold text-[#050505] transition-opacity hover:opacity-90 whitespace-nowrap"
                 >
                   <span>{copy.hero.primaryCta}</span>
@@ -256,7 +262,7 @@ export default function Index() {
             {/* Interactive Interface Mode Tabs */}
             <div
               role="tablist"
-              aria-label="Astrateq iOS capability views"
+              aria-label="Astrateq Gadgets iOS concept views"
               className="mt-10 flex flex-wrap gap-2 border-b border-white/10 pb-4"
             >
               {copy.demonstration.modes.map((mode) => {
@@ -420,18 +426,16 @@ export default function Index() {
         {/* 5. Technology Section */}
         <section id="technology" className="border-b border-white/10 bg-[#050505]">
           <div className="mx-auto max-w-6xl px-6 py-20 lg:py-24">
-            <div className="grid items-end gap-8 lg:grid-cols-[1.1fr_0.9fr]">
-              <div>
-                <p className="font-mono text-xs font-medium tracking-wider text-[#00E5FF] uppercase">
-                  {copy.technology.eyebrow}
-                </p>
-                <h2 className="mt-3 font-display text-3xl font-bold tracking-tight text-white sm:text-4xl text-balance">
-                  {copy.technology.title}
-                </h2>
-                <p className="mt-4 max-w-2xl text-base leading-relaxed text-[#9299A5]">
-                  {copy.technology.subtitle}
-                </p>
-              </div>
+            <div className="max-w-2xl">
+              <p className="font-mono text-xs font-medium tracking-wider text-[#00E5FF] uppercase">
+                {copy.technology.eyebrow}
+              </p>
+              <h2 className="mt-3 font-display text-3xl font-bold tracking-tight text-white sm:text-4xl text-balance">
+                {copy.technology.title}
+              </h2>
+              <p className="mt-4 text-base leading-relaxed text-[#9299A5]">
+                {copy.technology.subtitle}
+              </p>
             </div>
 
             {/* Editorial Canadian Road Context Visual */}
@@ -460,9 +464,10 @@ export default function Index() {
               />
               <div className="absolute inset-x-6 bottom-5 flex flex-wrap items-center justify-between gap-3">
                 <p className="font-display text-sm font-semibold text-white">
-                  Built for real-world Canadian commutes across variable light and winter conditions
+                  Designed around everyday Canadian commutes across variable light and winter
+                  conditions
                 </p>
-                <span className="font-mono text-xs text-[#00E5FF]">iOS · On-Device First</span>
+                <span className="font-mono text-xs text-[#00E5FF]">iOS · On-Device Concept</span>
               </div>
             </div>
 
@@ -481,31 +486,58 @@ export default function Index() {
           </div>
         </section>
 
-        {/* 6. Beta Access Experience Section */}
-        <section id="beta-access" className="border-b border-white/10 bg-[#0B0F19]">
+        {/* 6. Consumer Interest Survey Section (Primary Market Research Conversion) */}
+        <section id="survey" className="border-b border-white/10 bg-[#0B0F19]">
           <div className="mx-auto max-w-4xl px-6 py-20 lg:py-24">
-            <div className="rounded-3xl border border-white/15 bg-[#141A24] p-8 sm:p-12">
+            <div className="max-w-2xl">
+              <p className="font-mono text-xs font-medium tracking-wider text-[#00E5FF] uppercase">
+                {copy.survey.eyebrow}
+              </p>
+              <h2 className="mt-3 font-display text-3xl font-bold tracking-tight text-white sm:text-4xl text-balance">
+                {copy.survey.title}
+              </h2>
+              <p className="mt-4 text-base leading-relaxed text-[#9299A5]">
+                {copy.survey.subtitle}
+              </p>
+            </div>
+
+            <div className="mt-6 rounded-xl border border-white/10 bg-[#141A24] p-4">
+              <p className="text-xs leading-relaxed text-[#9299A5]">
+                {copy.survey.transparencyNote}
+              </p>
+            </div>
+
+            <div className="mt-8">
+              <MarketResearchSurvey copy={copy.survey} locale={copy.locale} />
+            </div>
+          </div>
+        </section>
+
+        {/* 7. Optional Future Beta Updates Registration (Separate & Secondary) */}
+        <section id="beta-access" className="border-b border-white/10 bg-[#050505]">
+          <div className="mx-auto max-w-4xl px-6 py-20 lg:py-24">
+            <div className="rounded-3xl border border-white/10 bg-[#0B0F19] p-8 sm:p-12">
               <div className="max-w-2xl">
-                <p className="font-mono text-xs font-medium tracking-wider text-[#00E5FF] uppercase">
+                <p className="font-mono text-xs font-medium tracking-wider text-[#9299A5] uppercase">
                   {copy.beta.eyebrow}
                 </p>
-                <h2 className="mt-3 font-display text-3xl font-bold tracking-tight text-white sm:text-4xl text-balance">
+                <h2 className="mt-3 font-display text-2xl font-bold tracking-tight text-white sm:text-3xl text-balance">
                   {copy.beta.title}
                 </h2>
-                <p className="mt-4 text-base leading-relaxed text-[#9299A5]">
+                <p className="mt-4 text-sm leading-relaxed text-[#9299A5] sm:text-base">
                   {copy.beta.subtitle}
                 </p>
               </div>
 
               <div className="mt-8 max-w-2xl">
-                <WaitlistForm copy={copy.beta} source="beta_access_section" />
+                <WaitlistForm copy={copy.beta} locale={copy.locale} source="beta_updates_section" />
               </div>
             </div>
           </div>
         </section>
 
-        {/* 7. Product FAQ Section */}
-        <section id="faq" className="border-b border-white/10 bg-[#050505]">
+        {/* 8. Product FAQ Section */}
+        <section id="faq" className="border-b border-white/10 bg-[#0B0F19]">
           <div className="mx-auto max-w-4xl px-6 py-20 lg:py-24">
             <div className="max-w-2xl">
               <p className="font-mono text-xs font-medium tracking-wider text-[#00E5FF] uppercase">
@@ -556,13 +588,13 @@ export default function Index() {
         </section>
       </main>
 
-      {/* 8. Footer */}
+      {/* 9. Footer */}
       <footer className="bg-[#050505]">
         <div className="mx-auto max-w-6xl px-6 py-14 lg:py-16">
           <div className="grid gap-10 border-b border-white/10 pb-12 md:grid-cols-4">
             <div className="md:col-span-2">
               <a href="#top" className="font-display text-lg font-bold tracking-tight text-white">
-                Astrateq<span className="text-[#00E5FF]">.ai</span>
+                Astrateq <span className="text-[#00E5FF]">Gadgets</span>
               </a>
               <p className="mt-3 max-w-md text-sm leading-relaxed text-[#9299A5]">
                 {copy.footer.tagline}

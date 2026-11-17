@@ -58,16 +58,16 @@ export function LegalModal({ type, onClose }: LegalModalProps) {
             </span>
             <div className="min-w-0">
               <p className="font-mono text-[11px] tracking-wider text-[#9299A5] uppercase">
-                Pre-Launch Notice · Astrateq.ai
+                Pre-Launch Notice · Astrateq Gadgets
               </p>
               <h3
                 id={headingId}
                 className="truncate font-display text-base font-bold text-white sm:text-lg"
               >
                 {type === "safety" && "Driver Safety & Operation Notice"}
-                {type === "privacy" && "Pre-Release Privacy Notice"}
-                {type === "terms" && "Pre-Launch Beta Terms Summary"}
-                {type === "support" && "Support & Inquiries"}
+                {type === "privacy" && "Research & Pre-Release Privacy Notice"}
+                {type === "terms" && "Consumer Research & Beta Terms Summary"}
+                {type === "support" && "Support & Research Inquiries"}
               </h3>
             </div>
           </div>
@@ -86,10 +86,11 @@ export function LegalModal({ type, onClose }: LegalModalProps) {
           {type === "safety" && (
             <>
               <div className="rounded-xl border border-amber-400/30 bg-amber-950/30 p-4">
-                <p className="font-semibold text-amber-200">Auxiliary Awareness Aid Only</p>
+                <p className="font-semibold text-amber-200">Exploratory Awareness Concept Only</p>
                 <p className="mt-1 text-xs leading-relaxed text-amber-100/90">
-                  Astrateq is an informational driver-awareness tool currently in development. It is
-                  not an autonomous driving system, collision-prevention tool, or medical device.
+                  Astrateq Gadgets is an early-stage driver-awareness concept currently in consumer
+                  research and development. It is not an autonomous driving system, medical device,
+                  or accident-prevention guarantee.
                 </p>
               </div>
 
@@ -109,17 +110,8 @@ export function LegalModal({ type, onClose }: LegalModalProps) {
                 <p>
                   Drivers must comply with all federal, provincial, territorial, and state laws
                   governing hands-free mounting, windshield visibility, and distracted driving.
-                  Mount your iPhone securely before driving and avoid interacting with your screen
-                  while in motion.
-                </p>
-              </div>
-
-              <div className="space-y-2">
-                <h4 className="font-display font-semibold text-white">3. Environmental Limits</h4>
-                <p>
-                  Lighting extremes, sunglass polarization, snow glare, or camera obstruction can
-                  affect optical visibility. Never rely on software alerts in place of cautious
-                  driving.
+                  Mount any device securely before driving and avoid interacting with screens while
+                  in motion.
                 </p>
               </div>
             </>
@@ -128,40 +120,49 @@ export function LegalModal({ type, onClose }: LegalModalProps) {
           {type === "privacy" && (
             <>
               <div className="rounded-xl border border-[#00E5FF]/25 bg-[#141A24] p-4">
-                <p className="font-semibold text-white">Pre-Release Privacy Architecture Summary</p>
+                <p className="font-semibold text-white">
+                  Research & Pre-Release Data Handling Summary
+                </p>
                 <p className="mt-1 text-xs leading-relaxed text-[#9299A5]">
-                  This summary describes Astrateq&apos;s intended data-handling design. A formal,
-                  counsel-reviewed Privacy Policy will be published prior to public App Store
-                  launch.
+                  This notice explains how information submitted on Astrateq.ai is used during our
+                  consumer research phase, as well as the intended data design of the iOS concept.
                 </p>
               </div>
 
               <div className="space-y-2">
                 <h4 className="font-display font-semibold text-white">
-                  1. On-Device Camera Evaluation
+                  1. Consumer Market Research Survey
                 </h4>
                 <p>
-                  Driver-facing camera frames are intended to be evaluated locally in transient
-                  memory on your iPhone. Astrateq is designed not to record, store, or stream raw
-                  video feeds to external cloud servers.
+                  Survey responses are collected anonymously without requiring your name or email
+                  address. Responses are stored separately from beta-update registrations and used
+                  solely to evaluate product feasibility, privacy expectations, and adoption
+                  barriers.
                 </p>
               </div>
 
               <div className="space-y-2">
                 <h4 className="font-display font-semibold text-white">
-                  2. Optional Sync & Waitlist Information
+                  2. Optional Beta Update Registrations
                 </h4>
-                <ul className="list-disc space-y-1.5 pl-5 text-xs">
-                  <li>
-                    Where optional synchronization with Supabase is enabled in a build, only
-                    non-video metadata (such as summary trip counts or preferences) is synced.
-                  </li>
-                  <li>
-                    Email addresses submitted via the beta-access form on Astrateq.ai are used
-                    solely to notify you about beta availability and product updates.
-                  </li>
-                  <li>We do not sell personal contact details to third parties.</li>
-                </ul>
+                <p>
+                  If you choose to register in the separate Beta Updates form, your email address
+                  (and optional first name or iPhone model interest) is used only with your explicit
+                  consent to send updates about Astrateq Gadgets availability or potential testing.
+                  You may withdraw consent at any time.
+                </p>
+              </div>
+
+              <div className="space-y-2">
+                <h4 className="font-display font-semibold text-white">
+                  3. Proposed iOS Concept Camera Handling
+                </h4>
+                <p>
+                  In the proposed iPhone application architecture, driver-facing camera frames are
+                  intended to be evaluated locally on-device in transient memory, with no raw video
+                  feeds uploaded to cloud servers. Where optional Supabase sync is offered, only
+                  non-video metadata is synchronized.
+                </p>
               </div>
             </>
           )}
@@ -169,30 +170,30 @@ export function LegalModal({ type, onClose }: LegalModalProps) {
           {type === "terms" && (
             <>
               <div className="rounded-xl border border-white/10 bg-[#141A24] p-4">
-                <p className="font-semibold text-white">Pre-Launch Informational Terms Summary</p>
+                <p className="font-semibold text-white">Consumer Research & Pre-Release Terms</p>
                 <p className="mt-1 text-xs leading-relaxed text-[#9299A5]">
-                  Full Beta Testing Terms of Use will be presented before any TestFlight invitation
-                  is redeemed.
-                </p>
-              </div>
-
-              <div className="space-y-2">
-                <h4 className="font-display font-semibold text-white">1. Waitlist Requests</h4>
-                <p>
-                  Submitting your email on Astrateq.ai places you on a notification list for future
-                  testing windows. Submission does not guarantee immediate TestFlight admission or
-                  specific release timelines.
+                  Full Beta Testing Terms of Use will be published prior to any public TestFlight or
+                  App Store release.
                 </p>
               </div>
 
               <div className="space-y-2">
                 <h4 className="font-display font-semibold text-white">
-                  2. Pre-Release Software Nature
+                  1. Voluntary Research Participation
                 </h4>
                 <p>
-                  Beta software is provided for evaluation and feedback purposes only and may change
-                  prior to general availability. Compatibility details and supported iOS versions
-                  will be announced when beta builds open.
+                  Participating in the Astrateq Gadgets consumer survey is completely voluntary,
+                  requires no purchase, and does not create any obligation or guarantee of beta
+                  access.
+                </p>
+              </div>
+
+              <div className="space-y-2">
+                <h4 className="font-display font-semibold text-white">2. Beta Update Requests</h4>
+                <p>
+                  Submitting an email address for future beta updates places you on an optional
+                  notification list. It does not guarantee acceptance into a testing cohort or
+                  confirm a commercial launch schedule.
                 </p>
               </div>
             </>
@@ -201,10 +202,10 @@ export function LegalModal({ type, onClose }: LegalModalProps) {
           {type === "support" && (
             <>
               <div className="rounded-xl border border-white/10 bg-[#141A24] p-4">
-                <p className="font-semibold text-white">Pre-Release Support & Contact</p>
+                <p className="font-semibold text-white">Consumer Research & Product Inquiries</p>
                 <p className="mt-1 text-xs leading-relaxed text-[#9299A5]">
-                  Have a question about the Astrateq iOS beta program, Canadian compatibility, or
-                  partnership inquiries? Reach out directly below.
+                  Questions about the Astrateq Gadgets research survey, privacy practices, or future
+                  iOS testing? Contact us directly below.
                 </p>
               </div>
 
@@ -217,7 +218,7 @@ export function LegalModal({ type, onClose }: LegalModalProps) {
                   kingnarmer702@gmail.com
                 </a>
                 <p className="mt-2 text-xs text-[#9299A5]">
-                  Please include your iPhone model and iOS version if asking about device
+                  Please include your iPhone model and iOS version if inquiring about future testing
                   compatibility.
                 </p>
               </div>
@@ -227,7 +228,7 @@ export function LegalModal({ type, onClose }: LegalModalProps) {
 
         {/* Footer */}
         <div className="flex items-center justify-between gap-4 border-t border-white/10 bg-[#050505] px-6 py-4">
-          <p className="text-xs text-[#9299A5]">Astrateq.ai · Pre-Release Information</p>
+          <p className="text-xs text-[#9299A5]">Astrateq Gadgets · Consumer Research Phase</p>
           <button
             type="button"
             onClick={onClose}

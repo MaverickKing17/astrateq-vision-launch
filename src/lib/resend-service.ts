@@ -1,4 +1,5 @@
 import { Resend } from "resend";
+import { insertBetaRegistrationToSupabase } from "./supabase-research-service";
 
 let resendClient: Resend | null = null;
 
@@ -13,18 +14,36 @@ function getResendClient(): Resend | null {
   return resendClient;
 }
 
+export interface WaitlistSubmissionPayload {
+  email: string;
+  firstName?: string;
+  iphoneModel?: string;
+  consent?: boolean;
+  source?: string;
+  locale?: string;
+}
+
 export interface WaitlistSubmissionResult {
   success: boolean;
   message: string;
   error?: string;
-  simulated?: boolean;
+  emailDispatched?: boolean;
+  storedInDatabase?: boolean;
+  missingConfig?: string[];
 }
 
 export async function processWaitlistSubmission(
-  email: string,
-  source: string = "landing_page",
+  input: string | WaitlistSubmissionPayload,
+  legacySource: string = "landing_page",
 ): Promise<WaitlistSubmissionResult> {
-  const cleanEmail = email?.trim().toLowerCase();
+  const payload: WaitlistSubmissionPayload =
+    typeof input === "string" ? { email: input, source: legacySource } : input;
+
+  const cleanEmail = payload.email?.trim().toLowerCase();
+  const cleanFirstName = payload.firstName?.trim() || "";
+  const cleanIphoneModel = payload.iphoneModel?.trim() || "";
+  const source = payload.source || legacySource || "beta_section";
+  const locale = payload.locale || "en-CA";
 
   // Email format validation
   if (!cleanEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleanEmail)) {
@@ -35,94 +54,117 @@ export async function processWaitlistSubmission(
     };
   }
 
-  const resend = getResendClient();
-
-  if (!resend) {
-    console.info(
-      `[Astrateq Waitlist] RESEND_API_KEY not configured. Simulated capture for: ${cleanEmail} (Source: ${source})`,
-    );
+  if (payload.consent === false) {
     return {
-      success: true,
-      message:
-        "Beta access request received. We have added your email to the Astrateq waitlist and will follow up as testing windows open.",
-      simulated: true,
+      success: false,
+      message: "Explicit consent is required to register for beta updates.",
+      error: "consent_required",
     };
   }
 
-  try {
-    const recipientEmail =
-      process.env.NOTIFICATION_EMAIL || process.env.ADMIN_EMAIL || "kingnarmer702@gmail.com";
-    const senderEmail = process.env.NOTIFICATION_FROM_EMAIL || "onboarding@resend.dev";
-    const timestamp = new Date().toISOString();
+  // 1. Attempt Supabase database storage if configured
+  const dbResult = await insertBetaRegistrationToSupabase({
+    email: cleanEmail,
+    firstName: cleanFirstName || null,
+    iphoneModel: cleanIphoneModel || null,
+    consentMarketing: payload.consent !== false,
+    locale,
+    source,
+  });
 
-    // 1. Send Admin/Lead Notification Email
+  // 2. Attempt Resend email notification if configured
+  const resend = getResendClient();
+  let emailDispatched = false;
+
+  if (resend) {
     try {
+      const recipientEmail =
+        process.env.NOTIFICATION_EMAIL || process.env.ADMIN_EMAIL || "kingnarmer702@gmail.com";
+      const senderEmail = process.env.NOTIFICATION_FROM_EMAIL || "onboarding@resend.dev";
+      const timestamp = new Date().toISOString();
+
       const emailResult = await resend.emails.send({
         from: senderEmail,
         to: recipientEmail,
-        subject: `🚀 New Beta Signup: ${cleanEmail}`,
-        text: `A new user just submitted their email on the waitlist:\n\nEmail: ${cleanEmail}\nDate: ${timestamp}\nSource: ${source}`,
+        subject: `Astrateq Gadgets — Beta Interest Request: ${cleanEmail}`,
+        text: [
+          "A visitor submitted a beta interest registration on Astrateq.ai:",
+          "",
+          `Email: ${cleanEmail}`,
+          `First Name: ${cleanFirstName || "Not provided"}`,
+          `iPhone Model: ${cleanIphoneModel || "Not specified"}`,
+          `Consent Confirmed: ${payload.consent !== false ? "Yes" : "No"}`,
+          `Locale: ${locale}`,
+          `Date: ${timestamp}`,
+          `Source: ${source}`,
+          `Stored in Supabase: ${dbResult.saved ? "Yes" : "No"}`,
+        ].join("\n"),
       });
 
       if (emailResult.error) {
         console.warn("[Astrateq Resend] Notification email warning:", emailResult.error);
       } else {
-        console.info(
-          `[Astrateq Resend] Lead notification sent for ${cleanEmail} (ID: ${emailResult.data?.id})`,
-        );
+        emailDispatched = true;
       }
-    } catch (notifyErr) {
-      console.warn("[Astrateq Resend] Notification email send error:", notifyErr);
-    }
 
-    // 2. Add Contact to Resend (if supported by active plan/configuration)
-    try {
-      const contactResult = await resend.contacts.create({
-        email: cleanEmail,
-        unsubscribed: false,
-      });
-      if (contactResult.error) {
-        console.warn("[Astrateq Resend] Contact creation note:", contactResult.error);
-      }
-    } catch (contactErr) {
-      console.warn("[Astrateq Resend] Contact creation exception:", contactErr);
-    }
-
-    // 3. User Auto-responder (Only attempted if using custom domain or sending to verified owner)
-    const isCustomDomain = !senderEmail.includes("resend.dev");
-    const isOwnerEmail = cleanEmail === recipientEmail.toLowerCase();
-
-    if (isCustomDomain || isOwnerEmail) {
+      // Add Contact to Resend
       try {
-        const autoResult = await resend.emails.send({
-          from: senderEmail,
-          to: cleanEmail,
-          subject: "Astrateq.ai — Beta Access Request Received",
-          text: `Thank you for requesting beta access to Astrateq. Your email is on our notification list, and we will reach out with updates when testing opportunities open.`,
+        await resend.contacts.create({
+          email: cleanEmail,
+          firstName: cleanFirstName || undefined,
+          unsubscribed: false,
         });
-        if (autoResult.error) {
-          console.warn("[Astrateq Resend] Auto-responder note:", autoResult.error);
-        }
-      } catch (autoErr) {
-        console.warn("[Astrateq Resend] Auto-responder exception:", autoErr);
+      } catch (contactErr) {
+        console.warn("[Astrateq Resend] Contact creation note:", contactErr);
       }
-    }
 
+      // Optional auto-responder when custom domain or verified owner inbox is used
+      const isCustomDomain = !senderEmail.includes("resend.dev");
+      const isOwnerEmail = cleanEmail === recipientEmail.toLowerCase();
+
+      if (isCustomDomain || isOwnerEmail) {
+        try {
+          await resend.emails.send({
+            from: senderEmail,
+            to: cleanEmail,
+            subject: "Astrateq Gadgets — Beta Updates Request Received",
+            text: `Thank you${cleanFirstName ? `, ${cleanFirstName}` : ""}, for your interest in Astrateq Gadgets. Your email has been added to our beta-updates notification list. Submitting an email does not guarantee beta access, and we will follow up if testing windows open.`,
+          });
+        } catch (autoErr) {
+          console.warn("[Astrateq Resend] Auto-responder note:", autoErr);
+        }
+      }
+    } catch (error: unknown) {
+      console.error("[Astrateq Resend] Waitlist submission error:", error);
+    }
+  }
+
+  // Truthful status reporting: only claim saved/sent when at least one real backend succeeded
+  if (dbResult.saved || emailDispatched) {
     return {
       success: true,
+      storedInDatabase: dbResult.saved,
+      emailDispatched,
       message:
-        "Beta access request received. We have added your email to the Astrateq waitlist and will follow up as testing windows open.",
-    };
-  } catch (error: unknown) {
-    console.error("[Astrateq Resend] Waitlist submission error:", error);
-    const message =
-      error instanceof Error
-        ? error.message
-        : "Could not complete registration. Please check your email and try again.";
-    return {
-      success: false,
-      message,
-      error: "resend_error",
+        "Thank you. Your beta-interest request has been received. Registration adds you to our update list and does not guarantee beta access.",
     };
   }
+
+  const missingConfig: string[] = [];
+  if (!resend) missingConfig.push("RESEND_API_KEY");
+  if (!dbResult.configured && dbResult.missingEnvVars) {
+    missingConfig.push(...dbResult.missingEnvVars);
+  }
+
+  return {
+    success: false,
+    storedInDatabase: false,
+    emailDispatched: false,
+    missingConfig,
+    error: "backend_unconfigured",
+    message:
+      "Beta registration persistence is not yet active in this environment. Server environment variables (" +
+      missingConfig.join(", ") +
+      ") must be configured before submissions can be saved.",
+  };
 }

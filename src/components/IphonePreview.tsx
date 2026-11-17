@@ -89,7 +89,7 @@ export function IphonePreview({ mode, previewLabel, compact = false }: IphonePre
             <div className="mt-5 flex items-center justify-between border-b border-white/10 pb-3">
               <div>
                 <p className="font-mono text-[10px] tracking-wider text-[#00E5FF] uppercase">
-                  Astrateq
+                  Astrateq Gadgets
                 </p>
                 <p className="mt-0.5 font-display text-sm font-semibold text-white">
                   {mode.screenSubheading}
